@@ -1,10 +1,16 @@
 const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
+const mongoose = require("mongoose");
 
 const { notFound, errorHandler } = require("./middlewares");
 
 require("dotenv").config();
+
+mongoose.connect(process.env.DATABASE, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+});
 
 const app = express();
 
