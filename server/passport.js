@@ -32,7 +32,7 @@ passport.use(new LocalStrategy({
 		}
 		const valid = await user.isValidPassword(password);
 		if (!valid) {
-			return(null, false);
+			return done(null, false);
 		}
 		done(null, user);
 	} catch (error) {
