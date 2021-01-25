@@ -22,6 +22,8 @@ app.get("/", (req, res) => {
 	res.json({ message: "home"});
 });
 
+app.use("/users", require("./routes/users"));
+
 app.use(notFound);
 app.use(errorHandler);
 
