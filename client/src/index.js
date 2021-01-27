@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from "react-router-dom";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 
 import reportWebVitals from './reportWebVitals';
 import App from "./Components/App";
@@ -8,16 +10,19 @@ import Home from "./Components/Home";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import Logout from "./Components/Logout";
+import reducers from "./reducers";
 
 ReactDOM.render(
-  <BrowserRouter>
-		<App>
-			<Route exact path="/" component={Home} />
-			<Route exact path="/signup" component={Signup} />
-			<Route exact path="/login" component={Login} />
-			<Route exact path="/logout" component={Logout} />
-		</App>
-  </BrowserRouter>,
+	<Provider store={ createStore(reducers) }>
+		<BrowserRouter>
+			<App>
+				<Route exact path="/" component={Home} />
+				<Route exact path="/signup" component={Signup} />
+				<Route exact path="/login" component={Login} />
+				<Route exact path="/logout" component={Logout} />
+			</App>
+		</BrowserRouter>
+	</Provider>,
   document.getElementById('root')
 );
 
