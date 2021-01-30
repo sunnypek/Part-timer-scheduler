@@ -1,11 +1,11 @@
-import { STATES } from "mongoose";
-
 const DEFAULT_STATE = {
 	isAuthenticated: false,
 	token: "",
 	errorMessage: "",
 }
 
-export default (state = DEFAULT_STATE, action) => {
+const authReducer = (state = DEFAULT_STATE, action) => {
 	return state;
 };
+
+export default authReducer;
