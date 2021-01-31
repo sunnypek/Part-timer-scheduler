@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const { notFound, errorHandler } = require("./middlewares");
 
@@ -12,8 +13,14 @@ mongoose.connect(process.env.DATABASE, {
 	useUnifiedTopology: true,
 });
 
+const corsOptions = {
+	origin: "http://localhost:3000",
+	optionsSuccessStatus: 200
+}
+
 const app = express();
 
+app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(helmet());
