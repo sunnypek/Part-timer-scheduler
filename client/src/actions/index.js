@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { AUTH_ERROR, AUTH_SIGN_UP } from "./types";
+
 export const signUp = (data) => {
 	/** 
 	 * 1. use data to make HTTP request to backend 
@@ -9,9 +11,19 @@ export const signUp = (data) => {
 	*/
 	return async (dispatch) => {
 		try {
-			
+			const res = await axios.post("http://localhost:1337/users/signup", data);
+
+			dispatch({
+				type: AUTH_SIGN_UP,
+				payload: res.data.token
+			});
+
+			localStorage.setItem("JWT_TOKEN", res.data.token);
 		} catch (error) {
-			dispatch({});
+			dispatch({
+				type: AUTH_ERROR,
+				payload: "Email is already in use"
+			});
 		}
 	}
 }
