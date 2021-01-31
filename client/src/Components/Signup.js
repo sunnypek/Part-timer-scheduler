@@ -5,13 +5,14 @@ import { compose } from "redux";
 
 import * as actions from "../actions";
 import CustomInput from "./CustomInput";
+import CustomCheckbox from "./CustomCheckbox";
 
-class Signup extends Component {
+class SignUp extends Component {
 	constructor(props) {
 		super(props);
 		this.onSubmit = this.onSubmit.bind(this);
 	}
-	
+
 	async onSubmit(formData) {
 		await this.props.signUp(formData);
 	}
@@ -25,24 +26,35 @@ class Signup extends Component {
 						Sign up form
 					</div>
 					<form onSubmit={ handleSubmit(this.onSubmit) }>
-					<fieldset>
-								<Field
-									name="email"
-									type="text"
-									id="email"
-									label="Email"
-									placeholder="example@example.com"
-									component= { CustomInput } />
-							</fieldset>
-							<fieldset>
-								<Field
-									name="password"
-									type="password"
-									id="password"
-									label="Password"
+						<fieldset>
+							<Field
+								name="email"
+								type="text"
+								id="email"
+								label="Email"
+								placeholder="example@example.com"
+								component= { CustomInput } />
+						</fieldset>
+						<fieldset>
+							<Field
+								name="password"
+								type="password"
+								id="password"
+								label="Password"
+								placeholder=""
+								component= { CustomInput } />
+						</fieldset>
+						<fieldset>
+							<div>
+								<Field 
+									name="authLevel" 
+									id="authLevel" 
+									type="checkbox"
+									label="Admin"
 									placeholder=""
-									component= { CustomInput } />
-							</fieldset>
+									component={ CustomCheckbox } />
+							</div>
+						</fieldset>
 
 						<button type="submit" className="btn btn-primary">Sign Up</button>
 					</form>
@@ -55,4 +67,4 @@ class Signup extends Component {
 export default compose(
 	connect(null, actions),
 	reduxForm({ form: "signup" })
-)(Signup);
+)(SignUp);
