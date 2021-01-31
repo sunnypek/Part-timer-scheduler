@@ -9,10 +9,8 @@ const DEFAULT_STATE = {
 const authReducer = (state = DEFAULT_STATE, action) => {
 	switch(action.type) {
 		case AUTH_SIGN_UP:
-			console.log(`auth sign up action`);
 			return { ...state, token: action.payload, isAuthenticated: true, errorMessage: "" };
 		case AUTH_ERROR:
-			console.log(`auth error`);
 			return { ...state, errorMessage: action.payload };
 		default:
 			return state;
