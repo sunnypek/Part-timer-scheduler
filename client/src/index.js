@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from "react-router-dom";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
+import reduxThunk from "redux-thunk";
 
 import reportWebVitals from './reportWebVitals';
 import App from "./Components/App";
@@ -13,7 +14,7 @@ import Logout from "./Components/Logout";
 import reducers from "./reducers";
 
 ReactDOM.render(
-	<Provider store={ createStore(reducers) }>
+	<Provider store={ createStore(reducers, {}, applyMiddleware(reduxThunk)) }>
 		<BrowserRouter>
 			<App>
 				<Route exact path="/" component={Home} />
