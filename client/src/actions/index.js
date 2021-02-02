@@ -24,7 +24,7 @@ export const signUp = (data) => {
 
 				localStorage.setItem("JWT_TOKEN", res.data.token);
 		} catch (error) {
-			if (Object.keys(data).length === 0 && data.constructor === Object) {
+			if (Object.keys(data).length !== 3 && data.constructor === Object) {
 				dispatch({
 					type: AUTH_ERROR,
 					payload: "SIGN_UP_NO_DETAILS"
