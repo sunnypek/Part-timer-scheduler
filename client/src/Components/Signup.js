@@ -22,7 +22,7 @@ class SignUp extends Component {
 
 		let alert;
 		if (this.props.message === "SIGN_UP_ERROR") {
-			alert = <div className="alert alert-danger">Email is already in use!</div>
+			alert = <div className="alert alert-danger">Email is already in use!<br/>Or<br/>Password is too short!<br/>(min: 6, max: 18)</div>
 		} else if (this.props.message === "SIGN_UP") {
 			alert = <div className="alert alert-success">Successfully signed up!</div>
 		} else if (this.props.message === "SIGN_UP_NO_DETAILS") {
