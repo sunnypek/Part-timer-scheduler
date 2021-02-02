@@ -19,6 +19,18 @@ class SignUp extends Component {
 	
 	render() {
 		const { handleSubmit } = this.props;
+
+		let alert;
+		if (this.props.message === "SIGN_UP_ERROR") {
+			alert = <div className="alert alert-danger">Email is already in use!</div>
+		} else if (this.props.message === "SIGN_UP") {
+			alert = <div className="alert alert-success">Successfully signed up!</div>
+		} else if (this.props.message === "SIGN_UP_NO_DETAILS") {
+			alert = <div className="alert alert-info">Please enter your details.</div>
+		} else {
+			alert = "";
+		};
+
 		return(
 			<div className="row justify-content-center">
 				<div className="col-4">
@@ -56,6 +68,8 @@ class SignUp extends Component {
 							</div>
 						</fieldset>
 
+						{ alert }
+
 						<button type="submit" className="btn btn-primary">Sign Up</button>
 					</form>
 				</div>
@@ -64,7 +78,13 @@ class SignUp extends Component {
 	}
 };
 
+function MapStateToProps(state) {
+	return {
+		message: state.auth.message
+	}
+}
+
 export default compose(
-	connect(null, actions),
+	connect(MapStateToProps, actions),
 	reduxForm({ form: "signup" })
 )(SignUp);
