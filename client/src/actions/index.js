@@ -24,10 +24,17 @@ export const signUp = (data) => {
 
 				localStorage.setItem("JWT_TOKEN", res.data.token);
 		} catch (error) {
-			dispatch({
-				type: AUTH_ERROR,
-				payload: "Email is already in use"
-			})
+			if (Object.keys(data).length === 0 && data.constructor === Object) {
+				dispatch({
+					type: AUTH_ERROR,
+					payload: "SIGN_UP_NO_DETAILS"
+				})
+			} else {
+				dispatch({
+					type: AUTH_ERROR,
+					payload: "SIGN_UP_ERROR"
+				})
+			}
 		}
 	}
 };
