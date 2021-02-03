@@ -21,15 +21,31 @@ class SignUp extends Component {
 		const { handleSubmit } = this.props;
 
 		let alert;
-		if (this.props.message === "SIGN_UP_ERROR") {
-			alert = <div className="alert alert-danger">Email is already in use!<br/>Or<br/>Password is too short!<br/>(min: 6, max: 18)</div>
-		} else if (this.props.message === "SIGN_UP") {
-			alert = <div className="alert alert-success">Successfully signed up!</div>
-		} else if (this.props.message === "SIGN_UP_NO_DETAILS") {
-			alert = <div className="alert alert-info">Please enter your details.</div>
+		if (this.props.err) {
+			switch (this.props.message) {
+				case "SIGN_UP_NO_EMAIL":
+					alert = <div className="alert alert-danger">Email is missing!</div>;
+					break;
+				case "SIGN_UP_PASSWORD_LENGTH_ERROR":
+					alert = <div className="alert alert-danger">Password must be min 6 and max 18!</div>;
+					break;
+				case "SIGN_UP_NO_PASSWORD_ERROR":
+					alert = <div className="alert alert-danger">Password is missing!</div>;
+					break;
+				case "SIGN_UP_NO_DETAILS":
+					alert = <div className="alert alert-info">Please enter your details.</div>;
+					break;
+				default:
+					alert = <div className="alert alert-danger">Email is already in use!</div>;
+					break;
+			}
 		} else {
-			alert = "";
-		};
+			if (this.props.message === "SIGN_UP") {
+				alert = <div className="alert alert-success">Successfully signed up!</div>;
+			} else {
+				alert = "";
+			}
+		}
 
 		return(
 			<div className="row justify-content-center">
@@ -80,7 +96,8 @@ class SignUp extends Component {
 
 function MapStateToProps(state) {
 	return {
-		message: state.auth.message
+		message: state.auth.message,
+		err: state.auth.err
 	}
 }
 
