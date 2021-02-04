@@ -14,6 +14,7 @@ import Logout from "./Components/Logout";
 import reducers from "./reducers";
 
 const jwtToken = localStorage.getItem("JWT_TOKEN");
+//const authLevel = localStorage.getItem("AUTH_LEVEL");
 
 ReactDOM.render(
 	<Provider store={ createStore(reducers, {
