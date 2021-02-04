@@ -54,7 +54,7 @@ class SignUp extends Component {
 			<div className="row justify-content-center">
 				<div className="col-4">
 					<div className="alert alert-primary text-center">
-						Sign up form
+						Sign Up
 					</div>
 					<form onSubmit={ handleSubmit(this.onSubmit) }>
 						<fieldset>
