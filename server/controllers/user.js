@@ -30,11 +30,17 @@ module.exports = {
 
 		const token = signToken(newUser);
 
-		res.status(200).json({ token });
+		res.status(200).json({ 
+			token: token,
+			authLevel: req.user.authLevel 
+		});
 	},
 
 	login: async (req, res, next) => {
 		const token = signToken(req.user);
-		res.status(200).json({ token });
+		res.status(200).json({ 
+			token: token,
+			authLevel: req.user.authLevel 
+		});
 	}
 }
