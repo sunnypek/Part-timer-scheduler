@@ -23,6 +23,7 @@ export const signUp = (data) => {
 				});
 
 				localStorage.setItem("JWT_TOKEN", res.data.token);
+				localStorage.setItem("AUTH_LEVEL", res.data.authLevel);
 		} catch (error) {
 			if (Object.keys(data).length === 2 && data.constructor === Object) {
 				if (!data.hasOwnProperty("email")) {
@@ -80,6 +81,7 @@ export const login = (data) => {
 			});
 
 			localStorage.setItem("JWT_TOKEN", res.data.token);
+			localStorage.setItem("AUTH_LEVEL", res.data.authLevel);
 		} catch (error) {
 			if (Object.keys(data).length === 1 && data.constructor === Object) {
 				if (!data.hasOwnProperty("email")) {
