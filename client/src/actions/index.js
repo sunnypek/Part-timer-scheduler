@@ -68,3 +68,49 @@ export const logout = () => {
 		});
 	};
 };
+
+export const login = (data) => {
+	return async (dispatch) => {
+		try {
+			const res = await axios.post("http://localhost:1337/users/login", data);
+			console.log(res);
+			dispatch({
+				type: AUTH_SIGN_UP,
+				payload: res.data.token
+			});
+
+			localStorage.setItem("JWT_TOKEN", res.data.token);
+		} catch (error) {
+			if (Object.keys(data).length === 1 && data.constructor === Object) {
+				if (!data.hasOwnProperty("email")) {
+					dispatch({
+						type: AUTH_ERROR,
+						payload: "SIGN_UP_NO_EMAIL"
+					});
+				} else {
+					dispatch({
+						type: AUTH_ERROR,
+						payload: "SIGN_UP_NO_PASSWORD_ERROR"
+					});
+				}
+			} else if (Object.keys(data).length !== 2 && data.constructor === Object) {
+				dispatch({
+					type: AUTH_ERROR,
+					payload: "SIGN_UP_NO_DETAILS"
+				});
+			} else {
+				if (data.password.length < 6 || data.password.length > 18) {
+					dispatch({
+						type: AUTH_ERROR,
+						payload: "SIGN_UP_PASSWORD_LENGTH_ERROR"
+					});
+				} else {
+					dispatch({
+						type: AUTH_ERROR,
+						payload: "SIGN_UP_ERROR"
+					});
+				}
+			}
+		}
+	};
+}
