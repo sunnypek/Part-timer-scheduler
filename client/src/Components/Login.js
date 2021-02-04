@@ -26,24 +26,24 @@ class Login extends Component {
 		if (this.props.err) {
 			switch (this.props.message) {
 				case "SIGN_UP_NO_EMAIL":
-					alert = <div className="alert alert-danger">Email is missing!</div>;
+					alert = <div className="alert alert-danger" role="alert">Email is missing!</div>;
 					break;
 				case "SIGN_UP_PASSWORD_LENGTH_ERROR":
-					alert = <div className="alert alert-danger">Password must be min 6 and max 18!</div>;
+					alert = <div className="alert alert-danger" role="alert">Password must be min 6 and max 18!</div>;
 					break;
 				case "SIGN_UP_NO_PASSWORD_ERROR":
-					alert = <div className="alert alert-danger">Password is missing!</div>;
+					alert = <div className="alert alert-danger" role="alert">Password is missing!</div>;
 					break;
 				case "SIGN_UP_NO_DETAILS":
-					alert = <div className="alert alert-info">Please enter your details.</div>;
+					alert = <div className="alert alert-info" role="alert">Please enter your details.</div>;
 					break;
 				default:
-					alert = <div className="alert alert-danger">No account found / Password is wrong!</div>;
+					alert = <div className="alert alert-danger" role="alert">No account found / Password is wrong!</div>;
 					break;
 			}
 		} else {
 			if (this.props.message === "SIGN_UP") {
-				alert = <div className="alert alert-success">Successfully signed up!</div>;
+				alert = <div className="alert alert-success" role="alert">Successfully signed up!</div>;
 			} else {
 				alert = "";
 			}
@@ -52,7 +52,7 @@ class Login extends Component {
 		return(
 			<div className="row justify-content-center">
 				<div className="col-4">
-					<div className="alert alert-success text-center">
+					<div className="alert alert-success text-center" role="alert">
 						Login
 					</div>
 					<form onSubmit={ handleSubmit(this.onLoginSubmit) }>
