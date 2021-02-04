@@ -15,6 +15,9 @@ class SignUp extends Component {
 
 	async onSubmit(formData) {
 		await this.props.signUp(formData);
+		if (!this.props.err) {
+			this.props.history.push("/");
+		}
 	}
 	
 	render() {
