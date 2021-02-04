@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { AUTH_ERROR, AUTH_SIGN_UP } from "./types";
+import { AUTH_ERROR, AUTH_SIGN_UP, AUTH_LOGOUT } from "./types";
 
 export const signUp = (data) => {
 	/** 
@@ -56,4 +56,15 @@ export const signUp = (data) => {
 			}
 		}
 	}
+};
+
+export const logout = () => {
+	return (dispatch) => {
+		localStorage.removeItem("JWT_TOKEN");
+
+		dispatch({
+			type: AUTH_LOGOUT,
+			payload: ""
+		});
+	};
 };
