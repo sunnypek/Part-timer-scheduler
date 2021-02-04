@@ -62,6 +62,7 @@ export const signUp = (data) => {
 export const logout = () => {
 	return (dispatch) => {
 		localStorage.removeItem("JWT_TOKEN");
+		localStorage.removeItem("AUTH_LEVEL");
 
 		dispatch({
 			type: AUTH_LOGOUT,
