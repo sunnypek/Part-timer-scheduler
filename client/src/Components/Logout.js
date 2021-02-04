@@ -2,9 +2,13 @@ import React from "react";
 
 const Logout = () => {
 	return(
-		<div>
-			Logout page
-		</div>
+		<div className="row justify-content-center">
+				<div className="col-4">
+					<div className="alert alert-info text-center">
+						You have successfully logged out!
+					</div>
+				</div>
+			</div>
 	)
 };
 
