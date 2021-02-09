@@ -32,7 +32,7 @@ module.exports = {
 
 		res.status(200).json({ 
 			token: token,
-			authLevel: req.user.authLevel 
+			authLevel: newUser.authLevel
 		});
 	},
 
