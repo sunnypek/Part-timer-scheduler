@@ -15,7 +15,7 @@ class Login extends Component {
 	async onLoginSubmit(formData) {
 		await this.props.login(formData);
 		if (!this.props.err) {
-			this.props.history.push("/");
+			this.props.history.push("/home");
 		}
 	}
 	

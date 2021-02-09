@@ -18,15 +18,20 @@ class Navbar extends Component {
 
 		let loginSystem;
 		if (this.props.isAuthenticated) {
-			loginSystem = <ul className="nav navbar-nav ms-auto">
+			loginSystem = [<ul className="navbar-nav me-auto" key="homeNav">
+											<li className="nav-item">
+												<Link className="nav-link" to="/home">Home</Link>
+											</li>
+										</ul>,
+										<ul className="nav navbar-nav ms-auto" key="logoutNav">
 											<li className="nav-item">
 												<Link className="nav-link" to="/logout" onClick={this.logout}>Logout</Link>
 											</li>
-										</ul>
+										</ul>]
 		} else {
 			loginSystem = <ul className="nav navbar-nav ms-auto">
 											<li className="nav-item">
-												<Link className="nav-link" to="/signup">Sign Up</Link>
+												<Link className="nav-link" to="/">Sign Up</Link>
 											</li>
 											<li className="nav-item">
 												<Link className="nav-link" to="/login">Login</Link>
@@ -36,14 +41,10 @@ class Navbar extends Component {
 
 		return (
 			<nav className="navbar navbar-expand navbar-dark bg-dark px-5">
-				<Link className="navbar-brand" to="/">Uni Blue</Link>
+				<Link className="navbar-brand" to="#">Uni Blue</Link>
 
 				<div className="collapse navbar-collapse">
-					<ul className="navbar-nav me-auto">
-						<li className="nav-item">
-							<Link className="nav-link" to="/">Home</Link>
-						</li>
-					</ul>
+					
 
 					{ loginSystem }
 				</div>
