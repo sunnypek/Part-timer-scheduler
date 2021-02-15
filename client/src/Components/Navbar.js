@@ -15,7 +15,6 @@ class Navbar extends Component {
 	};
 
 	render() {
-		console.log("mapstatetoprops authLevel is ", this.props.authLevel);
 		let loginSystem;
 		if (this.props.isAuthenticated) {
 			if (this.props.authLevel === "admin") {
