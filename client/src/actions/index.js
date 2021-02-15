@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { AUTH_ERROR, AUTH_SIGN_UP, AUTH_LOGOUT } from "./types";
+import { AUTH_ERROR, AUTH_SIGN_UP, AUTH_LOGOUT, AUTH_LOGIN } from "./types";
 
 export const signUp = (data) => {
 	/** 
@@ -19,7 +19,8 @@ export const signUp = (data) => {
 				const res = await axios.post("http://localhost:1337/users/signup", data);
 				dispatch({
 					type: AUTH_SIGN_UP,
-					payload: res.data.token
+					payload: res.data.token,
+					authLevel: res.data.authLevel
 				});
 
 				localStorage.setItem("JWT_TOKEN", res.data.token);
@@ -77,8 +78,9 @@ export const login = (data) => {
 			const res = await axios.post("http://localhost:1337/users/login", data);
 			console.log(res);
 			dispatch({
-				type: AUTH_SIGN_UP,
-				payload: res.data.token
+				type: AUTH_LOGIN,
+				payload: res.data.token,
+				authLevel: res.data.authLevel
 			});
 
 			localStorage.setItem("JWT_TOKEN", res.data.token);
@@ -88,29 +90,29 @@ export const login = (data) => {
 				if (!data.hasOwnProperty("email")) {
 					dispatch({
 						type: AUTH_ERROR,
-						payload: "SIGN_UP_NO_EMAIL"
+						payload: "LOGIN_NO_EMAIL"
 					});
 				} else {
 					dispatch({
 						type: AUTH_ERROR,
-						payload: "SIGN_UP_NO_PASSWORD_ERROR"
+						payload: "LOGIN_NO_PASSWORD_ERROR"
 					});
 				}
 			} else if (Object.keys(data).length !== 2 && data.constructor === Object) {
 				dispatch({
 					type: AUTH_ERROR,
-					payload: "SIGN_UP_NO_DETAILS"
+					payload: "LOGIN_NO_DETAILS"
 				});
 			} else {
 				if (data.password.length < 6 || data.password.length > 18) {
 					dispatch({
 						type: AUTH_ERROR,
-						payload: "SIGN_UP_PASSWORD_LENGTH_ERROR"
+						payload: "LOGIN_PASSWORD_LENGTH_ERROR"
 					});
 				} else {
 					dispatch({
 						type: AUTH_ERROR,
-						payload: "SIGN_UP_ERROR"
+						payload: "LOGIN_ERROR"
 					});
 				}
 			}
