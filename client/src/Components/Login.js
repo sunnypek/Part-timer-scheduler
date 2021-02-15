@@ -25,25 +25,28 @@ class Login extends Component {
 		let alert;
 		if (this.props.err) {
 			switch (this.props.message) {
-				case "SIGN_UP_NO_EMAIL":
+				case "LOGIN_NO_EMAIL":
 					alert = <div className="alert alert-danger" role="alert">Email is missing!</div>;
 					break;
-				case "SIGN_UP_PASSWORD_LENGTH_ERROR":
+				case "LOGIN_PASSWORD_LENGTH_ERROR":
 					alert = <div className="alert alert-danger" role="alert">Password must be min 6 and max 18!</div>;
 					break;
-				case "SIGN_UP_NO_PASSWORD_ERROR":
+				case "LOGIN_NO_PASSWORD_ERROR":
 					alert = <div className="alert alert-danger" role="alert">Password is missing!</div>;
 					break;
-				case "SIGN_UP_NO_DETAILS":
+				case "LOGIN_NO_DETAILS":
 					alert = <div className="alert alert-info" role="alert">Please enter your details.</div>;
 					break;
-				default:
+				case "LOGIN_ERROR":
 					alert = <div className="alert alert-danger" role="alert">No account found / Password is wrong!</div>;
 					break;
+				default:
+				alert = "";
+				break;
 			}
 		} else {
-			if (this.props.message === "SIGN_UP") {
-				alert = <div className="alert alert-success" role="alert">Successfully signed up!</div>;
+			if (this.props.message === "LOGIN") {
+				alert = <div className="alert alert-success" role="alert">Successfully login!</div>;
 			} else {
 				alert = "";
 			}
