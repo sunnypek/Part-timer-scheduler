@@ -15,19 +15,38 @@ class Navbar extends Component {
 	};
 
 	render() {
-
+		console.log("mapstatetoprops authLevel is ", this.props.authLevel);
 		let loginSystem;
 		if (this.props.isAuthenticated) {
-			loginSystem = [<ul className="navbar-nav me-auto" key="homeNav">
-											<li className="nav-item">
-												<Link className="nav-link" to="/home">Home</Link>
-											</li>
-										</ul>,
-										<ul className="nav navbar-nav ms-auto" key="logoutNav">
-											<li className="nav-item">
-												<Link className="nav-link" to="/logout" onClick={this.logout}>Logout</Link>
-											</li>
-										</ul>]
+			if (this.props.authLevel === "admin") {
+				loginSystem = [	<ul className="navbar-nav me-auto" key="homeNav">
+													<li className="nav-item">
+														<Link className="nav-link" to="/home">Home</Link>
+													</li>
+													<li className="nav-item">
+														<Link className="nav-link" to="#">Admin</Link>
+													</li>
+												</ul>,
+												<ul className="nav navbar-nav ms-auto" key="logoutNav">
+													<li className="nav-item">
+														<Link className="nav-link" to="/logout" onClick={this.logout}>Logout</Link>
+													</li>
+												</ul>]
+			} else {
+				loginSystem = [	<ul className="navbar-nav me-auto" key="homeNav">
+													<li className="nav-item">
+														<Link className="nav-link" to="/home">Home</Link>
+													</li>
+													<li className="nav-item">
+														<Link className="nav-link" to="#">User</Link>
+													</li>
+												</ul>,
+												<ul className="nav navbar-nav ms-auto" key="logoutNav">
+													<li className="nav-item">
+														<Link className="nav-link" to="/logout" onClick={this.logout}>Logout</Link>
+													</li>
+												</ul>]
+			}
 		} else {
 			loginSystem = <ul className="nav navbar-nav ms-auto">
 											<li className="nav-item">
@@ -55,7 +74,8 @@ class Navbar extends Component {
 
 function MapStateToProps(state) {
 	return {
-		isAuthenticated: state.auth.isAuthenticated
+		isAuthenticated: state.auth.isAuthenticated,
+		authLevel: state.auth.authLevel
 	}
 }
 
