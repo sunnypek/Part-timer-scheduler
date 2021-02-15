@@ -76,7 +76,6 @@ export const login = (data) => {
 	return async (dispatch) => {
 		try {
 			const res = await axios.post("http://localhost:1337/users/login", data);
-			console.log(res);
 			dispatch({
 				type: AUTH_LOGIN,
 				payload: res.data.token,
