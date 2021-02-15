@@ -38,8 +38,11 @@ class SignUp extends Component {
 				case "SIGN_UP_NO_DETAILS":
 					alert = <div className="alert alert-info" role="alert">Please enter your details.</div>;
 					break;
-				default:
+				case "SIGN_UP_ERROR":
 					alert = <div className="alert alert-danger" role="alert">Email is already in use!</div>;
+					break;
+				default:
+					alert = ""
 					break;
 			}
 		} else {
