@@ -79,15 +79,13 @@ class SignUp extends Component {
 								component= { CustomInput } />
 						</fieldset>
 						<fieldset>
-							<div>
-								<Field 
-									name="authLevel" 
-									id="authLevel" 
-									type="checkbox"
-									label="Admin"
-									placeholder=""
-									component={ CustomCheckbox } />
-							</div>
+							<Field 
+								name="authLevel" 
+								id="authLevel" 
+								type="checkbox"
+								label="Admin"
+								placeholder=""
+								component={ CustomCheckbox } />
 						</fieldset>
 
 						{ alert }
