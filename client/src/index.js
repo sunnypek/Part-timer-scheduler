@@ -11,6 +11,7 @@ import Home from "./Components/Home";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import Logout from "./Components/Logout";
+import Summary from "./Components/Summary"
 import reducers from "./reducers";
 import authGuard from "./Components/HOCs/authGuard";
 
@@ -30,6 +31,7 @@ ReactDOM.render(
 				<Route exact path="/home" component={authGuard(Home)} />
 				<Route exact path="/" component={Signup} />
 				<Route exact path="/login" component={Login} />
+				<Route exact path="/summary" component={Summary} />
 				<Route exact path="/logout" component={Logout} />
 			</App>
 		</BrowserRouter>
