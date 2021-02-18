@@ -1,0 +1,80 @@
+body{
+    font-family: Ubuntu Condensed;
+    width: 100%;
+    overflow: auto;
+}
+
+.container{
+	margin: auto;
+}
+
+.wrapper{
+	position: relative;
+	margin: auto;
+	padding-bottom: 100px;
+	min-height: 100vh;
+}
+
+/*footer*/
+.footertext{
+	position: absolute;
+	bottom: 0;
+    width: 100%;
+    color: #000;
+}
+
+/*admin*/
+.navi{
+    background-color: #F2F2F2;
+    color: #000;
+    font-family: Ubuntu Condensed;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.navi:active, .navi:focus{
+    background-color: #FFE699 !important;
+    color: #000 !important;
+}
+
+.navi:hover{
+    color: #203864;
+}
+
+.fa-calendar, .fa-envelope-open-text, .fa-sliders-h, .fa-plus{
+    font-size: 90px;
+    margin: 20px;
+}
+
+.tab-content{
+    margin: 5% 0 0 2%;
+}
+
+.col-form-label{
+    font-size: 20px;
+}
+
+.searchBtn, .payslipBtn, .updateBtn, .createBtn{
+    background-color: #203864;
+	border: 1px solid lightgrey;
+	border-radius: 5px;
+	color: white;
+	width: 200px;
+	height: 35px;
+	font-size: 18px;
+    margin: auto;
+    margin-top: 2%;
+}
+
+.searchBtn:hover, .payslipBtn:hover, .updateBtn:hover, .createBtn:hover{
+    color: #FFE699;
+}
+
+.form-control{
+    width: 95%;
+}
+
+.yrControl{
+    width: 89%;
+}

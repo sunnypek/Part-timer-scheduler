@@ -11,6 +11,7 @@ import Home from "./Components/Home";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import Logout from "./Components/Logout";
+import Admin from "./Components/admin";
 import reducers from "./reducers";
 import authGuard from "./Components/HOCs/authGuard";
 
@@ -31,6 +32,7 @@ ReactDOM.render(
 				<Route exact path="/" component={Signup} />
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/logout" component={Logout} />
+				<Route exact path="/admin" component={Admin} />
 			</App>
 		</BrowserRouter>
 	</Provider>,
