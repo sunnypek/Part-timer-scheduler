@@ -5,60 +5,21 @@ body{
 }
 
 .container{
-    max-width: 1200px;
 	margin: auto;
 }
 
 .wrapper{
 	position: relative;
-	max-width: 1200px;
 	margin: auto;
 	padding-bottom: 100px;
 	min-height: 100vh;
-}
-
-/*navbar*/
-nav{
-	background-color: #fff;
-}
-.navbar-nav .nav-item .nav-link:hover{
-	color: #2E75B6;
-}
-
-.nav-button{
-	border-radius: 10px;
-	background-color: #2E75B6;
-	color: white;
-	font-size: 20px;
-	margin-left: 15px;
-	margin-top: 4%;
-	height: 40px;
-	width: 80px;
-    line-height: 40px;
-}
-
-.nav-button:hover{
-	background-color: #F3A22B;
-	color: white;
-	text-decoration: none;
-}
-
-#navbarCollapse{
-	margin-top: 2%;
-}
-
-.logo{
-    font-size: 45px;
-    color: #203864;
-    font-family: Abril Fatface;
 }
 
 /*footer*/
 .footertext{
 	position: absolute;
 	bottom: 0;
-	width: 97%;
-	margin-left: 1%;
+    width: 100%;
     color: #000;
 }
 
@@ -69,6 +30,7 @@ nav{
     font-family: Ubuntu Condensed;
     font-size: 20px;
     font-weight: bold;
+    margin: 10px;
 }
 
 .nav-link.active{
