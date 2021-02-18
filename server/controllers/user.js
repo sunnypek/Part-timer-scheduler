@@ -14,7 +14,7 @@ signToken = (user) => {
 
 module.exports = {
 	signup: async (req, res, next) => {
-		const { email, password, authLevel } = req.value.body;
+		const { username, email, password, authLevel } = req.value.body;
 
 		const found = await User.findOne({ "email": email });
 		if (found) {
@@ -22,6 +22,7 @@ module.exports = {
 		}
 
 		const newUser = new User({
+			username: username,
 			email: email,
 			password: password,
 			authLevel: authLevel

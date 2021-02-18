@@ -38,7 +38,7 @@ export const signUp = (data) => {
 						payload: "SIGN_UP_NO_PASSWORD_ERROR"
 					});
 				}
-			} else if (Object.keys(data).length !== 3 && data.constructor === Object) {
+			} else if (Object.keys(data).length !== 4 && data.constructor === Object) {
 				dispatch({
 					type: AUTH_ERROR,
 					payload: "SIGN_UP_NO_DETAILS"

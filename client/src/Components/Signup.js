@@ -62,6 +62,15 @@ class SignUp extends Component {
 					<form onSubmit={ handleSubmit(this.onSubmit) }>
 						<fieldset>
 							<Field
+								name="username"
+								type="text"
+								id="username"
+								label="Username"
+								placeholder="name"
+								component= { CustomInput } />
+						</fieldset>
+						<fieldset>
+							<Field
 								name="email"
 								type="text"
 								id="email"
