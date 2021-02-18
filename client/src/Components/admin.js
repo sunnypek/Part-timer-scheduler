@@ -6,25 +6,25 @@ function Admin(props){
         <div>
             <ul class = "nav-content nav nav-pills nav-justified">
                 <li class = "nav-item col-3">
-                    <a class = "nav-link active" data-toggle = "pill" href = "#timeslot">
+                    <a class = "nav-link navi" data-toggle = "pill" href = "#timeslot">
                         <i class="fa fa-calendar"></i><br/>
                         Add/ Release Timeslots
                     </a>
                 </li>
                 <li class = "nav-item col-3">
-                    <a class = "nav-link" data-toggle = "pill" href = "#payroll">
+                    <a class = "nav-link navi" data-toggle = "pill" href = "#payroll">
                         <i class="fas fa-envelope-open-text"></i><br/>
                         Generate Payroll
                     </a>
                 </li>
                 <li class = "nav-item col-3">
-                    <a class = "nav-link" data-toggle = "pill" href = "#ot">
+                    <a class = "nav-link navi" data-toggle = "pill" href = "#ot">
                         <i class="fas fa-sliders-h"></i><br/>
                         Generate OT Rate
                     </a>
                 </li>
                 <li class = "nav-item col-3">
-                    <a class = "nav-link" data-toggle = "pill" href = "#user">
+                    <a class = "nav-link navi" data-toggle = "pill" href = "#user">
                         <i class="fas fa-plus"></i><br/>
                         Create New User
                     </a>

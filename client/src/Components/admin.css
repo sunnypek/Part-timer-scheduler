@@ -24,7 +24,7 @@ body{
 }
 
 /*admin*/
-.nav-link{
+.navi{
     background-color: #F2F2F2;
     color: #000;
     font-family: Ubuntu Condensed;
@@ -33,12 +33,12 @@ body{
     margin: 10px;
 }
 
-.nav-link.active{
+.navi:active, .navi:focus{
     background-color: #FFE699 !important;
     color: #000 !important;
 }
 
-.nav-link:hover{
+.navi:hover{
     color: #203864;
 }
 
@@ -61,9 +61,10 @@ body{
 	border-radius: 5px;
 	color: white;
 	width: 200px;
-	height: 33px;
-	font-size: 20px;
+	height: 35px;
+	font-size: 18px;
     margin: auto;
+    margin-top: 2%;
 }
 
 .searchBtn:hover, .payslipBtn:hover, .updateBtn:hover, .createBtn:hover{
