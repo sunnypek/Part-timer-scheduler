@@ -33,7 +33,8 @@ module.exports = {
 
 		res.status(200).json({ 
 			token: token,
-			authLevel: newUser.authLevel
+			authLevel: newUser.authLevel,
+			username: newUser.username
 		});
 	},
 
@@ -41,7 +42,8 @@ module.exports = {
 		const token = signToken(req.user);
 		res.status(200).json({ 
 			token: token,
-			authLevel: req.user.authLevel 
+			authLevel: req.user.authLevel,
+			username: req.user.username
 		});
 	}
 }
