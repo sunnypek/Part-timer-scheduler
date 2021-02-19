@@ -151,6 +151,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", require("./routes/users"));
+app.use("/database", require("./routes/database"));
 
 app.use(notFound);
 app.use(errorHandler);
