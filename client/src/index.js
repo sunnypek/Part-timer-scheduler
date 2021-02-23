@@ -8,10 +8,12 @@ import reduxThunk from "redux-thunk";
 import reportWebVitals from './reportWebVitals';
 import App from "./Components/App";
 import Home from "./Components/Home";
+import Clock from "./Components/Clock";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import Logout from "./Components/Logout";
 import Summary from "./Components/Summary"
+import Admin from "./Components/admin";
 import reducers from "./reducers";
 import authGuard from "./Components/HOCs/authGuard";
 
@@ -28,11 +30,13 @@ ReactDOM.render(
 	}, applyMiddleware(reduxThunk)) }>
 		<BrowserRouter>
 			<App>
-				<Route exact path="/home" component={authGuard(Home)} />
+        <Route exact path="/clock" component={Clock} />
+        <Route exact path="/home" component={authGuard(Home)} />
 				<Route exact path="/" component={Signup} />
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/summary" component={Summary} />
 				<Route exact path="/logout" component={Logout} />
+				<Route exact path="/admin" component={Admin} />
 			</App>
 		</BrowserRouter>
 	</Provider>,

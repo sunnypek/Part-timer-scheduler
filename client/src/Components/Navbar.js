@@ -42,6 +42,9 @@ class Navbar extends Component {
 													<li className="nav-item">
 														<Link className="nav-link" to="/summary">Summary</Link>
 													</li>
+													<li className="nav-item">
+														<Link className="nav-link" to="/clock">Clock In/Out</Link>
+													</li>
 												</ul>,
 												<ul className="nav navbar-nav ms-auto" key="logoutNav">
 													<li className="nav-item">

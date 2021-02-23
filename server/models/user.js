@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 
 const UserSchema = new Schema({
+	username: {
+		type: String,
+		required: true,
+	},
 	authLevel: {
 		type: String,
 		enum: ["user", "admin"],
