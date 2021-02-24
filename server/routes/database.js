@@ -7,5 +7,11 @@ router.route("/clockIn")
 
 router.route("/clockOut")
 	.post(databaseController.clockOut);
-
+	
+router.get('/attendance', function(req, res, next) {
+	res.locals.connection.query('select * from timeslot', function (error, results, fields) {
+		if(error) throw error;
+		res.send(JSON.stringify(results));
+	});
+});
 module.exports = router;

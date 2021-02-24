@@ -9,6 +9,7 @@ import reportWebVitals from './reportWebVitals';
 import App from "./Components/App";
 import Home from "./Components/Home";
 import Clock from "./Components/Clock";
+import Attendance from "./Components/Attendance";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import Logout from "./Components/Logout";
@@ -35,6 +36,7 @@ ReactDOM.render(
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/logout" component={Logout} />
 				<Route exact path="/admin" component={Admin} />
+				<Route exact path="/attendance" component={Attendance} />
 			</App>
 		</BrowserRouter>
 	</Provider>,
