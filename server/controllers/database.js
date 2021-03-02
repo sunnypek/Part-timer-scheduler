@@ -5,11 +5,16 @@ module.exports = {
 		console.log("req.body is ", req.body);
 		const result = await db.execute(
 			"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name, Clock_IN, Clock_OUT, Normal_hr, OverTime_hr) VALUES (?, ?, ?, ?, ?, ?)"
-			,[req.body.timeslotID, req.body.employeeName, req.body.clockIn, req.body.clockOut, req.body.normalHour, req.body.overtimeHour]
+			,[req.body.timeslotID, req.body.employeeName, req.body.clockIn, null, req.body.normalHour, req.body.overtimeHour]
 		);
 		console.log("result is ", result);
 		res.status(200).json({ 
-			clockIn: true
+			timeslotID: req.body.timeslotID,
+			employeeName: req.body.employeeName,
+			clockIn: req.body.clockIn,
+			clockOut: null,
+			normalHour: req.body.normalHour || 0,
+			overtimeHour: req.body.overtimeHour || 0
 		});
 	},
 
