@@ -1,41 +1,27 @@
 import React, { Component } from 'react';
-import axios from "axios";
-import * as actions from "../actions";
-import { compose } from "redux";
 import { connect } from "react-redux";
 
+import * as clockingActions from "../actions/clockInOut";
 
 class Clock extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const data = {
-      timeSlotID: event.target.timeSlotID.value,
-      startDateTime: event.target.startDateTime.value,
-      endDateTime: event.target.endDateTime.value,
-      normalRate: event.target.normalRate.value,
-      OTRate: event.target.OTRate.value
+      timeslotID: event.target.timeSlotID.value,
+      employeeName: event.target.employeeName.value,
+			clockIn: event.target.clockIn.value,
+			clockOut: event.target.clockOut.value,
+			normalHour: event.target.normalHour.value,
+			overtimeHour: event.target.overtimeHour.value
     };
     console.log(data);
-
-    fetch("database/clockIn", {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }).then((response) => {
-      if (response.status >= 400) {
-        throw new Error("Bad response from server");
-      }
-      return response.json();
-    }).then((respData) => {
-      console.log(respData);
-    }).catch((err) => {
-      console.log(err);
-    });
+		this.props.clockIn(data);
+    
   }
-
 
   render() {
     const { handleSubmit } = this.props;
+		const timeNow = new Date().toISOString().split('T')[0]+' '+ new Date().toTimeString().split(' ')[0];
     return (
       <div className="section-content-block section-process">
 
@@ -44,19 +30,22 @@ class Clock extends Component {
           <div className="col-md-8 clock-form-wrapper text-center clearfix">
           <form onSubmit={event => this.handleSubmit(event)}>
               <div className="form-group col-md-6">
-                <input name="timeSlotID" className="form-control" placeholder="TimseSlot" type="text" />
+                <input name="timeslotID" className="form-control" placeholder="Timeslot ID" type="text" />
+              </div>
+							<div className="form-group col-md-6">
+                <input name="employeeName" className="form-control" placeholder="Employee Name" type="text" />
               </div>
               <div className="form-group col-md-6">
-                <input name="startDateTime" className="form-control" placeholder="startDateTime" type="text" />
+                <input name="clockIn" className="form-control" placeholder={ timeNow } type="text" />
               </div>
               <div className="form-group col-md-6">
-                <input name="endDateTime" className="form-control" placeholder="endDateTime" type="text" />
+                <input name="clockOut" className="form-control" placeholder={ timeNow } type="text" />
               </div>
               <div className="form-group col-md-6">
-                <input name="normalRate" className="form-control" placeholder="normalRate" type="text" />
+                <input name="normalHour" className="form-control" placeholder="Normal Hour" type="text" />
               </div>
               <div className="form-group col-md-6">
-                <input name="OTRate" className="form-control" placeholder="OTRate" type="text" />
+                <input name="overtimeHour" className="form-control" placeholder="Overtime Hour" type="text" />
               </div>
               <div className="form-group col-md-12 col-sm-12 col-xs-12">
                 <button className="btn-submit" type="submit">Submit</button>
@@ -70,4 +59,4 @@ class Clock extends Component {
   }
 }
 
-export default Clock;
+export default connect(null, clockingActions)(Clock);
