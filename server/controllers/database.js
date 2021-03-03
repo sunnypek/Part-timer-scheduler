@@ -19,8 +19,13 @@ module.exports = {
 	},
 
 	clockOut: async (req, res, next) => {
+		const result = await db.execute(
+			"UPDATE bookingdetail SET Clock_Out = ?",
+			[req.body.clockOut]
+		);
+		console.log("result is ", result);
 		res.status(200).json({
-			clockOut: true
-		})
+			clockOut: req.body.clockOut		
+		});
 	}
 }
