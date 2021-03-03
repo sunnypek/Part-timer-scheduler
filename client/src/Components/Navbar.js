@@ -22,9 +22,6 @@ class Navbar extends Component {
 													<li className="nav-item">
 														<Link className="nav-link" to="/home">Home</Link>
 													</li>
-													<li className="nav-item">
-														<Link className="nav-link" to="#">Admin</Link>
-													</li>
 												</ul>,
 												<ul className="nav navbar-nav ms-auto" key="logoutNav">
 													<li className="nav-item">
@@ -35,9 +32,6 @@ class Navbar extends Component {
 				loginSystem = [	<ul className="navbar-nav me-auto" key="homeNav">
 													<li className="nav-item">
 														<Link className="nav-link" to="/home">Home</Link>
-													</li>
-													<li className="nav-item">
-														<Link className="nav-link" to="#">User</Link>
 													</li>
 													<li className="nav-item">
 														<Link className="nav-link" to="/clock">Clock In/Out</Link>
