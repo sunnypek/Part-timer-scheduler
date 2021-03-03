@@ -25,7 +25,9 @@ module.exports = {
 		);
 		console.log("result is ", result);
 		res.status(200).json({
-			clockOut: req.body.clockOut		
+			clockOut: req.body.clockOut,
+			timeslotID: req.body.timeslotID,
+			employeeName: req.body.employeeName		
 		});
 	},
 
