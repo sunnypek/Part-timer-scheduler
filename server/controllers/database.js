@@ -27,5 +27,18 @@ module.exports = {
 		res.status(200).json({
 			clockOut: req.body.clockOut		
 		});
+	},
+
+	getEmployees: async (req, res, next) => {
+		await db.execute(
+			"SELECT * FROM userinfo", 
+			(err, results, fields) => {
+				if (err) {
+					console.error(err);
+				} else {
+					res.status(200).json({ results });
+				}
+			}
+		);
 	}
 }
