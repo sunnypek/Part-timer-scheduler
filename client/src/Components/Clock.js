@@ -20,6 +20,7 @@ class Clock extends Component {
   }
 
   render() {
+		// eslint-disable-next-line
     const { handleSubmit } = this.props;
 		const timeNow = new Date().toISOString().split('T')[0]+' '+ new Date().toTimeString().split(' ')[0];
     return (
