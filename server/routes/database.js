@@ -12,7 +12,7 @@ router.route("/getEmployees")
 	.get(databaseController.getEmployees);
 	
 router.get('/attendance', function(req, res, next) {
-	res.locals.connection.query('select * from timeslot', function (error, results, fields) {
+	res.locals.connection.query('select * from bookingdetail', function (error, results, fields) {
 		if(error) throw error;
 		res.send(JSON.stringify(results));
 	});
