@@ -30,13 +30,13 @@ ReactDOM.render(
 	}, applyMiddleware(reduxThunk)) }>
 		<BrowserRouter>
 			<App>
-        <Route exact path="/clock" component={Clock} />
+        <Route exact path="/clock" component={authGuard(Clock)} />
         <Route exact path="/home" component={authGuard(Home)} />
 				<Route exact path="/" component={Signup} />
 				<Route exact path="/login" component={Login} />
-				<Route exact path="/logout" component={Logout} />
-				<Route exact path="/admin" component={Admin} />
-				<Route exact path="/attendance" component={Attendance} />
+				<Route exact path="/logout" component={authGuard(Logout)} />
+				<Route exact path="/admin" component={authGuard(Admin)} />
+				<Route exact path="/attendance" component={authGuard(Attendance)} />
 			</App>
 		</BrowserRouter>
 	</Provider>,
