@@ -1,5 +1,6 @@
 const JWT = require("jsonwebtoken");
 const User = require("../models/user");
+const db = require("../database");
 
 require("dotenv").config();
 
@@ -28,7 +29,7 @@ module.exports = {
 			authLevel: authLevel
 		})
 		await newUser.save();
-
+		await db.execute("INSERT INTO userinfo (Email, Employee_Name) VALUES (?, ?)",[newUser.email, newUser.username]);
 		const token = signToken(newUser);
 
 		res.status(200).json({ 
