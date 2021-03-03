@@ -20,8 +20,8 @@ module.exports = {
 
 	clockOut: async (req, res, next) => {
 		const result = await db.execute(
-			"UPDATE bookingdetail SET Clock_Out = ?",
-			[req.body.clockOut]
+			"UPDATE bookingdetail SET Clock_Out = ? WHERE Timeslot_ID = ? AND Employee_Name = ?",
+			[req.body.clockOut, req.body.timeslotID, res.body.employeeName]
 		);
 		console.log("result is ", result);
 		res.status(200).json({
