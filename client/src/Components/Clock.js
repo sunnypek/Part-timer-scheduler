@@ -7,7 +7,7 @@ class Clock extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const data = {
-      timeslotID: event.target.timeSlotID.value,
+      timeslotID: event.target.timeslotID.value,
       employeeName: event.target.employeeName.value,
 			clockIn: event.target.clockIn.value,
 			clockOut: event.target.clockOut.value,
@@ -39,7 +39,7 @@ class Clock extends Component {
                 <input name="clockIn" className="form-control" placeholder={ timeNow } type="text" />
               </div>
               <div className="form-group col-md-6">
-                <input name="clockOut" className="form-control" placeholder={ timeNow } type="text" />
+                <input name="clockOut" className="form-control" placeholder="Leave empty for clocking in" type="text" />
               </div>
               <div className="form-group col-md-6">
                 <input name="normalHour" className="form-control" placeholder="Normal Hour" type="text" />
