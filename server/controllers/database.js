@@ -1,29 +1,26 @@
 const db = require("../database");
 
 module.exports = {
-	clockIn: async (req, res, next) => {
-		console.log("req.body is ", req.body);
-		const result = await db.execute(
+	clockIn: (req, res, next) => {
+		db.execute(
 			"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name, Clock_IN, Clock_OUT, Normal_hr, OverTime_hr) VALUES (?, ?, ?, ?, ?, ?)"
 			,[req.body.timeslotID, req.body.employeeName, req.body.clockIn, null, req.body.normalHour, req.body.overtimeHour]
 		);
-		console.log("result is ", result);
 		res.status(200).json({ 
 			timeslotID: req.body.timeslotID,
 			employeeName: req.body.employeeName,
 			clockIn: req.body.clockIn,
 			clockOut: null,
-			normalHour: req.body.normalHour || 0,
-			overtimeHour: req.body.overtimeHour || 0
+			normalHour: req.body.normalHour,
+			overtimeHour: req.body.overtimeHour
 		});
 	},
 
-	clockOut: async (req, res, next) => {
-		const result = await db.execute(
+	clockOut: (req, res, next) => {
+		db.execute(
 			"UPDATE bookingdetail SET Clock_Out = ? WHERE Timeslot_ID = ? AND Employee_Name = ?",
 			[req.body.clockOut, req.body.timeslotID, res.body.employeeName]
 		);
-		console.log("result is ", result);
 		res.status(200).json({
 			clockOut: req.body.clockOut,
 			timeslotID: req.body.timeslotID,
@@ -31,15 +28,11 @@ module.exports = {
 		});
 	},
 
-	getEmployees: async (req, res, next) => {
-		await db.execute(
+	getEmployees: (req, res, next) => {
+		db.execute(
 			"SELECT * FROM userinfo", 
 			(err, results, fields) => {
-				if (err) {
-					console.error(err);
-				} else {
-					res.status(200).json({ results });
-				}
+				err ? console.error(err) : res.status(200).json({ results });
 			}
 		);
 	}
