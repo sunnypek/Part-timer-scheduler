@@ -11,4 +11,5 @@ port: 3306,
 user:'UBHRS_User',
 password:'CZ3002B3UBHRS',
 database: 'ubhrs_db',
+dateStrings: 'date'
 });  

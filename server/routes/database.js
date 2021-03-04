@@ -8,4 +8,7 @@ router.route("/clockIn")
 router.route("/clockOut")
 	.post(databaseController.clockOut);
 
+router.route("/summary")
+	.post(databaseController.summary);	
+
 module.exports = router;
