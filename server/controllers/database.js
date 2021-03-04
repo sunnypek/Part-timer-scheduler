@@ -19,7 +19,7 @@ module.exports = {
 	clockOut: (req, res, next) => {
 		db.execute(
 			"UPDATE bookingdetail SET Clock_Out = ? WHERE Timeslot_ID = ? AND Employee_Name = ?",
-			[req.body.clockOut, req.body.timeslotID, res.body.employeeName]
+			[req.body.clockOut, req.body.timeslotID, XMLHttpRequestEventTarget.body.employeeName]
 		);
 		res.status(200).json({
 			clockOut: req.body.clockOut,
@@ -35,5 +35,16 @@ module.exports = {
 				err ? console.error(err) : res.status(200).json({ results });
 			}
 		);
-	}
+	},
+
+	attendance: (req, res, next) => {
+		db.execute(
+			"SELECT Timeslot_ID, Clock_IN, Clock_OUT, Normal_hr, OverTime_hr FROM bookingdetail", 
+			(err, results, fields) => {
+				err ? console.error(err) : res.status(200).json({ results });
+			}
+		);
+	},
+
+
 }
