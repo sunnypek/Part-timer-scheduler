@@ -22,6 +22,9 @@ class Navbar extends Component {
 													<li className="nav-item">
 														<Link className="nav-link" to="/home">Home</Link>
 													</li>
+													<li className="nav-item">
+														<Link className="nav-link" to="/admin/addTimeslot">Add Timeslot</Link>
+													</li>
 												</ul>,
 												<ul className="nav navbar-nav ms-auto" key="logoutNav">
 													<li className="nav-item">
