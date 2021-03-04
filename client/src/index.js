@@ -14,8 +14,10 @@ import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import Logout from "./Components/Logout";
 import Admin from "./Components/admin";
+import AddTimeslot from "./Components/AddTimeslot";
 import reducers from "./reducers";
 import authGuard from "./Components/HOCs/authGuard";
+import adminGuard from "./Components/HOCs/adminGuard";
 
 const jwtToken = localStorage.getItem("JWT_TOKEN");
 const authLevel = localStorage.getItem("AUTH_LEVEL");
@@ -35,7 +37,8 @@ ReactDOM.render(
 				<Route exact path="/" component={Signup} />
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/logout" component={authGuard(Logout)} />
-				<Route exact path="/admin" component={authGuard(Admin)} />
+				<Route exact path="/admin" component={adminGuard(authGuard(Admin))} />
+				<Route exact path="/admin/addTimeslot" component={adminGuard(authGuard(AddTimeslot))} />
 				<Route exact path="/attendance" component={authGuard(Attendance)} />
 			</App>
 		</BrowserRouter>
