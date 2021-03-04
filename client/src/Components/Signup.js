@@ -55,7 +55,7 @@ class SignUp extends Component {
 
 		return(
 			<div className="row justify-content-center">
-				<div className="col-4">
+				<div className="col-xl-4 col-lg-4 col-md-6 col-sm-10 col-10">
 					<div className="alert alert-primary text-center" role="alert">
 						Sign Up
 					</div>
