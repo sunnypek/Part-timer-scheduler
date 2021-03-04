@@ -39,31 +39,12 @@ module.exports = {
 
 	attendance: (req, res, next) => {
 		db.execute(
-			"SELECT timeslotID, clockIn, clockOut, normalHour, overtimeHour FROM bookingdetail", 
+			"SELECT Timeslot_ID, Clock_IN, Clock_OUT, Normal_hr, OverTime_hr FROM bookingdetail", 
 			(err, results, fields) => {
 				err ? console.error(err) : res.status(200).json({ results });
 			}
 		);
 	},
 
-	// attendance: (req, res, next) => {
-	// 	db.execute(
-	// 		"SELECT * FROM bookingdetail", 
-	// 		(err, results, fields) => {
-	// 			err ? console.error(err) : res.status(200).json({ results });
-	// 		}
-	// 	);
-	// },
 
-	// attendance: (req, res) => {
-
-    //     let QUERY1 = "SELECT * FROM `bookingdetail` "; 
-
-    //     db.query(QUERY1, function(err, result1) {
-
-    //           res.render('Attendance.js', { 
-    //                 attendance : result1 });
-
-    //       });
-    // },
 }

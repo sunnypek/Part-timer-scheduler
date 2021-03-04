@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
 import * as attendanceDataActions from "../actions/attendanceData";
-//import Modal from 'react-modal';
+
 class Attendance extends Component {
     constructor(props) {
         super(props)
@@ -9,22 +9,6 @@ class Attendance extends Component {
             attendance: []
         }
     }
-
-    // componentDidMount() {
-    //     let self = this;
-    //     fetch('/attendance', {
-    //         method: 'GET'
-    //     }).then(function(response) {
-    //         if (response.status >= 400) {
-    //             throw new Error("Bad response from server");
-    //         }
-    //         return response.json();
-    //     }).then(function(data) {
-    //         self.setState({attendance: data});
-    //     }).catch(err => {
-    //     console.log('Error aiyo!',err);
-    //     })
-    // }
 
     render() {
         return (
@@ -43,11 +27,11 @@ class Attendance extends Component {
                     <tbody>
                     {this.state.attendance.map(timeslot =>
                         <tr key={timeslot.id}>
-                        <td>{timeslot.timeSlotID} </td>
-                        <td>{timeslot.clockIn} </td>
-                        <td>{timeslot.clockOut}</td>
-                        <td>{timeslot.normalHour}</td>
-                        <td>{timeslot.overtimeHour}</td>
+                        <td>{timeslot.Timeslot_ID} </td>
+                        <td>{timeslot.Clock_IN} </td>
+                        <td>{timeslot.Clock_OUT}</td>
+                        <td>{timeslot.Normal_hr}</td>
+                        <td>{timeslot.OverTime_hr}</td>
                         </tr>
                     )}
                     </tbody>

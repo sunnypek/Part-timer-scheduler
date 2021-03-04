@@ -28,9 +28,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(helmet());
 
-app.get("/clock", (req, res) => {
-	res.json({ message: "clock"});
-});
+
 
 
 app.get("/", (req, res) => {
