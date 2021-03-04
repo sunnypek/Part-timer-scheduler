@@ -3,6 +3,7 @@ import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
+import * as adminActions  from "../actions/addTimeslot";
 import CustomInput from "./CustomInput";
 
 class AddTimeslot extends Component {
@@ -12,20 +13,19 @@ class AddTimeslot extends Component {
 	}
 
 	async onSubmit(formData) {
-
+		await this.props.addTimeslot(formData);
 	}
 	
 	render() {
 		const { handleSubmit } = this.props;
 
 		let alert;
+		console.log(this.props.err, this.props.message);
 		if (this.props.err) {
-			switch (this.props.message) {
-
-			}
+			alert = <div className="alert alert-danger" role="alert">Please check that all data are entered correctly! (make sure ID is not in use)</div>;
 		} else {
-			if (this.props.message === "") {
-
+			if (this.props.message === "SUCCESS") {
+				alert = <div className="alert alert-success" role="alert">Successfully added timeslot!</div>;
 			} else {
 				alert = "";
 			}
@@ -102,12 +102,12 @@ class AddTimeslot extends Component {
 
 function MapStateToProps(state) {
 	return {
-		message: state.auth.message,
-		err: state.auth.err
+		message: state.admin.message,
+		err: state.admin.err
 	}
 }
 
 export default compose(
-	connect(MapStateToProps),
-	reduxForm({ form: "add timeslot" })
+	connect(MapStateToProps, adminActions),
+	reduxForm({ form: "addTimeslot" })
 )(AddTimeslot);
