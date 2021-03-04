@@ -20,7 +20,7 @@ class AddTimeslot extends Component {
 		const { handleSubmit } = this.props;
 
 		let alert;
-		console.log(this.props.err, this.props.message);
+		
 		if (this.props.err) {
 			alert = <div className="alert alert-danger" role="alert">Please check that all data are entered correctly! (make sure ID is not in use)</div>;
 		} else {
