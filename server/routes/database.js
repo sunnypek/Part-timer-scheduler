@@ -8,6 +8,9 @@ router.route("/clockIn")
 router.route("/clockOut")
 	.post(databaseController.clockOut);
 
+router.route("/addTimeslot")
+	.post(databaseController.addTimeslot);
+
 router.route("/getEmployees")
 	.get(databaseController.getEmployees);
 
