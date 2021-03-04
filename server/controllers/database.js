@@ -25,7 +25,7 @@ module.exports = {
 	clockOut: (req, res, next) => {
 		db.execute(
 			"UPDATE bookingdetail SET Clock_Out = ? WHERE Timeslot_ID = ? AND Employee_Name = ?",
-			[req.body.clockOut, req.body.timeslotID, XMLHttpRequestEventTarget.body.employeeName],
+			[req.body.clockOut, req.body.timeslotID, req.body.employeeName],
 			(err, results, fields) => {
 				if (err) {
 					res.status(400).json({ err });
@@ -58,5 +58,24 @@ module.exports = {
 		);
 	},
 
-
+	addTimeslot: (req, res, next) => {
+		db.execute(
+			"INSERT INTO timeslot (TimeSlot_ID, Start_DateTime, End_DateTime, Create_By, Normal_Rate, OT_Rate) VALUES (?, ?, ?, ?, ?, ?)",
+			[req.body.timeslotID, req.body.startDateTime, req.body.endDateTime, req.body.createdBy, req.body.normalRate, req.body.overtimeRate],
+			(err, results, fields) => {
+				if (err) {
+					res.status(400).json({ err });
+				} else {
+					res.status(200).json({
+						timeslotID: req.body.timeslotID, 
+						startDateTime: req.body.startDateTime, 
+						endDateTime: req.body.endDateTime, 
+						createdBy: req.body.createdBy, 
+						normalRate: req.body.normalRate, 
+						overtimeRate: req.body.overtimeRate
+					});
+				}
+			}
+		);
+	}
 }
