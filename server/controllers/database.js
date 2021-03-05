@@ -76,9 +76,10 @@ module.exports = {
 					});
 				}
 			}
-		),
-     
-    summary: async (req, res, next) => {
+		);
+  },
+
+	summary: async (req, res, next) => {
 		console.log(req.body);
 
 		// Get userinfo using email
@@ -146,6 +147,6 @@ module.exports = {
 			daysWorked: daysWorked[0][0]["diff_days"],
 			hoursWorked: hoursWorked[0][0],
 			timeslotDetails: timeslotDetails[0],
-		}
-	}
+		});
+	},
 }

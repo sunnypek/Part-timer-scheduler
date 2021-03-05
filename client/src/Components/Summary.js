@@ -48,7 +48,7 @@ function TimeslotEntry(props) {
                     ((props.tempClockInHours <= 12) ? "am" : "pm")
                 } 
                 endTime = {
-                    (props.status == "Ongoing") ? 
+                    (props.status === "Ongoing") ? 
                     "Ongoing" 
                     :
                     ((props.tempClockOutHours > 12) ? props.tempClockOutHours - 12 : props.tempClockOutHours) +
@@ -57,13 +57,13 @@ function TimeslotEntry(props) {
                     ((props.tempClockOutHours < 12) ? "am" : "pm")
                 }
                 badge = { 
-                    (props.status == "Ongoing" || props.status == "Upcoming") ? true : false
+                    (props.status === "Ongoing" || props.status === "Upcoming") ? true : false
                 }
                 badgeText = {
-                    (props.status == "Ongoing") ? "Ongoing" : (props.status == "Upcoming") ? "Upcoming" : ""
+                    (props.status === "Ongoing") ? "Ongoing" : (props.status === "Upcoming") ? "Upcoming" : ""
                 }
                 variant = {
-                    (props.status == "Ongoing") ? "success" : (props.status == "Upcoming") ? "primary" : ""
+                    (props.status === "Ongoing") ? "success" : (props.status === "Upcoming") ? "primary" : ""
                 }
             />
         </tr>
@@ -155,7 +155,7 @@ function Summary() {
             for(var y = 0; y < data.timeslotDetails.length; y++) {
 
                 // Match entry in bookingdetail to timeslot
-                if(data.bookingDetails[z].Timeslot_ID == data.timeslotDetails[y].TimeSlot_ID) {
+                if(data.bookingDetails[z].Timeslot_ID === data.timeslotDetails[y].TimeSlot_ID) {
 
                     // Load entry details
                     tempDay = new Date(data.bookingDetails[z].Clock_IN).getDate().toString();
