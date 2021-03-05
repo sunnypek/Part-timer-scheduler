@@ -16,7 +16,11 @@ class SignUp extends Component {
 	async onSubmit(formData) {
 		await this.props.signUp(formData);
 		if (!this.props.err) {
-			this.props.history.push("/home");
+			if (this.props.authLevel === "user") {
+				this.props.history.push("/clockIn");
+			} else {
+				this.props.history.push("/admin");
+			}
 		}
 	}
 	
@@ -110,7 +114,8 @@ class SignUp extends Component {
 function MapStateToProps(state) {
 	return {
 		message: state.auth.message,
-		err: state.auth.err
+		err: state.auth.err,
+		authLevel: state.auth.authLevel
 	}
 }
 

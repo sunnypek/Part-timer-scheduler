@@ -18,14 +18,7 @@ class Navbar extends Component {
 		let loginSystem;
 		if (this.props.isAuthenticated) {
 			if (this.props.authLevel === "admin") {
-				loginSystem = [	<ul className="navbar-nav me-auto" key="homeNav">
-													<li className="nav-item">
-														<Link className="nav-link" to="/home">Home</Link>
-													</li>
-													<li className="nav-item">
-														<Link className="nav-link" to="/admin/addTimeslot">Add Timeslot</Link>
-													</li>
-												</ul>,
+				loginSystem = [	
 												<ul className="nav navbar-nav ms-auto" key="logoutNav">
 													<li className="nav-item">
 														<Link className="nav-link" to="/logout" onClick={this.logout}>Logout</Link>
@@ -33,9 +26,6 @@ class Navbar extends Component {
 												</ul>]
 			} else {
 				loginSystem = [	<ul className="navbar-nav me-auto" key="homeNav">
-													<li className="nav-item">
-														<Link className="nav-link" to="/home">Home</Link>
-													</li>
 													<li className="nav-item">
 														<Link className="nav-link" to="/clockIn">Clock In</Link>
 													</li>

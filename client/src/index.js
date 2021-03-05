@@ -7,7 +7,7 @@ import reduxThunk from "redux-thunk";
 
 import reportWebVitals from './reportWebVitals';
 import App from "./Components/App";
-import Home from "./Components/Home";
+//import Home from "./Components/Home";
 import ClockIn from "./Components/ClockIn";
 import ClockOut from "./Components/ClockOut";
 import Attendance from "./Components/Attendance";
@@ -35,8 +35,8 @@ ReactDOM.render(
 		<BrowserRouter>
 			<App>
         <Route exact path="/clockIn" component={authGuard(ClockIn)} />
-		<Route exact path="/clockOut" component={authGuard(ClockOut)} />
-        <Route exact path="/home" component={authGuard(Home)} />
+				<Route exact path="/clockOut" component={authGuard(ClockOut)} />
+        {/* <Route exact path="/home" component={authGuard(Home)} /> */}
 				<Route exact path="/" component={Signup} />
 				<Route exact path="/login" component={Login} />
         <Route exact path="/summary" component={authGuard(Summary)} />
