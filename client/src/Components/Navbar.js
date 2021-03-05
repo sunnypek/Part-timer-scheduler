@@ -40,6 +40,9 @@ class Navbar extends Component {
 														<Link className="nav-link" to="/clockIn">Clock In</Link>
 													</li>
 													<li className="nav-item">
+                            <Link className="nav-link" to="/summary">Summary</Link>
+													</li>
+                          <li className="nav-item">
 														<Link className="nav-link" to="/clockOut">Clock Out</Link>
 													</li>
 													<li className="nav-item">

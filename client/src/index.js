@@ -14,6 +14,7 @@ import Attendance from "./Components/Attendance";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import Logout from "./Components/Logout";
+import Summary from "./Components/Summary"
 import Admin from "./Components/admin";
 import AddTimeslot from "./Components/AddTimeslot";
 import reducers from "./reducers";
@@ -38,7 +39,8 @@ ReactDOM.render(
         <Route exact path="/home" component={authGuard(Home)} />
 				<Route exact path="/" component={Signup} />
 				<Route exact path="/login" component={Login} />
-				<Route exact path="/logout" component={authGuard(Logout)} />
+        <Route exact path="/summary" component={authGuard(Summary)} />
+        <Route exact path="/logout" component={authGuard(Logout)} />
 				<Route exact path="/admin" component={adminGuard(authGuard(Admin))} />
 				<Route exact path="/admin/addTimeslot" component={adminGuard(authGuard(AddTimeslot))} />
 				<Route exact path="/attendance" component={authGuard(Attendance)} />

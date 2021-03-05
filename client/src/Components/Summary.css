@@ -1,0 +1,83 @@
+.std {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 5px 5px 5px 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    object-fit: contain;
+    /* overflow: auto; */
+}
+
+.container-size {
+    width: 20rem;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.card-size-std {
+    width: 10rem;
+}
+
+.card-title-std {
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card-text-std {
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.st-card-std {
+    margin: 5px 5px 5px 5px;
+}
+
+.header {
+    background-color: #FFF2CD;
+    padding: 10px 10px 10px 10px;
+}
+
+.align-top {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.align-left {
+    justify-content: left;
+}
+
+.pad-r {
+    padding-right: 10px;
+}
+
+.pad-l {
+    padding-left: 0px;
+}
+
+.timeslot-entry-l {
+    text-align: right;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+
+.timeslot-entry-r {
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+
+.timeslot-std {
+    font-size: 12px;
+    font-weight: normal;
+}
