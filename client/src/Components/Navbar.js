@@ -23,7 +23,7 @@ class Navbar extends Component {
 														<Link className="nav-link" to="/home">Home</Link>
 													</li>
 													<li className="nav-item">
-														<Link className="nav-link" to="#">Admin</Link>
+														<Link className="nav-link" to="/admin/addTimeslot">Add Timeslot</Link>
 													</li>
 												</ul>,
 												<ul className="nav navbar-nav ms-auto" key="logoutNav">
@@ -37,13 +37,16 @@ class Navbar extends Component {
 														<Link className="nav-link" to="/home">Home</Link>
 													</li>
 													<li className="nav-item">
-														<Link className="nav-link" to="#">User</Link>
+														<Link className="nav-link" to="/clockIn">Clock In</Link>
 													</li>
 													<li className="nav-item">
-														<Link className="nav-link" to="/summary">Summary</Link>
+                            <Link className="nav-link" to="/summary">Summary</Link>
+													</li>
+                          <li className="nav-item">
+														<Link className="nav-link" to="/clockOut">Clock Out</Link>
 													</li>
 													<li className="nav-item">
-														<Link className="nav-link" to="/clock">Clock In/Out</Link>
+														<Link className="nav-link" to="/attendance">Attendance</Link>
 													</li>
 												</ul>,
 												<ul className="nav navbar-nav ms-auto" key="logoutNav">

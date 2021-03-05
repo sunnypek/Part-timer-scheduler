@@ -54,7 +54,7 @@ class Login extends Component {
 
 		return(
 			<div className="row justify-content-center">
-				<div className="col-4">
+				<div className="col-xl-4 col-lg-4 col-md-6 col-sm-10 col-10">
 					<div className="alert alert-success text-center" role="alert">
 						Login
 					</div>

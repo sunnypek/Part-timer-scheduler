@@ -20,11 +20,13 @@ export const signUp = (data) => {
 				dispatch({
 					type: AUTH_SIGN_UP,
 					payload: res.data.token,
-					authLevel: res.data.authLevel
+					authLevel: res.data.authLevel,
+					username: res.data.username
 				});
 
 				localStorage.setItem("JWT_TOKEN", res.data.token);
 				localStorage.setItem("AUTH_LEVEL", res.data.authLevel);
+				localStorage.setItem("USERNAME", res.data.username);
 		} catch (error) {
 			if (Object.keys(data).length === 2 && data.constructor === Object) {
 				if (!data.hasOwnProperty("email")) {
@@ -64,6 +66,7 @@ export const logout = () => {
 	return (dispatch) => {
 		localStorage.removeItem("JWT_TOKEN");
 		localStorage.removeItem("AUTH_LEVEL");
+		localStorage.removeItem("USERNAME");
 
 		dispatch({
 			type: AUTH_LOGOUT,
@@ -79,7 +82,8 @@ export const login = (data) => {
 			dispatch({
 				type: AUTH_LOGIN,
 				payload: res.data.token,
-				authLevel: res.data.authLevel
+				authLevel: res.data.authLevel,
+				username: res.data.username
 			});
 
 			localStorage.setItem("JWT_TOKEN", res.data.token);

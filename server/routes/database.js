@@ -11,4 +11,13 @@ router.route("/clockOut")
 router.route("/summary")
 	.post(databaseController.summary);	
 
+router.route("/addTimeslot")
+	.post(databaseController.addTimeslot);
+
+router.route("/getEmployees")
+	.get(databaseController.getEmployees);
+
+router.route("/attendance")
+	.get(databaseController.attendance);
+	
 module.exports = router;
