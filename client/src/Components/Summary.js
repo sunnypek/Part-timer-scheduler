@@ -129,6 +129,7 @@ function Summary() {
     var tempClockOutHours;
     var tempClockOutMinutes;
     var databaseError;
+    var earnings = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     if(data != null) {
         databaseError = data.databaseError;
@@ -138,6 +139,12 @@ function Summary() {
         daysWorked = data.daysWorked;
         minutesWorked = data.hoursWorked.diff_minute;
         hoursWorked = data.hoursWorked.diff_hours;
+
+        // Extract data fro graph
+        earnings = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        for(var g = 0; g < data.monthEarnings.length; g++) {
+            earnings[g] = data.monthEarnings[g].earnings;
+        }
 
         // Convert 60mins to 1hr
         while(minutesWorked >= 60) {
@@ -264,7 +271,7 @@ function Summary() {
                             </tr>
                         </table>
                         <h1 className="std header align-left">Total Earnings</h1>
-                        <Chart />
+                        <Chart earnings={earnings}/>
                     </td>
                     <td className="align-top">
                         <table className="">

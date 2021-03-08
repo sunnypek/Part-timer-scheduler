@@ -26,7 +26,7 @@ function Chart(props) {
                 pointHoverBorderWidth: 2,
                 pointRadius: 1,
                 pointHitRadius: 10,
-                data: [150, 500, 700, 300, 160, 450, 800, 550, 770, 400, 450]
+                data: props.earnings
             }]
         }
     }

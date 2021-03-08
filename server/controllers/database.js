@@ -136,6 +136,17 @@ module.exports = {
 			) as tb`
 		);
 
+		const monthEarnings = await db.promise().query(`
+			SELECT
+			SUM(bookingdetail.Normal_hr * timeslot.Normal_Rate + bookingdetail.OverTime_hr * timeslot.OT_Rate) as earnings,
+			month(timeslot.Start_DateTime) as mth
+			FROM bookingdetail
+			INNER JOIN timeslot ON bookingdetail.Timeslot_ID = timeslot.Timeslot_ID
+			WHERE bookingdetail.Employee_Name = "${employeeName}"
+			AND YEAR(timeslot.Start_DateTime) = ${req.body.year}
+			GROUP BY month(timeslot.Start_DateTime)`
+		);
+
 		var databaseError = false;
 		if(employeeNameQuery[0].length == 0 || timeslotDetails[0].length == 0) databaseError = true;
 
@@ -147,6 +158,7 @@ module.exports = {
 			daysWorked: daysWorked[0][0]["diff_days"],
 			hoursWorked: hoursWorked[0][0],
 			timeslotDetails: timeslotDetails[0],
+			monthEarnings : monthEarnings[0],
 		});
 	},
 }
