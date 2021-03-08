@@ -104,6 +104,7 @@ module.exports = {
 					WHERE Employee_Name = "${employeeName}"
 				)
 			)
+			ORDER BY Clock_IN DESC
 		`);
 
 		const timeslotDetails = await db.promise().query(`
@@ -116,6 +117,7 @@ module.exports = {
 				FROM bookingdetail
 				WHERE Employee_Name = "${employeeName}"
 			)
+			ORDER BY Start_DateTime DESC
 		`);
 
 		const daysWorked = await db.promise().query(`

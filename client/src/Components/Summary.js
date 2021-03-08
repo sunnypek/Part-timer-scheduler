@@ -209,13 +209,13 @@ function Summary() {
                     else {
 
                         // Load entry details from timeslot instead
-                        tempDay = new Date(data.timeslotDetails[z].Start_DateTime).getDate().toString();
-                        tempMonth = (new Date(data.timeslotDetails[z].Start_DateTime).getMonth() + 1).toString();
+                        tempDay = new Date(data.timeslotDetails[y].Start_DateTime).getDate().toString();
+                        tempMonth = (new Date(data.timeslotDetails[y].Start_DateTime).getMonth() + 1).toString();
                         tempDayOfWeekIndex = data.timeslotDetails[y].day_of_week - 1;
-                        tempClockInHours = new Date(data.timeslotDetails[z].Start_DateTime).getHours().toString();
-                        tempClockInMinutes = new Date(data.timeslotDetails[z].Start_DateTime).getMinutes().toString();
-                        tempClockOutHours = new Date(data.timeslotDetails[z].End_DateTime).getHours().toString();
-                        tempClockOutMinutes = new Date(data.timeslotDetails[z].End_DateTime).getMinutes().toString();
+                        tempClockInHours = new Date(data.timeslotDetails[y].Start_DateTime).getHours().toString();
+                        tempClockInMinutes = new Date(data.timeslotDetails[y].Start_DateTime).getMinutes().toString();
+                        tempClockOutHours = new Date(data.timeslotDetails[y].End_DateTime).getHours().toString();
+                        tempClockOutMinutes = new Date(data.timeslotDetails[y].End_DateTime).getMinutes().toString();
 
                         upcomingTimeSlots.push(
                             <TimeslotEntry 
@@ -284,7 +284,7 @@ function Summary() {
                             </tr>
                                 {pastTimeSlots}
                             <tr className="std">
-                                <Button variant="outline-secondary" size="sm">More ↓</Button>
+                                <Button variant="outline-secondary" size="sm" className="invisible">More ↓</Button>
                             </tr>
                         </table>
                     </td>
