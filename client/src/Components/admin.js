@@ -1,5 +1,19 @@
 import React from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
+// eslint-disable-next-line
+import styles from 'react-big-calendar/lib/css/react-big-calendar.css';
+
 import "./admin.css"
+
+const local = momentLocalizer(moment);
+
+const eventsList = [{
+	title: "test",
+	start: "2021-03-09 13:00:00",
+	end: "2021-03-09 14:00:00",
+	allDay: false
+}]
 
 function Admin(props){
     return(
@@ -32,8 +46,22 @@ function Admin(props){
             </ul>
 
             <div class = "tab-content">
-                <div id = "timeslot" class = "tab-pane active">
-                    
+                <div id = "timeslot" class = "tab-pane active mb-5">
+									<div class="row">
+										<div class="col-10">
+											<Calendar 
+												localizer={local}
+												events={eventsList}
+												startAccessor="start"
+												endAccessor="end"
+												style={{minHeight: 500}} />
+										</div>
+										<div class="d-flex flex-column col-2 justify-content-center">
+											<button type="button" class="btn btn-primary btn-lg my-2">Add Timeslot</button>
+											<button type="button" class="btn btn-success btn-lg my-2">Edit Timeslot</button>
+											<button type="button" class="btn btn-danger btn-lg my-2">Delete Timeslot</button>
+										</div>
+									</div>
                 </div>
 
                 <div id = "payroll" class = "tab-pane">
