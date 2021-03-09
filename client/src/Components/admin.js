@@ -54,7 +54,8 @@ function Admin(props){
 												events={eventsList}
 												startAccessor="start"
 												endAccessor="end"
-												style={{minHeight: 500}} />
+												style={{minHeight: 500}}
+												views={['month']}/>
 										</div>
 										<div class="d-flex flex-column col-2 justify-content-center">
 											<button type="button" class="btn btn-primary btn-lg my-2">Add Timeslot</button>
