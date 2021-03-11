@@ -11,8 +11,11 @@ router.route("/clockOut")
 router.route("/summary")
 	.post(databaseController.summary);	
 
-router.route("/addTimeslot")
-	.post(databaseController.addTimeslot);
+router.route("/timeslot")
+	.get(databaseController.getTimeslot)
+	.post(databaseController.addTimeslot)
+	.patch(databaseController.patchTimeslot)
+	.delete(databaseController.deleteTimeslot);
 
 router.route("/getEmployees")
 	.get(databaseController.getEmployees);
