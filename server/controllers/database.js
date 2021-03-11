@@ -57,27 +57,54 @@ module.exports = {
 			}
 		);
 	},
+	
+	getTimeslot: (req, res, next) => {
+		db.execute(
+			"SELECT TimeSlot_ID as title, Start_DateTime as start, End_DateTime as end FROM timeslot",
+			(err, results, fields) => {
+				if (err) {
+					res.status(400).json(err);
+				} else {
+					res.status(200).json(results);
+				}
+			}
+		);
+	},
 
 	addTimeslot: (req, res, next) => {
 		db.execute(
 			"INSERT INTO timeslot (TimeSlot_ID, Start_DateTime, End_DateTime, Create_By, Normal_Rate, OT_Rate) VALUES (?, ?, ?, ?, ?, ?)",
-			[req.body.timeslotID, req.body.startDateTime, req.body.endDateTime, req.body.createdBy, req.body.normalRate, req.body.overtimeRate],
+			[req.body.TimeSlot_ID, req.body.Start_DateTime, req.body.End_DateTime, req.body.Create_By, req.body.Normal_Rate, req.body.OT_Rate],
 			(err, results, fields) => {
 				if (err) {
 					res.status(400).json({ err });
 				} else {
-					res.status(200).json({
-						timeslotID: req.body.timeslotID, 
-						startDateTime: req.body.startDateTime, 
-						endDateTime: req.body.endDateTime, 
-						createdBy: req.body.createdBy, 
-						normalRate: req.body.normalRate, 
-						overtimeRate: req.body.overtimeRate
-					});
+					res.status(200).json(results);
 				}
 			}
 		);
   },
+
+	patchTimeslot: async (req, res, next) => {
+		let set = " ";
+		for (const [key, value] of Object.entries(req.body)) {
+				if (key === "TimeSlot_ID") continue;
+				set += key + " = '" + value + "', ";
+		}
+		const result = await db.promise().query(
+				"UPDATE timeslot SET " + set.slice(0, -2) + " WHERE TimeSlot_ID = ?",
+				[req.body.TimeSlot_ID]
+		);
+		res.status(200).json(result);
+	},
+
+	deleteTimeslot: async (req, res, next) => {
+		const result = await db.promise().query(
+			"DELETE FROM timeslot WHERE TimeSlot_ID = ?",
+			[req.body.TimeSlot_ID]
+		);
+		res.status(200).json(result);
+	},
 
 	summary: async (req, res, next) => {
 		console.log(req.body);
