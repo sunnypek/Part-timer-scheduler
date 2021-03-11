@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import { connect } from "react-redux";
@@ -11,22 +12,42 @@ import * as timeSlotActions from "../actions/addTimeslot";
 import AddTimeslotInput from "./addTimeslotInput";
 
 const local = momentLocalizer(moment);
-
-const eventsList = [{
-	title: "test",
-	start: "2021-03-09 13:00:00",
-	end: "2021-03-09 14:00:00",
-	allDay: false
-}]
+let eventsList = [{}];
 
 class Admin extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {gotData: false};
 		this.onTimeslotSubmit = this.onTimeslotSubmit.bind(this);
+		this.onTimeslotEdit = this.onTimeslotEdit.bind(this);
+		this.onTimeslotDelete = this.onTimeslotDelete.bind(this);
 	}
 	
-	async onTimeslotSubmit(formData) {
-		await this.props.addTimeslot(formData);
+	async onTimeslotSubmit(addData) {
+		await this.props.addTimeslot(addData);
+		if (!this.props.err) {
+			window.location.reload();
+		}
+	}
+
+	async onTimeslotEdit(editData) {
+		await this.props.editTimeslot(editData);
+		if (!this.props.err) {
+			window.location.reload();
+		}
+	}
+
+	async onTimeslotDelete(deleteData) {
+		eventsList = await this.props.deleteTimeslot(deleteData);
+		if (!this.props.err) {
+			window.location.reload();
+		}
+	}
+
+	async componentDidMount() {
+		const result = await axios.get("http://localhost:1337/database/timeslot");
+		eventsList = result.data;
+		this.setState({ gotData: true });
 	}
 
 	render() {
@@ -34,35 +55,47 @@ class Admin extends Component {
 
 		let alert = "";
 		if (this.props.err) {
-			alert = <div className="alert alert-danger text-center d-flex justify-content-center" role="alert">Please check that all data are entered correctly! (make sure ID is not in use)</div>;
+			switch (this.props.message) {
+				case "ADD_TIMESLOT_ERROR":
+					alert = <div className="alert alert-danger text-center d-flex justify-content-center" role="alert">Please check that all data are entered correctly! (make sure ID is not in use)</div>;
+					break;
+				case "PATCH_TIMESLOT_ERROR":
+					alert = <div className="alert alert-danger text-center d-flex justify-content-center" role="alert">Timeslot ID and 1 other fields are required!</div>;
+					break;
+				case "DELETE_TIMESLOT_ERROR":
+					alert = <div className="alert alert-danger text-center d-flex justify-content-center" role="alert">Check that the timeslot ID exist!</div>;
+					break;
+				default:
+					break;
+			}
 		}
 
 		let addReleaseUI = "";
 		if (this.props.message === "CLICK_TIME_SLOT" || this.props.message === "ADD_TIMESLOT_ERROR") {
 			addReleaseUI = 
-				<form className="needs-validation" onSubmit= { handleSubmit(this.onTimeslotSubmit) }>
+				<form id="addTimeslotForm" className="needs-validation" onSubmit= { handleSubmit(this.onTimeslotSubmit) }>
 					<div className="row">
 						<div className="col-6 row">
-							<Field name="timeslotID" type="text" id="timeslotID" label="Timeslot ID" placeholder="Enter a timeslot ID" component={ AddTimeslotInput } />
+							<Field alt="req" name="TimeSlot_ID" type="text" id="timeslotID_add" label="Timeslot ID" placeholder="Enter a timeslot ID" component={ AddTimeslotInput } />
 						</div>
 						<div className="col-6 row">
-							<Field name="createdBy" type="text" id="createdBy" label="Created By" placeholder="Enter your name" component={ AddTimeslotInput } />
+							<Field alt="req" name="Create_By" type="text" id="createdBy_add" label="Created By" placeholder="Enter your name" component={ AddTimeslotInput } />
 						</div>
 					</div>
 					<div className="row">
 						<div className="col-6 row">
-							<Field name="startDateTime" type="text" id="startDateTime" label="Start D/T" placeholder="Format (24H) - YYYY-MM-DD HH:MM:SS" component={ AddTimeslotInput } />
+							<Field alt="req" name="Start_DateTime" type="text" id="startDateTime_add" label="Start D/T" placeholder="Format (24H) - YYYY-MM-DD HH:MM:SS" component={ AddTimeslotInput } />
 						</div>
 						<div className="col-6 row">
-							<Field name="endDateTime" type="text" id="endDateTime" label="End D/T" placeholder="Format (24H) - YYYY-MM-DD HH:MM:SS" component={ AddTimeslotInput } />
+							<Field alt="req" name="End_DateTime" type="text" id="endDateTime_add" label="End D/T" placeholder="Format (24H) - YYYY-MM-DD HH:MM:SS" component={ AddTimeslotInput } />
 						</div>
 					</div>
 					<div className="row">
 						<div className="col-6 row">
-							<Field name="normalRate" type="number" id="normalRate" label="Normal rate" placeholder="Normal rate per hour for this job" component={ AddTimeslotInput } />
+							<Field alt="req" name="Normal_Rate" type="number" id="normalRate_add" label="Normal rate" placeholder="Normal rate per hour for this job" component={ AddTimeslotInput } />
 						</div>
 						<div className="col-6 row">
-							<Field name="overtimeRate" type="number" id="overtimeRate" label="OT rate" placeholder="Overtime rate per hour for this job" component={ AddTimeslotInput } />
+							<Field alt="req" name="OT_Rate" type="number" id="overtimeRate_add" label="OT rate" placeholder="Overtime rate per hour for this job" component={ AddTimeslotInput } />
 						</div>
 					</div>
 					<div className="row"><div className="col-3"></div><div className="col-6">{alert}</div><div className="col-3"></div></div>
@@ -71,8 +104,60 @@ class Admin extends Component {
 							<button type = "button" className="searchBtn" onClick={this.props.cancelButton}>Cancel</button>
 					</div>
 				</form>
+		} else if (this.props.message === "CLICK_TIME_SLOT_EDIT" || this.props.message === "PATCH_TIMESLOT_ERROR") {
+			addReleaseUI = 
+				<form id="editTimeslotForm" className="needs-validation" onSubmit= { handleSubmit(this.onTimeslotEdit) }>
+					<div className="row">
+						<div className="col-6 row">
+							<Field alt="req" name="TimeSlot_ID" type="text" id="timeslotID_edit" label="Timeslot ID" placeholder="Enter a timeslot ID" component={ AddTimeslotInput } />
+						</div>
+					</div>
+					<div className="row">
+						<div className="col-6 row">
+							<Field name="Start_DateTime" type="text" id="startDateTime_edit" label="Start D/T" placeholder="Format (24H) - YYYY-MM-DD HH:MM:SS" component={ AddTimeslotInput } />
+						</div>
+						<div className="col-6 row">
+							<Field name="End_DateTime" type="text" id="endDateTime_edit" label="End D/T" placeholder="Format (24H) - YYYY-MM-DD HH:MM:SS" component={ AddTimeslotInput } />
+						</div>
+					</div>
+					<div className="row">
+						<div className="col-6 row">
+							<Field name="Normal_Rate" type="number" id="normalRate_edit" label="Normal rate" placeholder="Normal rate per hour for this job" component={ AddTimeslotInput } />
+						</div>
+						<div className="col-6 row">
+							<Field name="OT_Rate" type="number" id="overtimeRate_edit" label="OT rate" placeholder="Overtime rate per hour for this job" component={ AddTimeslotInput } />
+						</div>
+					</div>
+					<div className="row"><div className="col-3"></div><div className="col-6">{alert}</div><div className="col-3"></div></div>
+					<div className = "row">
+							<button type = "submit" className="searchBtn">Edit Timeslot</button>
+							<button type = "button" className="searchBtn" onClick={this.props.cancelButton}>Cancel</button>
+					</div>
+				</form>
+		} else if (this.props.message === "CLICK_TIME_SLOT_DELETE" || this.props.message === "DELETE_TIMESLOT_ERROR") {
+			addReleaseUI = 
+				<form id="deleteTimeslotForm" className="needs-validation" onSubmit= { handleSubmit(this.onTimeslotDelete) }>
+					<div className="row">
+						<div className="col-6 row">
+							<Field alt="req" name="TimeSlot_ID" type="text" id="timeslotID_delete" label="Timeslot ID" placeholder="Enter a timeslot ID" component={ AddTimeslotInput } />
+						</div>
+					</div>
+					<div className="row"><div className="col-3"></div><div className="col-6">{alert}</div><div className="col-3"></div></div>
+					<div className = "row">
+							<button type = "submit" className="searchBtn">Delete Timeslot</button>
+							<button type = "button" className="searchBtn" onClick={this.props.cancelButton}>Cancel</button>
+					</div>
+				</form>
 		} else if (this.props.message === "CANCEL" || this.props.message === "" || this.props.message === "SUCCESS") {
-			addReleaseUI = <Calendar localizer={local} events={eventsList} startAccessor="start" endAccessor="end" style={{minHeight: 500}} views={['month']}/>
+			if (this.state.gotData) {
+				addReleaseUI = <Calendar localizer={local} events={eventsList} startAccessor="start" endAccessor="end" style={{minHeight: 500}} views={['month']}/>
+			} else {
+				addReleaseUI = <div className="d-flex justify-content-center">
+				<div className="spinner-border" role="status">
+					<span className="sr-only">Loading...</span>
+				</div>
+			</div>;
+			}
 		}
 
 		return(
@@ -112,8 +197,8 @@ class Admin extends Component {
 									</div>
 									<div className="d-flex flex-column col-2 justify-content-center">
 										<button type="button" onClick={this.props.clickAddTimeslot} className="btn btn-primary btn-lg my-2">Add Timeslot</button>
-										<button type="button" className="btn btn-success btn-lg my-2">Edit Timeslot</button>
-										<button type="button" className="btn btn-danger btn-lg my-2">Delete Timeslot</button>
+										<button type="button" onClick={this.props.clickEditTimeslot} className="btn btn-success btn-lg my-2">Edit Timeslot</button>
+										<button type="button" onClick={this.props.clickDeleteTimeslot} className="btn btn-danger btn-lg my-2">Delete Timeslot</button>
 									</div>
 								</div>
 							</div>
@@ -280,11 +365,12 @@ class Admin extends Component {
 function MapStateToProps(state) {
 	return {
 		message: state.admin.message,
-		err: state.admin.err
+		err: state.admin.err,
+		gotData: state.admin.gotData
 	}
 }
 
 export default compose(
 	connect(MapStateToProps, timeSlotActions),
-	reduxForm({ form: "addTimeslot" })
+	reduxForm({ form: "admin" })
 )(Admin);
