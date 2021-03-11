@@ -5,9 +5,7 @@ import { ADD_TIMESLOT_ERROR, ADD_TIMESLOT, UI_CHANGE } from "./types";
 export const addTimeslot = (data) => {
 	return async (dispatch) => {
 		try {
-			console.log("data is ", data);
-			const res = await axios.post("http://localhost:1337/database/timeslot", data);
-			console.log(res);
+			await axios.post("http://localhost:1337/database/timeslot", data);
 			dispatch({
 				type: ADD_TIMESLOT,
 				payload: "SUCCESS"
@@ -24,9 +22,7 @@ export const addTimeslot = (data) => {
 export const editTimeslot = (data) => {
 	return async (dispatch) => {
 		try {
-			console.log("edit timeslot data ", data);
-			const res = await axios.patch("http://localhost:1337/database/timeslot", data);
-			console.log(res);
+			await axios.patch("http://localhost:1337/database/timeslot", data);
 			dispatch({
 				type: ADD_TIMESLOT,
 				payload: "SUCCESS"
@@ -43,9 +39,7 @@ export const editTimeslot = (data) => {
 export const deleteTimeslot = (data) => {
 	return async (dispatch) => {
 		try {
-			console.log("delete timeslot data ", data);
-			const res = await axios.delete("http://localhost:1337/database/timeslot", {data});
-			console.log(res);
+			await axios.delete("http://localhost:1337/database/timeslot", {data});
 			dispatch({
 				type: ADD_TIMESLOT,
 				payload: "SUCCESS"
