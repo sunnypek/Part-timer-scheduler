@@ -42,7 +42,7 @@ body{
     color: #203864;
 }
 
-.fa-calendar, .fa-envelope-open-text, .fa-sliders-h, .fa-plus{
+.fa-envelope-open-text, .fa-sliders-h, .fa-plus, html body div#root div div.container.mt-5 div ul.nav-content.nav.nav-pills.nav-justified li.nav-item.col-3 a.nav-link.navi i.fa.fa-calendar{
     font-size: 90px;
     margin: 20px;
 }
