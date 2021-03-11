@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react"
-import "./Summary.css"
 import DropdownButton from "react-bootstrap/DropdownButton"
 import Dropdown from "react-bootstrap/Dropdown"
 import Button from "react-bootstrap/Button"

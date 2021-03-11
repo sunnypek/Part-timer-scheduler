@@ -9,7 +9,6 @@ import styles from 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import * as timeSlotActions from "../actions/addTimeslot";
 import AddTimeslotInput from "./addTimeslotInput";
-import "./admin.css"
 
 const local = momentLocalizer(moment);
 
