@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { ADD_TIMESLOT_ERROR, ADD_TIMESLOT } from "./types";
+import { ADD_TIMESLOT_ERROR, ADD_TIMESLOT, UI_CHANGE } from "./types";
 
 export const addTimeslot = (data) => {
 	return async (dispatch) => {
@@ -15,8 +15,16 @@ export const addTimeslot = (data) => {
 		} catch (error) {
 			dispatch({
 				type: ADD_TIMESLOT_ERROR,
-				payload: "ERROR"
+				payload: "ADD_TIMESLOT_ERROR"
 			});
 		}
 	}
+};
+
+export const clickAddTimeslot = () => {
+	return (dispatch) => dispatch({ type: UI_CHANGE, payload: "CLICK_TIME_SLOT"});
+}
+
+export const cancelButton = () => {
+	return (dispatch) => dispatch({ type: UI_CHANGE, payload: "CANCEL"});
 }
