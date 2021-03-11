@@ -4,3 +4,4 @@ export const AUTH_LOGOUT = "AUTH_LOGOUT";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const ADD_TIMESLOT_ERROR = "ADD_TIMESLOT_ERROR";
 export const ADD_TIMESLOT = "ADD_TIMESLOT";
+export const UI_CHANGE = "UI_CHANGE";
