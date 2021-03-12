@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-async function attendance() {
+async function getEmployees() {
 
 
     let res = await axios.get("http://localhost:1337/database/getEmployees");
