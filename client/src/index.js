@@ -11,6 +11,7 @@ import App from "./Components/App";
 import ClockIn from "./Components/ClockIn";
 import ClockOut from "./Components/ClockOut";
 import Attendance from "./Components/Attendance";
+import PaySlip from "./Components/PaySlip";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import Logout from "./Components/Logout";
@@ -34,13 +35,14 @@ ReactDOM.render(
 	}, applyMiddleware(reduxThunk)) }>
 		<BrowserRouter>
 			<App>
-        <Route exact path="/clockIn" component={authGuard(ClockIn)} />
+        		<Route exact path="/clockIn" component={authGuard(ClockIn)} />
 				<Route exact path="/clockOut" component={authGuard(ClockOut)} />
-        {/* <Route exact path="/home" component={authGuard(Home)} /> */}
+        		{/* <Route exact path="/home" component={authGuard(Home)} /> */}
 				<Route exact path="/" component={Signup} />
 				<Route exact path="/login" component={Login} />
-        <Route exact path="/summary" component={authGuard(Summary)} />
-        <Route exact path="/logout" component={authGuard(Logout)} />
+				<Route exact path="/summary" component={authGuard(Summary)} />
+				<Route exact path="/payslip" component={authGuard(PaySlip)} />
+				<Route exact path="/logout" component={authGuard(Logout)} />
 				<Route exact path="/admin" component={adminGuard(authGuard(Admin))} />
 				<Route exact path="/admin/addTimeslot" component={adminGuard(authGuard(AddTimeslot))} />
 				<Route exact path="/attendance" component={authGuard(Attendance)} />

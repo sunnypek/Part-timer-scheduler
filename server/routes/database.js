@@ -11,6 +11,9 @@ router.route("/clockOut")
 router.route("/summary")
 	.post(databaseController.summary);	
 
+router.route("/payslip")
+	.post(databaseController.payslip);
+
 router.route("/timeslot")
 	.get(databaseController.getTimeslot)
 	.post(databaseController.addTimeslot)

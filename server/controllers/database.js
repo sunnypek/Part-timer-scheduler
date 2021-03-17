@@ -190,4 +190,54 @@ module.exports = {
 			monthEarnings : monthEarnings[0],
 		});
 	},
+
+	payslip: async (req, res, next) => {
+		console.log(req.body);
+
+		// Get userinfo using username
+		const employeeNameQuery = await db.promise().query(`SELECT * FROM userinfo WHERE Employee_Name = "${req.body.username}"`);
+		const employeeName = req.body.username;
+
+		const payslipbookingDetails = await db.promise().query(`
+			SELECT *
+			FROM bookingdetail 
+			WHERE Employee_Name = "${employeeName}"
+			AND Timeslot_ID IN (
+				SELECT Timeslot_ID
+				FROM timeslot
+				WHERE YEAR(Start_DateTime) = ${req.body.year}
+				AND MONTH(Start_DateTime) = ${req.body.month}
+				AND TimeSlot_ID IN (
+					SELECT TimeSlot_ID 
+					FROM bookingdetail
+					WHERE Employee_Name = "${employeeName}"
+				)
+			)
+			ORDER BY Clock_IN DESC
+		`);
+
+		const paysliptimeslotDetails = await db.promise().query(`
+			SELECT *
+			FROM timeslot
+			WHERE YEAR(Start_DateTime) = ${req.body.year}
+			AND MONTH(Start_DateTime) = ${req.body.month}
+			AND TimeSlot_ID IN (
+				SELECT TimeSlot_ID 
+				FROM bookingdetail
+				WHERE Employee_Name = "${employeeName}"
+			)
+			ORDER BY Start_DateTime DESC
+		`);
+
+		var databaseError = false;
+		if(employeeNameQuery[0].length == 0 || paysliptimeslotDetails[0].length == 0) databaseError = true;
+
+		res.status(200).json({
+			success: true,
+			employeeName: employeeName,
+			databaseError: databaseError,
+			payslipbookingDetails: payslipbookingDetails[0],
+			paysliptimeslotDetails: paysliptimeslotDetails[0],
+		});
+	},
 }
