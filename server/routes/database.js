@@ -25,5 +25,9 @@ router.route("/getEmployees")
 
 router.route("/attendance")
 	.get(databaseController.attendance);
+
+router.route("/book")
+	.post(databaseController.postBook)
+	.delete(databaseController.deleteBook);
 	
 module.exports = router;
