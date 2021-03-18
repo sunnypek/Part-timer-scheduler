@@ -3,8 +3,6 @@ import axios from "axios";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import { connect } from "react-redux";
-import { compose } from "redux";
-import { reduxForm, Field } from "redux-form";
 import Swal from "sweetalert2";
 // eslint-disable-next-line
 import styles from 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -36,9 +34,28 @@ class RegisterSlots extends Component {
             showDenyButton: true,
             confirmButtonText: `Yes`,
             denyButtonText: `No`,
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                console.log(event);
+                Swal.fire({
+                    icon: "question",
+                    title: "Confirm?",
+                    html: "<span style='color: #e74c3c'>You cannot modify or unregister!</span>",
+                    showDenyButton: true,
+                    confirmButtonText: "Yes"
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        const data = {
+                            Timeslot_ID: event.title,
+                            Employee_Name: localStorage.getItem("USERNAME"),
+                            Normal_hr: event.normalRate,
+                            OverTime_hr: event.overtimeRate
+                        };
+                        await axios.post("http://localhost:1337/database/book", data).then((res) => {
+                            if (res.status === 200) Swal.fire({icon: "success",title: "Registered!"});
+                        }).catch(Swal.fire({icon: "error",title: "Already registered for this slot!" }));
+                    };
+                });
+                
             }
         });
     }
@@ -69,7 +86,4 @@ function MapStateToProps(state) {
 	}
 }
 
-export default compose(
-	connect(MapStateToProps),
-	reduxForm({ form: "registerSlots" })
-)(RegisterSlots);
+export default connect(MapStateToProps)(RegisterSlots);
