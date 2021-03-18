@@ -140,7 +140,7 @@ function PaySlip(){
             for(var y = 0; y < data.paysliptimeslotDetails.length; y++) {
                 
                 // Match entry in bookingdetail to timeslot
-                if(data.payslipbookingDetails[z].Timeslot_ID == data.paysliptimeslotDetails[y].TimeSlot_ID) {
+                if(data.payslipbookingDetails[z].Timeslot_ID === data.paysliptimeslotDetails[y].TimeSlot_ID) {
                     if(data.payslipbookingDetails[z].Clock_IN != null && data.payslipbookingDetails[z].Clock_OUT != null) {
                         OTtotal += (data.payslipbookingDetails[z].OverTime_hr * data.paysliptimeslotDetails[y].OT_Rate);
                         NormTotal += (data.payslipbookingDetails[z].Normal_hr * data.paysliptimeslotDetails[y].Normal_Rate);
@@ -160,7 +160,7 @@ function PaySlip(){
         var cdac = (0).toFixed(2);
         var finalSalary = 0;
 
-        if (totalsalary !=0) {
+        if (totalsalary !== 0) {
             if (totalsalary <= 2000){
                 cdac = 0.50.toFixed(2);
             }
@@ -178,7 +178,7 @@ function PaySlip(){
             }
         }
 
-        var finalSalary = (totalsalary - employeeCPF - cdac).toFixed(2);
+        finalSalary = (totalsalary - employeeCPF - cdac).toFixed(2);
         totalsalary = totalsalary.toFixed(2);
         employeeCPF = employeeCPF.toFixed(2);
         employerCPF = employerCPF.toFixed(2);
