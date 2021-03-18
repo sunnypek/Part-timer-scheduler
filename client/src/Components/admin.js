@@ -11,6 +11,7 @@ import styles from 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import * as timeSlotActions from "../actions/addTimeslot";
 import AddTimeslotInput from "./addTimeslotInput";
+import AddTimeslotReadonlyInput from "./addTimeslotReadonlyInput";
 
 const local = momentLocalizer(moment);
 let eventsList = [{}];
@@ -20,8 +21,6 @@ class Admin extends Component {
 		super(props);
 		this.state = {gotData: false};
 		this.onTimeslotSubmit = this.onTimeslotSubmit.bind(this);
-		this.onTimeslotEdit = this.onTimeslotEdit.bind(this);
-		this.onTimeslotDelete = this.onTimeslotDelete.bind(this);
 	}
 	
 	async onTimeslotSubmit(addData) {
@@ -31,21 +30,8 @@ class Admin extends Component {
 		}
 	}
 
-	async onTimeslotEdit(editData) {
-		await this.props.editTimeslot(editData);
-		if (!this.props.err) {
-			window.location.reload();
-		}
-	}
-
-	async onTimeslotDelete(deleteData) {
-		eventsList = await this.props.deleteTimeslot(deleteData);
-		if (!this.props.err) {
-			window.location.reload();
-		}
-	}
-
 	async componentDidMount() {
+		this.props.initialize({ Create_By: localStorage.getItem("USERNAME") });
 		const result = await axios.get("http://localhost:1337/database/timeslot");
 		eventsList = result.data;
 		this.setState({ gotData: true });
@@ -143,7 +129,7 @@ class Admin extends Component {
 							<Field alt="req" name="TimeSlot_ID" type="text" id="timeslotID_add" label="Timeslot ID" placeholder="Enter a timeslot ID" component={ AddTimeslotInput } />
 						</div>
 						<div className="col-6 row">
-							<Field alt="req" name="Create_By" type="text" id="createdBy_add" label="Created By" placeholder="Enter your name" component={ AddTimeslotInput } />
+							<Field name="Create_By" type="text" id="createdBy_add" label="Created By" component={ AddTimeslotReadonlyInput } />
 						</div>
 					</div>
 					<div className="row">
