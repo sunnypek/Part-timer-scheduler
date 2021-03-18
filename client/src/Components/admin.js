@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import axios from "axios";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -10,11 +10,318 @@ import styles from 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import * as timeSlotActions from "../actions/addTimeslot";
 import AddTimeslotInput from "./addTimeslotInput";
+// import * as employeeActions from "../actions/getEmployees";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const local = momentLocalizer(moment);
 let eventsList = [{}];
 
-class Admin extends Component {
+function AdminActions(){
+	const currentMonth = new Date().getMonth() + 1;
+	const currentYr = new Date().getFullYear();
+	const username = localStorage.getItem("USERNAME");
+	console.log(username);
+
+	const [data, setData] = useState({ results: [] });
+	const [admindata, setAdminData] = useState();
+	//const [attendanceData, setAttendanceData] = useState({ attendanceResults: [] });
+	const [month, setMonth] = useState(currentMonth);
+	const [year, setYear] = useState(currentYr);
+
+ 
+	useEffect(() => {
+		var body = {};
+		body['year'] = year;
+		body['month'] = month;
+		body['username'] = username;
+
+		const fetchData = async () => {
+			const result = await axios(
+				'http://localhost:1337/database/getEmployees',
+			);
+		
+			setData(result.data);
+		};
+		fetchData();
+		
+		const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        };
+        fetch('http://localhost:1337/database/admin', requestOptions)
+            .then(response => response.json())
+            .then(admindata => setAdminData(admindata));
+
+		/*const fetchData2 = async () => {
+			const res = await axios(
+				'http://localhost:1337/database/attendance',
+			);
+			
+			setAttendanceData(res.data);
+		};
+		fetchData2();*/
+		
+	}, [year, month, username]);
+
+	console.log("emp");
+	console.log(data);
+	console.log(admindata);
+	//console.log("attendance");
+	//console.log(attendanceData);
+
+	const yrArray = [];
+	const monthArray = [];
+	const monthDropDownItems = [];
+	const yrDropDownItems = [];
+	const months = ["Month","January","February","March","April","May","June","July","August","September","October","November","December"];
+
+	for (var i = 0; i < 10; i ++){
+		yrArray[i] = currentYr - i;
+	}
+
+	for (var j = 1; j < 13; j ++){
+		monthArray[j] = j;
+	}
+
+	const yrChange = event => {
+		console.log(event.target.text);
+		setYear(event.target.text);
+	}
+
+	const monthChange = event => {
+		console.log(event.target.text);
+		var num = months.indexOf(event.target.text);
+		setMonth(num);
+	}
+
+	for (const [index, value] of yrArray.entries()){
+		yrDropDownItems.push(<Dropdown.Item key = {index} href = "" onClick = {yrChange}>{value}</Dropdown.Item>);
+	}
+
+	for (const [index, value] of monthArray.entries()){
+		monthDropDownItems.push(<Dropdown.Item key = {index} href = "" onClick = {monthChange}>{months[value]}</Dropdown.Item>);
+	}
+
+	var hoursWorked = 0;
+	var hoursOT = 0;
+	var databaseError;
+	var otRate = 0;
+
+	if(admindata != null) {
+        databaseError = admindata.databaseError;
+        console.log(databaseError);
+
+		hoursWorked = admindata.hoursWorked.diff_hours;
+		otRate = admindata.payRate.OT_Rate;
+
+		for (var i = 0; i < admindata.bookingDetails[i]; i ++){
+			hoursOT += admindata.bookingDetails[i].OverTime_hr;
+		}
+	}
+
+
+	return (
+		<div>
+            <ul className = "nav-content nav nav-pills nav-justified">
+                <li className = "nav-item col-3">
+                    <a className = "nav-link navi" data-toggle = "pill" href = "#timeslot">
+                        <i className="fa fa-calendar"></i><br/>
+                        Add/ Release Timeslots
+                    </a>
+                </li>
+                <li className = "nav-item col-3">
+                    <a className = "nav-link navi" data-toggle = "pill" href = "#payroll">
+                        <i className="fas fa-envelope-open-text"></i><br/>
+                        Generate Payroll
+                    </a>
+                </li>
+                <li className = "nav-item col-3">
+                    <a className = "nav-link navi" data-toggle = "pill" href = "#ot">
+                        <i className="fas fa-sliders-h"></i><br/>
+                        Generate OT Rate
+                    </a>
+                </li>
+                <li className = "nav-item col-3">
+                    <a className = "nav-link navi" data-toggle = "pill" href = "#user">
+                        <i className="fas fa-plus"></i><br/>
+                        Create New User
+                    </a>
+                </li>
+            </ul>
+
+            <div className = "tab-content">
+                <div id = "timeslot" className = "tab-pane active mb-5">
+									<div className="row">
+										<div className="col-10">
+											<Calendar 
+												localizer={local}
+												events={eventsList}
+												startAccessor="start"
+												endAccessor="end"
+												style={{minHeight: 500}}
+												views={['month']}/>
+										</div>
+										<div className="d-flex flex-column col-2 justify-content-center">
+											<button type="button" className="btn btn-primary btn-lg my-2">Add Timeslot</button>
+											<button type="button" className="btn btn-success btn-lg my-2">Edit Timeslot</button>
+											<button type="button" className="btn btn-danger btn-lg my-2">Delete Timeslot</button>
+										</div>
+									</div>
+                </div>
+
+                <div id = "payroll" className = "tab-pane">
+                    <div className = "row">
+                        <div className = "col-6">
+                            <form> 
+                                <div className = "form-group row">
+                                    <label for = "empName" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
+                                    <div className = "col-8">
+									<select className = "form-control">
+										{data.results.map(item => (
+											<option key={item.objectID}>
+											{item.Employee_Name}
+											</option>
+										))}
+									</select>
+                                    </div>
+                                </div>
+
+                                <div className = "form-group row">
+                                    <label for = "period" className = "col-4 col-form-label font-weight-bold">Period: &nbsp;</label>
+                                    <div className = "col">
+                                        <DropdownButton id = "dropdown-basic-button" variant = "outline-secondary" title = {months[month]} data-toggle = "dropdown">
+											{monthDropDownItems}	
+										</DropdownButton> 
+                                    </div> &nbsp;
+                                    <div className = "col">
+										<DropdownButton id = "dropdown-basic-button" variant = "outline-secondary" title = {year} data-toggle = "dropdown">
+											{yrDropDownItems}	
+										</DropdownButton> 
+                                    </div>
+                                </div>
+
+                                <div className = "row">
+                                    <button type = "button" className = "searchBtn">Search</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div className = "col-6">
+                            <form>
+                                <div className = "form-group row">
+                                    <label for = "hours" className = "col-4 col-form-label font-weight-bold">Total Hours ($8/hr): &nbsp;</label>
+                                    <div className = "col-8">
+										<div>{hoursWorked}</div>
+                                    </div>
+                                </div>
+
+                                <div className = "form-group row">
+                                    <label for = "totalot" className = "col-4 col-form-label font-weight-bold">Total OT: &nbsp;</label>
+                                    <div className = "col-8">
+                                        <div>{hoursOT}</div>
+                                    </div>
+                                </div>
+
+                                <div className = "form-group row">
+                                    <label for = "otrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
+                                    <div className = "col-8">
+                                        <div>{otRate}</div>
+                                    </div>
+                                </div>
+
+                                <div className = "row">
+                                    <button type = "button" className = "payslipBtn">Generate Payslip</button>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div id = "ot" className = "tab-pane">
+                    <div className = "row">
+                        <div className = "col-3"></div>
+                        <div className = "col-6">
+                            <form> 
+                                <div className = "form-group row">
+                                    <label for = "empName" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
+                                    <div className = "col-8">
+										<select className = "form-control">
+											{data.results.map(item => (
+												<option key={item.objectID}>
+												{item.Employee_Name}
+												</option>
+											))}
+										</select>
+                                    </div>
+                                </div>
+                
+                                <div className = "form-group row">
+                                    <label for = "oldrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
+                                    <div className = "col-8">
+                                        
+                                    </div>
+                                </div>
+                
+                                <div className = "form-group row">
+                                    <label for = "newrate" className = "col-4 col-form-label font-weight-bold">New OT Rate: &nbsp;</label>
+                                    <div className = "col-8">
+                                        <input id = "newrate" type = "number" className = "form-control"></input>
+                                    </div>
+                                </div>
+                
+                                <div className = "row">
+                                    <button type = "button" className = "updateBtn">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div className = "col-3"></div>
+                    </div>
+                </div>
+
+                <div id = "user" className = "tab-pane">
+                    <div className = "row">
+                        <div className = "col-3"></div>
+                        <div className = "col-6">
+                            <form>                     
+                                <div className = "form-group row">
+                                    <label for = "name" className = "col-4 col-form-label font-weight-bold">Name: &nbsp;</label>
+                                    <div className = "col-8">
+                                        <input id = "name" type = "text" className = "form-control"></input>
+                                    </div>
+                                </div>
+                
+                                <div className = "form-group row">
+                                    <label for = "email" className = "col-4 col-form-label font-weight-bold">Email: &nbsp;</label>
+                                    <div className = "col-8">
+                                        <input id = "email" type = "email" className = "form-control"></input>
+                                    </div>
+                                </div>
+
+                                <div className = "form-check">
+                                    <input className="form-check-input" type="checkbox" value="" id="adminCheckBox"></input>
+                                    <label className="form-check-label" for="adminCheckBox">
+                                        Admin
+                                    </label>
+                                </div>
+                
+                                <div className = "row">
+                                    <button type = "button" className = "createBtn">Create</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div className = "col-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	);
+}
+
+/*class Admin extends Component {
+	
 	constructor(props) {
 		super(props);
 		this.state = {gotData: false};
@@ -29,30 +336,25 @@ class Admin extends Component {
 			window.location.reload();
 		}
 	}
-
 	async onTimeslotEdit(editData) {
 		await this.props.editTimeslot(editData);
 		if (!this.props.err) {
 			window.location.reload();
 		}
 	}
-
 	async onTimeslotDelete(deleteData) {
 		eventsList = await this.props.deleteTimeslot(deleteData);
 		if (!this.props.err) {
 			window.location.reload();
 		}
 	}
-
 	async componentDidMount() {
 		const result = await axios.get("http://localhost:1337/database/timeslot");
 		eventsList = result.data;
 		this.setState({ gotData: true });
 	}
-
 	render() {
 		const { handleSubmit } = this.props;
-
 		let alert = "";
 		if (this.props.err) {
 			switch (this.props.message) {
@@ -69,7 +371,6 @@ class Admin extends Component {
 					break;
 			}
 		}
-
 		let addReleaseUI = "";
 		if (this.props.message === "CLICK_TIME_SLOT" || this.props.message === "ADD_TIMESLOT_ERROR") {
 			addReleaseUI = 
@@ -159,7 +460,6 @@ class Admin extends Component {
 			</div>;
 			}
 		}
-
 		return(
 			<div>
 					<ul className = "nav-content nav nav-pills nav-justified">
@@ -188,7 +488,6 @@ class Admin extends Component {
 									</a>
 							</li>
 					</ul>
-
 					<div className = "tab-content">
 							<div id = "timeslot" className = "tab-pane active mb-5">
 								<div className="row">
@@ -202,7 +501,6 @@ class Admin extends Component {
 									</div>
 								</div>
 							</div>
-
 							<div id = "payroll" className = "tab-pane">
 									<div className = "row">
 											<div className = "col-6">
@@ -210,14 +508,15 @@ class Admin extends Component {
 															<div className = "form-group row">
 																	<label htmlFor = "empName" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
 																	<div className = "col-8">
-																			<select id = "empName" className = "form-control">
-																					<option defaultValue>Choose employee</option>
-																					<option>John</option>
-																					<option>Joe</option>
-																			</select>
+																	<select className = "form-control">
+																		{data.results.map(item => (
+																			<option key={item.objectID}>
+																			{item.Employee_Name}
+																			</option>
+																		))}
+																	</select>
 																	</div>
 															</div>
-
 															<div className = "form-group row">
 																	<label htmlFor = "period" className = "col-4 col-form-label font-weight-bold">Period: &nbsp;</label>
 																	<div className = "col">
@@ -244,13 +543,11 @@ class Admin extends Component {
 																			</select>
 																	</div>
 															</div>
-
 															<div className = "row">
 																	<button type = "button" className = "searchBtn">Search</button>
 															</div>
 													</form>
 											</div>
-
 											<div className = "col-6">
 													<form>
 															<div className = "form-group row">
@@ -259,21 +556,18 @@ class Admin extends Component {
 																			<input id = "hours" type = "number" className = "form-control" readOnly></input>
 																	</div>
 															</div>
-
 															<div className = "form-group row">
 																	<label htmlFor = "totalot" className = "col-4 col-form-label font-weight-bold">Total OT: &nbsp;</label>
 																	<div className = "col-8">
 																			<input id = "hours" type = "number" className = "form-control" readOnly></input>
 																	</div>
 															</div>
-
 															<div className = "form-group row">
 																	<label htmlFor = "otrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
 																	<div className = "col-8">
 																			<input id = "otrate" type = "number" className = "form-control" readOnly></input>
 																	</div>
 															</div>
-
 															<div className = "row">
 																	<button type = "button" className = "payslipBtn">Generate Payslip</button>
 															</div>
@@ -282,7 +576,6 @@ class Admin extends Component {
 											</div>
 									</div>
 							</div>
-
 							<div id = "ot" className = "tab-pane">
 									<div className = "row">
 											<div className = "col-3"></div>
@@ -321,7 +614,6 @@ class Admin extends Component {
 											<div className = "col-3"></div>
 									</div>
 							</div>
-
 							<div id = "user" className = "tab-pane">
 									<div className = "row">
 											<div className = "col-3"></div>
@@ -340,7 +632,6 @@ class Admin extends Component {
 																			<input id = "email" type = "email" className = "form-control"></input>
 																	</div>
 															</div>
-
 															<div className = "form-check">
 																	<input className="form-check-input" type="checkbox" value="" id="adminCheckBox"></input>
 																	<label className="form-check-label" htmlFor="adminCheckBox">
@@ -361,7 +652,6 @@ class Admin extends Component {
 		)
 	}
 };
-
 function MapStateToProps(state) {
 	return {
 		message: state.admin.message,
@@ -369,8 +659,9 @@ function MapStateToProps(state) {
 		gotData: state.admin.gotData
 	}
 }
-
 export default compose(
 	connect(MapStateToProps, timeSlotActions),
 	reduxForm({ form: "admin" })
-)(Admin);
+)(Admin);*/
+
+export default AdminActions;
