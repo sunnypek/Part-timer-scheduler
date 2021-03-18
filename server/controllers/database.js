@@ -60,7 +60,7 @@ module.exports = {
 	
 	getTimeslot: (req, res, next) => {
 		db.execute(
-			"SELECT CONCAT(TimeSlot_ID, ' Rates: ', Normal_Rate, '/', OT_Rate )as title, Start_DateTime as start, End_DateTime as end FROM timeslot",
+			"SELECT TimeSlot_ID as title, Start_DateTime as start, End_DateTime as end, Normal_Rate as normalRate, OT_Rate as overtimeRate FROM timeslot",
 			(err, results, fields) => {
 				if (err) {
 					res.status(400).json(err);
@@ -86,6 +86,7 @@ module.exports = {
   },
 
 	patchTimeslot: async (req, res, next) => {
+		console.log(req.body);
 		let set = " ";
 		for (const [key, value] of Object.entries(req.body)) {
 				if (key === "TimeSlot_ID") continue;
@@ -99,9 +100,10 @@ module.exports = {
 	},
 
 	deleteTimeslot: async (req, res, next) => {
+		console.log(req.query);
 		const result = await db.promise().query(
 			"DELETE FROM timeslot WHERE TimeSlot_ID = ?",
-			[req.body.TimeSlot_ID]
+			[req.query.timeslotID]
 		);
 		res.status(200).json(result);
 	},
