@@ -28,6 +28,9 @@ class Navbar extends Component {
 				loginSystem = [	
 				<ul className="navbar-nav me-auto" key="homeNav">
 					<li className="nav-item">
+						<Link className="nav-link" to="/registerSlots">Register Slots</Link>
+					</li>
+					<li className="nav-item">
 						<Link className="nav-link" to="/clockIn">Clock In</Link>
 					</li>
 					<li className="nav-item">

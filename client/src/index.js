@@ -17,6 +17,7 @@ import Login from "./Components/Login";
 import Logout from "./Components/Logout";
 import Summary from "./Components/Summary"
 import Admin from "./Components/admin";
+import RegisterSlots from "./Components/registerSlots";
 import reducers from "./reducers";
 import authGuard from "./Components/HOCs/authGuard";
 import adminGuard from "./Components/HOCs/adminGuard";
@@ -36,6 +37,7 @@ ReactDOM.render(
 			<App>
         		<Route exact path="/clockIn" component={authGuard(ClockIn)} />
 				<Route exact path="/clockOut" component={authGuard(ClockOut)} />
+				<Route exact path="/registerSlots" component={authGuard(RegisterSlots)} />
         		{/* <Route exact path="/home" component={authGuard(Home)} /> */}
 				<Route exact path="/" component={Signup} />
 				<Route exact path="/login" component={Login} />
