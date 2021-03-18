@@ -37,7 +37,7 @@ ReactDOM.render(
 			<App>
         		<Route exact path="/clockIn" component={authGuard(ClockIn)} />
 				<Route exact path="/clockOut" component={authGuard(ClockOut)} />
-				<Route exact path="/registerSlots" component={authGuard(RegisterSlots)} />
+				<Route exact path="/calendar" component={authGuard(RegisterSlots)} />
         		{/* <Route exact path="/home" component={authGuard(Home)} /> */}
 				<Route exact path="/" component={Signup} />
 				<Route exact path="/login" component={Login} />
