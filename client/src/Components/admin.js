@@ -2,14 +2,14 @@ import React, { Component, useState, useEffect } from "react";
 import axios from "axios";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import { reduxForm, Field } from "redux-form";
+//import { connect } from "react-redux";
+//import { compose } from "redux";
+/* import { reduxForm, Field } from "redux-form";*/
 // eslint-disable-next-line
 import styles from 'react-big-calendar/lib/css/react-big-calendar.css';
 
-import * as timeSlotActions from "../actions/addTimeslot";
-import AddTimeslotInput from "./addTimeslotInput";
+/*import * as timeSlotActions from "../actions/addTimeslot";
+import AddTimeslotInput from "./addTimeslotInput"; */
 // import * as employeeActions from "../actions/getEmployees";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -18,18 +18,20 @@ const local = momentLocalizer(moment);
 let eventsList = [{}];
 
 function AdminActions(){
-	const currentMonth = new Date().getMonth() + 1;
-	const currentYr = new Date().getFullYear();
-	const username = localStorage.getItem("USERNAME");
+ 	const currentMonth = new Date().getMonth() + 1;
+ 	const currentYr = new Date().getFullYear();
+	const username = localStorage.getItem("username");
 	console.log(username);
 
 	//const [data, setData] = useState([]);
-	const [data, setData] = useState({ results: [] });
+ 	const [data, setData] = useState({ results: [] });
 	const [admindata, setAdminData] = useState();
 	//const [attendanceData, setAttendanceData] = useState({ attendanceResults: [] });
 	const [month, setMonth] = useState(currentMonth);
-	const [year, setYear] = useState(currentYr);
-
+	const [year, setYear] = useState(currentYr); 
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [admin, setAdmin] = useState("");
  
 	useEffect(() => {
 		var body = {};
@@ -73,7 +75,7 @@ function AdminActions(){
 	//console.log("attendance");
 	//console.log(attendanceData);
 
-	const yrArray = [];
+	/*const yrArray = [];
 	const monthArray = [];
 	const monthDropDownItems = [];
 	const yrDropDownItems = [];
@@ -101,9 +103,14 @@ function AdminActions(){
 	const empChange = event => {
 		console.log("emp selected");
 		setData(event.target.text);
+	}*/
+
+	const handleSubmit = (evt) => {
+		evt.preventDefault();
+		alert(`Submitting Name ${name}, ${email}, ${admin}`)
 	}
 
-	for (const [index, value] of yrArray.entries()){
+	/*for (const [index, value] of yrArray.entries()){
 		yrDropDownItems.push(<Dropdown.Item key = {index} href = "" onClick = {yrChange}>{value}</Dropdown.Item>);
 	}
 
@@ -126,7 +133,7 @@ function AdminActions(){
 		for (var i = 0; i < admindata.bookingDetails[i]; i ++){
 			hoursOT += admindata.bookingDetails[i].OverTime_hr;
 		}
-	}
+	}*/
 
 
 	return (
@@ -185,27 +192,27 @@ function AdminActions(){
                                 <div className = "form-group row">
                                     <label for = "empName" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
                                     <div className = "col-8">
-									<select className = "form-control">
-										{data.results.map(item => (
-											<option key={item.objectID}>
-											{item.Employee_Name}
-											</option>
-										))}
-									</select>
+										{/* <select className = "form-control">
+											{data.results.map(item => (
+												<option key={item.objectID}>
+													{item.Employee_Name}
+												</option>
+											))}
+										</select> */}
                                     </div>
                                 </div>
 
                                 <div className = "form-group row">
                                     <label for = "period" className = "col-4 col-form-label font-weight-bold">Period: &nbsp;</label>
                                     <div className = "col">
-                                        <DropdownButton id = "dropdown-basic-button" variant = "outline-secondary" title = {months[month]} data-toggle = "dropdown">
+                                      {/*   <DropdownButton id = "dropdown-basic-button" variant = "outline-secondary" title = {months[month]} data-toggle = "dropdown">
 											{monthDropDownItems}	
 										</DropdownButton> 
                                     </div> &nbsp;
                                     <div className = "col">
 										<DropdownButton id = "dropdown-basic-button" variant = "outline-secondary" title = {year} data-toggle = "dropdown">
 											{yrDropDownItems}	
-										</DropdownButton> 
+										</DropdownButton>  */}
                                     </div>
                                 </div>
 
@@ -220,21 +227,21 @@ function AdminActions(){
                                 <div className = "form-group row">
                                     <label for = "hours" className = "col-4 col-form-label font-weight-bold">Total Hours ($8/hr): &nbsp;</label>
                                     <div className = "col-8">
-										<div>{hoursWorked}</div>
+										{/* <div>{hoursWorked}</div> */}
                                     </div>
                                 </div>
 
                                 <div className = "form-group row">
                                     <label for = "totalot" className = "col-4 col-form-label font-weight-bold">Total OT: &nbsp;</label>
                                     <div className = "col-8">
-                                        <div>{hoursOT}</div>
+                                        {/* <div>{hoursOT}</div> */}
                                     </div>
                                 </div>
 
                                 <div className = "form-group row">
                                     <label for = "otrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
                                     <div className = "col-8">
-                                        <div>{otRate}</div>
+                                        {/* <div>{otRate}</div> */}
                                     </div>
                                 </div>
 
@@ -255,20 +262,20 @@ function AdminActions(){
                                 <div className = "form-group row">
                                     <label for = "empName" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
                                     <div className = "col-8">
-										<select className = "form-control">
+										{/* <select className = "form-control">
 											{data.results.map(item => (
 												<option key={item.objectID}>
 												{item.Employee_Name}
 												</option>
 											))}
-										</select>
+										</select> */}
                                     </div>
                                 </div>
                 
                                 <div className = "form-group row">
                                     <label for = "oldrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
                                     <div className = "col-8">
-                                        {otRate}
+                                        {/* {otRate} */}
                                     </div>
                                 </div>
                 
@@ -292,30 +299,30 @@ function AdminActions(){
                     <div className = "row">
                         <div className = "col-3"></div>
                         <div className = "col-6">
-                            <form>                     
+                            <form onSubmit = {handleSubmit}>                     
                                 <div className = "form-group row">
                                     <label for = "name" className = "col-4 col-form-label font-weight-bold">Name: &nbsp;</label>
                                     <div className = "col-8">
-                                        <input id = "name" type = "text" className = "form-control"></input>
+                                        <input id = "name" type = "text" value = {name} onChange = {e => setName(e.target.value)} className = "form-control"></input>
                                     </div>
                                 </div>
                 
                                 <div className = "form-group row">
                                     <label for = "email" className = "col-4 col-form-label font-weight-bold">Email: &nbsp;</label>
                                     <div className = "col-8">
-                                        <input id = "email" type = "email" className = "form-control"></input>
+                                        <input id = "email" type = "email" value = {email} onChange = {e => setEmail(e.target.value)} className = "form-control"></input>
                                     </div>
                                 </div>
 
                                 <div className = "form-check">
-                                    <input className="form-check-input" type="checkbox" value="" id="adminCheckBox"></input>
+                                    <input className="form-check-input" type="checkbox" value={admin}  id="adminCheckBox"></input>
                                     <label className="form-check-label" for="adminCheckBox">
                                         Admin
                                     </label>
                                 </div>
                 
                                 <div className = "row">
-                                    <button type = "button" className = "createBtn">Create</button>
+								<input type="submit" value="Submit" />
                                 </div>
                             </form>
                         </div>
