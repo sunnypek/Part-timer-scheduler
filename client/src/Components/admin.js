@@ -23,6 +23,7 @@ function AdminActions(){
 	const username = localStorage.getItem("USERNAME");
 	console.log(username);
 
+	//const [data, setData] = useState([]);
 	const [data, setData] = useState({ results: [] });
 	const [admindata, setAdminData] = useState();
 	//const [attendanceData, setAttendanceData] = useState({ attendanceResults: [] });
@@ -50,6 +51,7 @@ function AdminActions(){
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         };
+
         fetch('http://localhost:1337/database/admin', requestOptions)
             .then(response => response.json())
             .then(admindata => setAdminData(admindata));
@@ -94,6 +96,11 @@ function AdminActions(){
 		console.log(event.target.text);
 		var num = months.indexOf(event.target.text);
 		setMonth(num);
+	}
+
+	const empChange = event => {
+		console.log("emp selected");
+		setData(event.target.text);
 	}
 
 	for (const [index, value] of yrArray.entries()){
@@ -261,7 +268,7 @@ function AdminActions(){
                                 <div className = "form-group row">
                                     <label for = "oldrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
                                     <div className = "col-8">
-                                        
+                                        {otRate}
                                     </div>
                                 </div>
                 

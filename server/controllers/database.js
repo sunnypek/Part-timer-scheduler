@@ -129,8 +129,7 @@ module.exports = {
 		`);
 
 		const payRate = await db.promise().query(`
-			SELECT *,
-			DAYOFWEEK(Start_DateTime) as day_of_week 
+			SELECT * 
 			FROM timeslot
 			WHERE YEAR(Start_DateTime) = ${req.body.year}
 			AND TimeSlot_ID IN (
@@ -163,6 +162,23 @@ module.exports = {
 			payRate: payRate[0],
 			hoursWorked: hoursWorked[0][0],
 		});
+	},
+
+	updateOTrate: (req, res, next) => {
+		db.execute(
+			"UPDATE timeslot SET OT_Rate = ? WHERE Employee_Name = ?",
+			[req.body.otRate, req.body.employeeName],
+			(err, results, fields) => {
+				if (err) {
+					res.status(400).json({ err });
+				} else {
+					res.status(200).json({
+						otRate: req.body.otRate,
+						employeeName: req.body.employeeName		
+					});
+				}
+			}
+		);
 	},
 
 	summary: async (req, res, next) => {
