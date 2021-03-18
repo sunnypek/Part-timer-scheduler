@@ -31,13 +31,16 @@ function AdminActions(){
 	const [year, setYear] = useState(currentYr); 
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
-	const [admin, setAdmin] = useState("");
+	const [admin, setAdmin] = useState(false)
  
 	useEffect(() => {
 		var body = {};
 		body['year'] = year;
 		body['month'] = month;
 		body['username'] = username;
+		body['name'] = name;
+		body['email'] = email;
+		body['admin'] = admin;
 
 		const fetchData = async () => {
 			const result = await axios(
@@ -67,7 +70,7 @@ function AdminActions(){
 		};
 		fetchData2();*/
 		
-	}, [year, month, username]);
+	}, [year, month, username, name, email, admin]);
 
 	console.log("emp");
 	console.log(data);
@@ -107,7 +110,9 @@ function AdminActions(){
 
 	const handleSubmit = (evt) => {
 		evt.preventDefault();
-		alert(`Submitting Name ${name}, ${email}, ${admin}`)
+		setName(`${name}`);
+		setEmail(`${email}`);
+		setAdmin(`${admin}`);
 	}
 
 	/*for (const [index, value] of yrArray.entries()){
@@ -315,7 +320,7 @@ function AdminActions(){
                                 </div>
 
                                 <div className = "form-check">
-                                    <input className="form-check-input" type="checkbox" value={admin}  id="adminCheckBox"></input>
+                                    <input className="form-check-input" type="checkbox" value={admin} onChange = {() => setAdmin(!admin)} admin = {admin} id="adminCheckBox"></input>
                                     <label className="form-check-label" for="adminCheckBox">
                                         Admin
                                     </label>
