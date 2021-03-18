@@ -150,7 +150,7 @@ class Admin extends Component {
 				</form>
 		} else if (this.props.message === "CANCEL" || this.props.message === "" || this.props.message === "SUCCESS") {
 			if (this.state.gotData) {
-				addReleaseUI = <Calendar localizer={local} events={eventsList} startAccessor="start" endAccessor="end" style={{minHeight: 500}} views={['month']}/>
+				addReleaseUI = <Calendar popup localizer={local} events={eventsList} startAccessor="start" endAccessor="end" style={{minHeight: 500}} drilldownView="agenda" views={['month','agenda']} />
 			} else {
 				addReleaseUI = <div className="d-flex justify-content-center">
 				<div className="spinner-border" role="status">
