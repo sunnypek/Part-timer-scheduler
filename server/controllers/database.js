@@ -100,7 +100,6 @@ module.exports = {
 	},
 
 	deleteTimeslot: async (req, res, next) => {
-		console.log(req.query);
 		const result = await db.promise().query(
 			"DELETE FROM timeslot WHERE TimeSlot_ID = ?",
 			[req.query.timeslotID]
