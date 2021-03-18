@@ -60,7 +60,7 @@ module.exports = {
 	
 	getTimeslot: (req, res, next) => {
 		db.execute(
-			"SELECT TimeSlot_ID as title, Start_DateTime as start, End_DateTime as end FROM timeslot",
+			"SELECT CONCAT(TimeSlot_ID, ' Rates: ', Normal_Rate, '/', OT_Rate )as title, Start_DateTime as start, End_DateTime as end FROM timeslot",
 			(err, results, fields) => {
 				if (err) {
 					res.status(400).json(err);
