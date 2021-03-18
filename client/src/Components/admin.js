@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -78,7 +78,7 @@ function AdminActions(){
 	//console.log("attendance");
 	//console.log(attendanceData);
 
-	/*const yrArray = [];
+	const yrArray = [];
 	const monthArray = [];
 	const monthDropDownItems = [];
 	const yrDropDownItems = [];
@@ -106,7 +106,7 @@ function AdminActions(){
 	const empChange = event => {
 		console.log("emp selected");
 		setData(event.target.text);
-	}*/
+	}
 
 	const handleSubmit = (evt) => {
 		evt.preventDefault();
@@ -115,7 +115,7 @@ function AdminActions(){
 		setAdmin(`${admin}`);
 	}
 
-	/*for (const [index, value] of yrArray.entries()){
+	for (const [index, value] of yrArray.entries()){
 		yrDropDownItems.push(<Dropdown.Item key = {index} href = "" onClick = {yrChange}>{value}</Dropdown.Item>);
 	}
 
@@ -135,11 +135,10 @@ function AdminActions(){
 		hoursWorked = admindata.hoursWorked.diff_hours;
 		otRate = admindata.payRate.OT_Rate;
 
-		for (var i = 0; i < admindata.bookingDetails[i]; i ++){
-			hoursOT += admindata.bookingDetails[i].OverTime_hr;
+		for (var k = 0; k < admindata.bookingDetails[k]; k ++){
+			hoursOT += admindata.bookingDetails[k].OverTime_hr;
 		}
-	}*/
-
+	}
 
 	return (
 		<div>
@@ -197,27 +196,27 @@ function AdminActions(){
                                 <div className = "form-group row">
                                     <label for = "empName" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
                                     <div className = "col-8">
-										{/* <select className = "form-control">
+										<select className = "form-control">
 											{data.results.map(item => (
 												<option key={item.objectID}>
 													{item.Employee_Name}
 												</option>
 											))}
-										</select> */}
+										</select>
                                     </div>
                                 </div>
 
                                 <div className = "form-group row">
                                     <label for = "period" className = "col-4 col-form-label font-weight-bold">Period: &nbsp;</label>
                                     <div className = "col">
-                                      {/*   <DropdownButton id = "dropdown-basic-button" variant = "outline-secondary" title = {months[month]} data-toggle = "dropdown">
+                                        <DropdownButton id = "dropdown-basic-button" variant = "outline-secondary" title = {months[month]} data-toggle = "dropdown">
 											{monthDropDownItems}	
 										</DropdownButton> 
                                     </div> &nbsp;
                                     <div className = "col">
 										<DropdownButton id = "dropdown-basic-button" variant = "outline-secondary" title = {year} data-toggle = "dropdown">
 											{yrDropDownItems}	
-										</DropdownButton>  */}
+										</DropdownButton> 
                                     </div>
                                 </div>
 
@@ -232,21 +231,21 @@ function AdminActions(){
                                 <div className = "form-group row">
                                     <label for = "hours" className = "col-4 col-form-label font-weight-bold">Total Hours ($8/hr): &nbsp;</label>
                                     <div className = "col-8">
-										{/* <div>{hoursWorked}</div> */}
+										<div>{hoursWorked}</div>
                                     </div>
                                 </div>
 
                                 <div className = "form-group row">
                                     <label for = "totalot" className = "col-4 col-form-label font-weight-bold">Total OT: &nbsp;</label>
                                     <div className = "col-8">
-                                        {/* <div>{hoursOT}</div> */}
+                                        <div>{hoursOT}</div>
                                     </div>
                                 </div>
 
                                 <div className = "form-group row">
                                     <label for = "otrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
                                     <div className = "col-8">
-                                        {/* <div>{otRate}</div> */}
+                                        <div>{otRate}</div>
                                     </div>
                                 </div>
 
@@ -267,20 +266,20 @@ function AdminActions(){
                                 <div className = "form-group row">
                                     <label for = "empName" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
                                     <div className = "col-8">
-										{/* <select className = "form-control">
+										<select className = "form-control">
 											{data.results.map(item => (
 												<option key={item.objectID}>
 												{item.Employee_Name}
 												</option>
 											))}
-										</select> */}
+										</select>
                                     </div>
                                 </div>
                 
                                 <div className = "form-group row">
                                     <label for = "oldrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
                                     <div className = "col-8">
-                                        {/* {otRate} */}
+                                        {otRate}
                                     </div>
                                 </div>
                 
