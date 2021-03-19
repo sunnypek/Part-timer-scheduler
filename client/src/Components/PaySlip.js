@@ -134,8 +134,8 @@ function PaySlip(){
         console.log(databaseError);
         
         for(var z = 0; z < data.payslipbookingDetails.length; z++) {
-            hoursWorked = data.payslipbookingDetails[z].Normal_hr;
-            hoursOT = data.payslipbookingDetails[z].OverTime_hr;
+            hoursWorked += data.payslipbookingDetails[z].Normal_hr;
+            hoursOT += data.payslipbookingDetails[z].OverTime_hr;
             
             for(var y = 0; y < data.paysliptimeslotDetails.length; y++) {
                 
