@@ -108,13 +108,13 @@ module.exports = {
 
 	admin:  async (req, res, next) => {
 		console.log(req.body);
-		const employeeNameQuery = await db.promise().query(`SELECT * FROM userinfo WHERE Employee_Name = "${req.body.username}"`);
-		const employeeName = req.body.username;
+		const employeeNameQuery = await db.promise().query(`SELECT * FROM userinfo WHERE Employee_Name = "${req.body.currentEmp}"`);
+		const employeeName = req.body.currentEmp;
 
 		const bookingDetails = await db.promise().query(`
 			SELECT *, TIMEDIFF(Clock_IN, Clock_OUT) as time_diff 
 			FROM bookingdetail 
-			WHERE Employee_Name = "${employeeName}"
+			WHERE Employee_Name = "${req.body.currentEmp}"
 			AND Timeslot_ID IN (
 				SELECT Timeslot_ID
 				FROM timeslot
@@ -122,7 +122,7 @@ module.exports = {
 				AND TimeSlot_ID IN (
 					SELECT TimeSlot_ID 
 					FROM bookingdetail
-					WHERE Employee_Name = "${employeeName}"
+					WHERE Employee_Name = "${req.body.currentEmp}"
 				)
 			)
 			ORDER BY Clock_IN DESC
@@ -135,7 +135,7 @@ module.exports = {
 			AND TimeSlot_ID IN (
 				SELECT TimeSlot_ID 
 				FROM bookingdetail
-				WHERE Employee_Name = "${employeeName}"
+				WHERE Employee_Name = "${req.body.currentEmp}"
 			)
 			ORDER BY Start_DateTime DESC
 		`);
@@ -151,16 +151,21 @@ module.exports = {
 			) as tb`
 		);
 
+		/* const createUser = await db.promise().query(`
+			INSERT INTO userinfo (Email, Employee_Name, Employer_Name) VALUES (${req.body.email}, ${req.body.name}, ${req.body.name})`
+		);  */
+
 		var databaseError = false;
 		if(employeeNameQuery[0].length == 0) databaseError = true;
 
-		res.status(200).json({
+		res.status(200).json({	
 			success: true,
 			employeeName: employeeName,
 			databaseError: databaseError,
 			bookingDetails: bookingDetails[0],
 			payRate: payRate[0],
 			hoursWorked: hoursWorked[0][0],
+			/* createUser: createUser[0], */
 		});
 	},
 

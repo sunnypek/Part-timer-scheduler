@@ -13,6 +13,8 @@ import AddTimeslotInput from "./addTimeslotInput"; */
 // import * as employeeActions from "../actions/getEmployees";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
+import AsyncSelect from "react-select/async";
+import e from "cors";
 
 const local = momentLocalizer(moment);
 let eventsList = [{}];
@@ -31,7 +33,10 @@ function AdminActions(){
 	const [year, setYear] = useState(currentYr); 
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const [admin, setAdmin] = useState(false)
+
+	const [currentEmp, setEmp] = useState("");
  
 	useEffect(() => {
 		var body = {};
@@ -40,7 +45,9 @@ function AdminActions(){
 		body['username'] = username;
 		body['name'] = name;
 		body['email'] = email;
+		body['password'] = password;
 		body['admin'] = admin;
+		body['currentEmp'] = currentEmp;
 
 		const fetchData = async () => {
 			const result = await axios(
@@ -70,18 +77,21 @@ function AdminActions(){
 		};
 		fetchData2();*/
 		
-	}, [year, month, username, name, email, admin]);
+	}, [year, month, username, name, email, password, admin, currentEmp]);
 
 	console.log("emp");
 	console.log(data);
 	console.log(admindata);
+	console.log(currentEmp);
 	//console.log("attendance");
 	//console.log(attendanceData);
 
 	const yrArray = [];
 	const monthArray = [];
+	//const empArray = [];
 	const monthDropDownItems = [];
 	const yrDropDownItems = [];
+	//const empDropDownItems = [];
 	const months = ["Month","January","February","March","April","May","June","July","August","September","October","November","December"];
 
 	for (var i = 0; i < 10; i ++){
@@ -103,17 +113,29 @@ function AdminActions(){
 		setMonth(num);
 	}
 
-	const empChange = event => {
-		console.log("emp selected");
+	/* const empChange = event => {
+		console.log(event.target.text);
 		setData(event.target.text);
-	}
+	} */
 
 	const handleSubmit = (evt) => {
 		evt.preventDefault();
 		setName(`${name}`);
 		setEmail(`${email}`);
+		setPassword(`${password}`);
 		setAdmin(`${admin}`);
 	}
+
+	
+	const onChange = (item) => {
+		item.preventDefault();
+		setEmp(`${currentEmp}`);
+		window.location.reload(true);
+	}
+
+	/* const handleInputChange = value => {
+		setValue(value);
+	}; */
 
 	for (const [index, value] of yrArray.entries()){
 		yrDropDownItems.push(<Dropdown.Item key = {index} href = "" onClick = {yrChange}>{value}</Dropdown.Item>);
@@ -122,6 +144,10 @@ function AdminActions(){
 	for (const [index, value] of monthArray.entries()){
 		monthDropDownItems.push(<Dropdown.Item key = {index} href = "" onClick = {monthChange}>{months[value]}</Dropdown.Item>);
 	}
+
+	/* for (const [index, value] of empArray.entries()){
+		empDropDownItems.push(<Dropdown.Item key = {index} href = "" onClick = {empChange}>{value}</Dropdown.Item>)
+	} */
 
 	var hoursWorked = 0;
 	var hoursOT = 0;
@@ -158,7 +184,7 @@ function AdminActions(){
                 <li className = "nav-item col-3">
                     <a className = "nav-link navi" data-toggle = "pill" href = "#ot">
                         <i className="fas fa-sliders-h"></i><br/>
-                        Generate OT Rate
+                        Change OT Rate
                     </a>
                 </li>
                 <li className = "nav-item col-3">
@@ -196,14 +222,14 @@ function AdminActions(){
                                 <div className = "form-group row">
                                     <label for = "empName" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
                                     <div className = "col-8">
-										<select className = "form-control">
+										<select className = "form-control" onClick = {e => setEmp(e.target.value)}>
 											{data.results.map(item => (
 												<option key={item.objectID}>
-													{item.Employee_Name}
+												{item.Employee_Name}
 												</option>
 											))}
 										</select>
-                                    </div>
+									</div>
                                 </div>
 
                                 <div className = "form-group row">
@@ -220,9 +246,9 @@ function AdminActions(){
                                     </div>
                                 </div>
 
-                                <div className = "row">
+                                {/* <div className = "row">
                                     <button type = "button" className = "searchBtn">Search</button>
-                                </div>
+                                </div> */}
                             </form>
                         </div>
 
@@ -318,6 +344,13 @@ function AdminActions(){
                                     </div>
                                 </div>
 
+								<div className = "form-group row">
+									<label for = "password" className = "col-4 col-form-label font-weight-bold">Password: &nbsp;</label>
+									<div className = "col-8">
+										<input id = "password" type = "password" value = {password} onChange = {e => setPassword(e.target.value)} className = "form-control"></input>
+									</div>
+								</div>
+
                                 <div className = "form-check">
                                     <input className="form-check-input" type="checkbox" value={admin} onChange = {() => setAdmin(!admin)} admin = {admin} id="adminCheckBox"></input>
                                     <label className="form-check-label" for="adminCheckBox">
@@ -326,7 +359,7 @@ function AdminActions(){
                                 </div>
                 
                                 <div className = "row">
-								<input type="submit" value="Submit" />
+								<input type="submit" value="Submit" className = "createBtn" />
                                 </div>
                             </form>
                         </div>
