@@ -39,9 +39,9 @@ class Navbar extends Component {
                     <li className="nav-item">
 						<Link className="nav-link" to="/clockOut">Clock Out</Link>
 					</li>
-					<li className="nav-item">
+					{/* <li className="nav-item">
 						<Link className="nav-link" to="/attendance">Attendance</Link>
-					</li>
+					</li> */}
 					<li className="nav-item">
 						<Link className="nav-link" to="/payslip">PaySlip</Link>
 					</li>
