@@ -16,7 +16,7 @@ class Login extends Component {
 		await this.props.login(formData);
 		if (!this.props.err) {
 			if (this.props.authLevel === "user") {
-				this.props.history.push("/clockIn");
+				this.props.history.push("/calendar");
 			} else {
 				this.props.history.push("/admin");
 			}
