@@ -8,7 +8,7 @@ class ClockOut extends Component {
     event.preventDefault();
     const data = {
       timeslotID: event.target.timeslotID.value,
-      employeeName: event.target.employeeName.value,
+      employeeName: localStorage.getItem("USERNAME"),
 			clockOut: event.target.clockOut.value,
     };
     console.log(data);
@@ -29,9 +29,6 @@ class ClockOut extends Component {
           <form onSubmit={event => this.handleSubmit(event)}>
               <div className="form-group col-md-6">
                 <input name="timeslotID" className="form-control" placeholder="Timeslot ID" type="text" />
-              </div>
-							<div className="form-group col-md-6">
-                <input name="employeeName" className="form-control" placeholder="Employee Name" type="text" />
               </div>
               <div className="form-group col-md-6">
                 <input name="clockOut" className="form-control" placeholder={ timeNow } type="text" value={ timeNow } />

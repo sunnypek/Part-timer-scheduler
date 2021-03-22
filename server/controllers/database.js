@@ -3,8 +3,10 @@ const db = require("../database");
 module.exports = {
 	clockIn: (req, res, next) => {
 		db.execute(
-			"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name, Clock_IN, Clock_OUT, Normal_hr, OverTime_hr) VALUES (?, ?, ?, ?, ?, ?)",
-			[req.body.timeslotID, req.body.employeeName, req.body.clockIn, null, req.body.normalHour, req.body.overtimeHour],
+			"UPDATE bookingdetail SET Clock_In = ? WHERE Timeslot_ID = ? AND Employee_Name = ?",
+			[req.body.clockIn, req.body.timeslotID, req.body.employeeName],
+			//"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name, Clock_IN, Clock_OUT, Normal_hr, OverTime_hr) VALUES (?, ?, ?, ?, ?, ?)",
+			//[req.body.timeslotID, req.body.employeeName, req.body.clockIn, null, req.body.normalHour, req.body.overtimeHour],
 			(err, results, fields) => {
 				if (err) {
 					res.status(400).json({ err });
@@ -14,8 +16,8 @@ module.exports = {
 						employeeName: req.body.employeeName,
 						clockIn: req.body.clockIn,
 						clockOut: null,
-						normalHour: req.body.normalHour,
-						overtimeHour: req.body.overtimeHour
+						normalHour: null,
+						overtimeHour: null
 					});
 				}
 			}
