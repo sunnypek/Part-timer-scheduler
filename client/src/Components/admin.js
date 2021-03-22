@@ -42,8 +42,8 @@ class Admin extends Component {
             title: event.title,
             html: `
                 Time: <span style="color: #e67e22">${event.start}</span> to <span style="color: #e74c3c">${event.end}</span><br/>
-                Normal Rate: <strong style="color: #16a085">${event.normalRate}</strong><br/>
-                Overtime Rate: <strong style="color: #f39c12">${event.overtimeRate}</strong>`,
+                Normal Rate: <strong style="color: #16a085">$${event.normalRate}</strong><br/>
+                Overtime Rate: <strong style="color: #f39c12">$${event.overtimeRate}</strong>`,
             showDenyButton: true,
 			showCancelButton: true,
             confirmButtonText: `Edit`,

@@ -112,8 +112,8 @@ module.exports = {
 	postBook: async (req, res, next) => {
 		try {
 			const result = await db.promise().query(
-				"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name, Normal_hr, OverTime_hr) VALUES (?, ?, ?, ?)",
-				[req.body.Timeslot_ID, req.body.Employee_Name, req.body.Normal_hr, req.body.OverTime_hr]
+				"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name) VALUES (?, ?)",
+				[req.body.Timeslot_ID, req.body.Employee_Name]
 			);
 			res.status(200).json(result);	
 		} catch (error) {
