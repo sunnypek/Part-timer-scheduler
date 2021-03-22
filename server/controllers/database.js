@@ -112,13 +112,14 @@ module.exports = {
 		const employeeName = req.body.currentEmp;
 
 		const bookingDetails = await db.promise().query(`
-			SELECT *, TIMEDIFF(Clock_IN, Clock_OUT) as time_diff 
+			SELECT *
 			FROM bookingdetail 
 			WHERE Employee_Name = "${req.body.currentEmp}"
 			AND Timeslot_ID IN (
 				SELECT Timeslot_ID
 				FROM timeslot
 				WHERE YEAR(Start_DateTime) = ${req.body.year}
+				AND MONTH(Start_DateTime) = ${req.body.month}
 				AND TimeSlot_ID IN (
 					SELECT TimeSlot_ID 
 					FROM bookingdetail
@@ -129,9 +130,9 @@ module.exports = {
 		`);
 
 		const payRate = await db.promise().query(`
-			SELECT * 
+			SELECT *
 			FROM timeslot
-			WHERE YEAR(Start_DateTime) = ${req.body.year}
+			WHERE YEAR(Start_DateTime) = ${req.body.year} 
 			AND TimeSlot_ID IN (
 				SELECT TimeSlot_ID 
 				FROM bookingdetail
@@ -150,6 +151,7 @@ module.exports = {
 			AND YEAR(Clock_IN) = ${req.body.year}
 			) as tb`
 		);
+
 
 		/* const createUser = await db.promise().query(`
 			INSERT INTO userinfo (Email, Employee_Name, Employer_Name) VALUES (${req.body.email}, ${req.body.name}, ${req.body.name})`

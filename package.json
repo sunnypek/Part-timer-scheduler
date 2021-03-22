@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/sunnypek/CZ3002-Uni-Blue#readme",
   "dependencies": {
+    "@react-pdf/renderer": "^1.6.14",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",

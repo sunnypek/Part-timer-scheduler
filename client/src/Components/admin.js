@@ -13,8 +13,6 @@ import AddTimeslotInput from "./addTimeslotInput"; */
 // import * as employeeActions from "../actions/getEmployees";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
-import AsyncSelect from "react-select/async";
-import e from "cors";
 
 const local = momentLocalizer(moment);
 let eventsList = [{}];
@@ -81,8 +79,8 @@ function AdminActions(){
 
 	console.log("emp");
 	console.log(data);
-	console.log(admindata);
-	console.log(currentEmp);
+	//console.log(admindata);
+	//console.log(currentEmp);
 	//console.log("attendance");
 	//console.log(attendanceData);
 
@@ -126,13 +124,6 @@ function AdminActions(){
 		setAdmin(`${admin}`);
 	}
 
-	
-	const onChange = (item) => {
-		item.preventDefault();
-		setEmp(`${currentEmp}`);
-		window.location.reload(true);
-	}
-
 	/* const handleInputChange = value => {
 		setValue(value);
 	}; */
@@ -145,10 +136,6 @@ function AdminActions(){
 		monthDropDownItems.push(<Dropdown.Item key = {index} href = "" onClick = {monthChange}>{months[value]}</Dropdown.Item>);
 	}
 
-	/* for (const [index, value] of empArray.entries()){
-		empDropDownItems.push(<Dropdown.Item key = {index} href = "" onClick = {empChange}>{value}</Dropdown.Item>)
-	} */
-
 	var hoursWorked = 0;
 	var hoursOT = 0;
 	var databaseError;
@@ -157,14 +144,40 @@ function AdminActions(){
 	if(admindata != null) {
         databaseError = admindata.databaseError;
         console.log(databaseError);
+		//hoursWorked = 1;
+		
 
-		hoursWorked = admindata.hoursWorked.diff_hours;
-		otRate = admindata.payRate.OT_Rate;
+		for (var y = 0; y < admindata.payRate[y]; y ++){
+			otRate += admindata.payRate[y].OT_Rate;
+		}
 
-		for (var k = 0; k < admindata.bookingDetails[k]; k ++){
+		/* for (var k = 0; k < admindata.bookingDetails[k].length(); k++){
+			hoursWorked = 1;
 			hoursOT += admindata.bookingDetails[k].OverTime_hr;
+			//hoursWorked = admindata.bookingDetails[k].Normal_hr;
+		} */
+
+		for(var z = 0; z < admindata.bookingDetails.length; z++) {
+            hoursWorked += admindata.bookingDetails[z].Normal_hr;
+            hoursOT += admindata.bookingDetails[z].OverTime_hr;
+			//hoursWorked = 1;
 		}
 	}
+	
+
+	const onChange = (item) => {
+		item.preventDefault();
+		setEmp(`${currentEmp}`);
+		/* otRate = admindata.payRate.OT_Rate; */
+		
+	}
+
+	console.log("data new");
+	console.log(admindata);
+	console.log(currentEmp);
+	
+	/* console.log(otRate); */
+	console.log(hoursWorked);
 
 	return (
 		<div>
@@ -246,8 +259,8 @@ function AdminActions(){
                                     </div>
                                 </div>
 
-                                {/* <div className = "row">
-                                    <button type = "button" className = "searchBtn">Search</button>
+                               {/*  <div className = "row">
+                                    <button type = "button" onClick = {onChange} className = "searchBtn">Search</button>
                                 </div> */}
                             </form>
                         </div>
@@ -292,7 +305,7 @@ function AdminActions(){
                                 <div className = "form-group row">
                                     <label for = "empName" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
                                     <div className = "col-8">
-										<select className = "form-control">
+										<select className = "form-control" onClick = {e => setEmp(e.target.value)}>
 											{data.results.map(item => (
 												<option key={item.objectID}>
 												{item.Employee_Name}
@@ -305,7 +318,7 @@ function AdminActions(){
                                 <div className = "form-group row">
                                     <label for = "oldrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
                                     <div className = "col-8">
-                                        {otRate}
+                                        {/* {otRate} */}
                                     </div>
                                 </div>
                 
