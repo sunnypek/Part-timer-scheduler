@@ -147,7 +147,7 @@ function AdminActions(){
 		//hoursWorked = 1;
 		
 
-		for (var y = 0; y < admindata.payRate[y]; y ++){
+		for (var y = 0; y < admindata.payRate.length; y ++){
 			otRate += admindata.payRate[y].OT_Rate;
 		}
 
