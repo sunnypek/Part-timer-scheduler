@@ -42,6 +42,15 @@ module.exports = {
 		);
 	},
 
+	getTimeslotID: (req, res, next) => {
+		db.execute(
+			"SELECT * FROM bookingdetail", 
+			(err, results, fields) => {
+				err ? res.status(400).json({ err }) : res.status(200).json({ results });
+			}
+		);
+	},
+
 	getEmployees: (req, res, next) => {
 		db.execute(
 			"SELECT * FROM userinfo", 
