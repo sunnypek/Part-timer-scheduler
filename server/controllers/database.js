@@ -152,6 +152,9 @@ module.exports = {
 			) as tb`
 		);
 
+ 		/* const getTimeslot = await db.promise().query(`
+			SELECT * FROM timeslot WHERE TimeSlot_ID = ${req.body.currentTimeslot};
+		`);  */
 
 		/* const createUser = await db.promise().query(`
 			INSERT INTO userinfo (Email, Employee_Name, Employer_Name) VALUES (${req.body.email}, ${req.body.name}, ${req.body.name})`
@@ -167,6 +170,7 @@ module.exports = {
 			bookingDetails: bookingDetails[0],
 			payRate: payRate[0],
 			hoursWorked: hoursWorked[0][0],
+			/* getTimeslot: getTimeslot[0], */
 			/* createUser: createUser[0], */
 		});
 	},

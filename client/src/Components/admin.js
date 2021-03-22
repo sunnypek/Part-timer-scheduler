@@ -25,6 +25,7 @@ function AdminActions(){
 
 	//const [data, setData] = useState([]);
  	const [data, setData] = useState({ results: [] });
+	const [timeslot, setTimeslot] = useState({ results: [] });
 	const [admindata, setAdminData] = useState();
 	//const [attendanceData, setAttendanceData] = useState({ attendanceResults: [] });
 	const [month, setMonth] = useState(currentMonth);
@@ -35,6 +36,7 @@ function AdminActions(){
 	const [admin, setAdmin] = useState(false)
 
 	const [currentEmp, setEmp] = useState("");
+	const [currentTimeslot, setCurrentTimeslot] = useState("");
  
 	useEffect(() => {
 		var body = {};
@@ -46,6 +48,7 @@ function AdminActions(){
 		body['password'] = password;
 		body['admin'] = admin;
 		body['currentEmp'] = currentEmp;
+		body['currentTimeslot'] = currentTimeslot;
 
 		const fetchData = async () => {
 			const result = await axios(
@@ -55,6 +58,15 @@ function AdminActions(){
 			setData(result.data);
 		};
 		fetchData();
+
+		const fetchTimeslotData = async () => {
+			const results = await axios(
+				'http://localhost:1337/database/attendance',
+			);
+
+			setTimeslot(results.data);
+		};
+		fetchTimeslotData();
 		
 		const requestOptions = {
             method: 'POST',
@@ -65,20 +77,12 @@ function AdminActions(){
         fetch('http://localhost:1337/database/admin', requestOptions)
             .then(response => response.json())
             .then(admindata => setAdminData(admindata));
-
-		/*const fetchData2 = async () => {
-			const res = await axios(
-				'http://localhost:1337/database/attendance',
-			);
-			
-			setAttendanceData(res.data);
-		};
-		fetchData2();*/
 		
 	}, [year, month, username, name, email, password, admin, currentEmp]);
 
 	console.log("emp");
 	console.log(data);
+	console.log(timeslot);
 	//console.log(admindata);
 	//console.log(currentEmp);
 	//console.log("attendance");
@@ -86,7 +90,7 @@ function AdminActions(){
 
 	const yrArray = [];
 	const monthArray = [];
-	//const empArray = [];
+	//const timeslotArray = [];
 	const monthDropDownItems = [];
 	const yrDropDownItems = [];
 	//const empDropDownItems = [];
@@ -165,16 +169,17 @@ function AdminActions(){
 	}
 	
 
-	const onChange = (item) => {
+/* 	const onChange = (item) => {
 		item.preventDefault();
 		setEmp(`${currentEmp}`);
-		/* otRate = admindata.payRate.OT_Rate; */
-		
-	}
+		/* otRate = admindata.payRate.OT_Rate;
+	} */
 
 	console.log("data new");
 	console.log(admindata);
 	console.log(currentEmp);
+	console.log("timeslot");
+	console.log(currentTimeslot);
 	
 	/* console.log(otRate); */
 	console.log(hoursWorked);
@@ -303,12 +308,20 @@ function AdminActions(){
                         <div className = "col-6">
                             <form> 
                                 <div className = "form-group row">
-                                    <label for = "empName" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
+                                    <label for = "timeslotName" className = "col-4 col-form-label font-weight-bold">Timeslot ID: &nbsp;</label>
                                     <div className = "col-8">
-										<select className = "form-control" onClick = {e => setEmp(e.target.value)}>
-											{data.results.map(item => (
+										{/* <select className = "form-control">
+											{timeslot.results.map(item => (
 												<option key={item.objectID}>
-												{item.Employee_Name}
+													{item.Timeslot_ID}
+												</option>
+											))}
+										</select> */}
+
+										<select className = "form-control" onClick = {e => setCurrentTimeslot(e.target.value)}>
+											{timeslot.results.map(item => (
+												<option key={item.objectID}>
+												{item.Timeslot_ID}
 												</option>
 											))}
 										</select>
@@ -318,7 +331,7 @@ function AdminActions(){
                                 <div className = "form-group row">
                                     <label for = "oldrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
                                     <div className = "col-8">
-                                        {/* {otRate} */}
+                                        {otRate}
                                     </div>
                                 </div>
                 
