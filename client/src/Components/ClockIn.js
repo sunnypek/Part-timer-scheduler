@@ -1,10 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import axios from "axios";
+import Select from 'react-select';
 
 import * as clockingActions from "../actions/clockInOut";
 
 class ClockIn extends Component {
   
+
+  constructor(props){
+    super(props)
+    this.state = {
+      selectOptions : [],
+      id: ""
+    }
+  }
+
+  async getOptions(){
+    const res = await axios.get('http://localhost:1337/database/getTimeslotID')
+    const data = res.data
+
+    const options = data.map(d => ({
+      "value" : d.id
+    }))
+    this.setState({selectOptions: options})
+  }
+
+  componentDidMount(){
+    this.getOptions()
+}
+
   handleSubmit = (event) => {
     event.preventDefault();
     const data = {
@@ -23,7 +48,11 @@ class ClockIn extends Component {
   render() {
 		// eslint-disable-next-line
     const { handleSubmit } = this.props;
-		const timeNow = new Date().toISOString().split('T')[0]+' '+ new Date().toTimeString().split(' ')[0];
+    console.log(this.state.selectOptions);
+
+
+    const timeNow = new Date().toISOString().split('T')[0]+' '+ new Date().toTimeString().split(' ')[0];
+    
     return (
       <div className="section-content-block section-process">
 
@@ -31,8 +60,23 @@ class ClockIn extends Component {
           <div className="col-md-2" />
           <div className="col-md-8 clock-form-wrapper text-center clearfix">
           <form onSubmit={event => this.handleSubmit(event)}>
-              <div className="form-group col-md-6">
-                <input name="timeslotID" className="form-control" placeholder="Timeslot ID" type="text"  />
+              {/* <div className="form-group col-md-6">
+                <input name="timeslotID" className="form-control" placeholder="Timeslot ID" type="text" value = {TimeSlot_ID} />
+              </div> */}
+                {/* <div className = "form-group row">
+                  <label for = "timeslotID" className = "col-4 col-form-label font-weight-bold">Timeslot ID: &nbsp;</label>
+                    <div className = "col-8">
+                    <select className = "form-control">
+                      {data.map(item => (
+                        <option key={item.objectID}>
+                        {item.TimeSlot_ID}
+                        </option>
+                      ))}
+                    </select>
+                    </div>
+              </div> */}
+              <div>
+                <Select options={this.state.selectOptions} />
               </div>
               <div className="form-group col-md-6">
                 <input name="clockIn" className="form-control" placeholder={ timeNow } type="text" value={ timeNow }/>
