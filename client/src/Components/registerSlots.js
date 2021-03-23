@@ -23,11 +23,24 @@ class RegisterSlots extends Component {
 	}
 
     selectEvent(event) {
+        let formatStartTime, formatEndTime;
+		if (parseInt(event.start.slice(11,13)) > 12) {
+			const newStartHour = event.start.slice(11,13) - 12;
+			formatStartTime = event.start.slice(0,11) + newStartHour.toString() + event.start.slice(13, 16) + " PM";
+		} else {
+			formatStartTime = event.start.slice(0,16) + " AM";
+		}
+		if (parseInt(event.end.slice(11,13)) > 12) {
+			const newEndHour = event.end.slice(11,13) - 12;
+			formatEndTime = event.end.slice(0, 11) + newEndHour.toString() + event.end.slice(13, 16) + " PM";
+		} else {
+			formatEndTime = event.end.slice(0, 16) + " AM";
+		}
         Swal.fire({
             title: event.title,
             html: `
                 Add this to your booking?<br/>
-                Time: <span style="color: #e67e22">${event.start}</span> to <span style="color: #e74c3c">${event.end}</span><br/>
+                Time: <span style="color: #e67e22">${formatStartTime}</span> to <span style="color: #e74c3c">${formatEndTime}</span><br/>
                 Normal Rate: <strong style="color: #16a085">$${event.normalRate}</strong><br/>
                 Overtime Rate: <strong style="color: #f39c12">$${event.overtimeRate}</strong>
             `,
