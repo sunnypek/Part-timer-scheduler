@@ -41,7 +41,7 @@ export const signUp = (data) => {
 			delete data.Create_By;
 			data.authLevel = "user";
 			console.log(data);
-			const res = await axios.post("http://localhost:1337/users/signup", data);
+			await axios.post("http://localhost:1337/users/signup", data);
 			dispatch({
 				type: ADD_TIMESLOT,
 				payload: "SUCCESS_ADD_USER"
