@@ -27,9 +27,9 @@ export const clockOut = (data)=> {
 async function getTimeslotID() {
 
 
-    let res = await axios.get("http://localhost:1337/database/getTimeslotID");
+    // let res = await axios.get("http://localhost:1337/database/getTimeslotID");
 
-    let data = res.data;
-    console.log(data);
+    // let data = res.data;
+    // console.log(data);
 }
 getTimeslotID();
