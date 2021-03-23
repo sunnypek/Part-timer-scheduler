@@ -11,6 +11,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import * as timeSlotActions from "../actions/addTimeslot";
 import AddTimeslotInput from "./addTimeslotInput";
 import AddTimeslotReadonlyInput from "./addTimeslotReadonlyInput";
+import DatePicker from "./datePicker";
 
 const local = momentLocalizer(moment);
 let eventsList = [{}];
@@ -37,10 +38,23 @@ class Admin extends Component {
 	}
 
 	async selectEvent(event) {
+		let formatStartTime, formatEndTime;
+		if (parseInt(event.start.slice(11,13)) > 12) {
+			const newStartHour = event.start.slice(11,13) - 12;
+			formatStartTime = event.start.slice(0,11) + newStartHour.toString() + event.start.slice(13, 16) + " PM";
+		} else {
+			formatStartTime = event.start.slice(0,16) + " AM";
+		}
+		if (parseInt(event.end.slice(11,13)) > 12) {
+			const newEndHour = event.end.slice(11,13) - 12;
+			formatEndTime = event.end.slice(0, 11) + newEndHour.toString() + event.end.slice(13, 16) + " PM";
+		} else {
+			formatEndTime = event.end.slice(0, 16) + " AM";
+		}
 		Swal.fire({
             title: event.title,
             html: `
-                Time: <span style="color: #e67e22">${event.start}</span> to <span style="color: #e74c3c">${event.end}</span><br/>
+                Time: <span style="color: #e67e22">${formatStartTime}</span> to <span style="color: #e74c3c">${formatEndTime}</span><br/>
                 Normal Rate: <strong style="color: #16a085">$${event.normalRate}</strong><br/>
                 Overtime Rate: <strong style="color: #f39c12">$${event.overtimeRate}</strong>`,
             showDenyButton: true,
@@ -133,10 +147,10 @@ class Admin extends Component {
 					</div>
 					<div className="row">
 						<div className="col-6 row">
-							<Field alt="req" name="Start_DateTime" type="text" id="startDateTime_add" label="Start D/T" placeholder="Format (24H) - YYYY-MM-DD HH:MM:SS" component={ AddTimeslotInput } />
+							<Field alt="req" name="Start_DateTime" type="text" id="startDateTime_add" label="Start D/T" placeholder="Click to select date and time" component={ DatePicker } />
 						</div>
 						<div className="col-6 row">
-							<Field alt="req" name="End_DateTime" type="text" id="endDateTime_add" label="End D/T" placeholder="Format (24H) - YYYY-MM-DD HH:MM:SS" component={ AddTimeslotInput } />
+							<Field alt="req" name="End_DateTime" type="text" id="endDateTime_add" label="End D/T" placeholder="Click to select date and time" component={ DatePicker } />
 						</div>
 					</div>
 					<div className="row">
