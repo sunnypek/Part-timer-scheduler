@@ -45,11 +45,18 @@ class ClockIn extends Component {
     
   }
 
+  handleChange(e){
+    this.setState({id:e.value})
+   }
+  
+
   render() {
 		// eslint-disable-next-line
     const { handleSubmit } = this.props;
     console.log(this.state.selectOptions);
 
+
+  
 
     const timeNow = new Date().toISOString().split('T')[0]+' '+ new Date().toTimeString().split(' ')[0];
     
@@ -60,10 +67,8 @@ class ClockIn extends Component {
           <div className="col-md-2" />
           <div className="col-md-8 clock-form-wrapper text-center clearfix">
           <form onSubmit={event => this.handleSubmit(event)}>
-              {/* <div className="form-group col-md-6">
-                <input name="timeslotID" className="form-control" placeholder="Timeslot ID" type="text" value = {TimeSlot_ID} />
-              </div> */}
-                {/* <div className = "form-group row">
+
+                <div className = "form-group row">
                   <label for = "timeslotID" className = "col-4 col-form-label font-weight-bold">Timeslot ID: &nbsp;</label>
                     <div className = "col-8">
                     <select className = "form-control">
@@ -74,10 +79,9 @@ class ClockIn extends Component {
                       ))}
                     </select>
                     </div>
-              </div> */}
-              <div>
-                <Select options={this.state.selectOptions} />
               </div>
+
+
               <div className="form-group col-md-6">
                 <input name="clockIn" className="form-control" placeholder={ timeNow } type="text" value={ timeNow }/>
               </div>
