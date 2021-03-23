@@ -15,6 +15,7 @@ import DatePicker from "./datePicker";
 
 const local = momentLocalizer(moment);
 let eventsList = [{}];
+let employeeList = [];
 
 class Admin extends Component {
 	constructor(props) {
@@ -33,6 +34,10 @@ class Admin extends Component {
 	async componentDidMount() {
 		this.props.initialize({ Create_By: localStorage.getItem("USERNAME") });
 		const result = await axios.get("http://localhost:1337/database/timeslot");
+		const employeeResult = await axios.get("http://localhost:1337/database/getemployees");
+		for (let i = 0; i < employeeResult.data.results.length; i++) {
+			employeeList.push(employeeResult.data.results[i].Employee_Name);
+		};
 		eventsList = result.data;
 		this.setState({ gotData: true });
 	}
@@ -132,6 +137,10 @@ class Admin extends Component {
 					break;
 			}
 		}
+		let empNameOptions = [];
+		for (const [index, value] of employeeList.entries()) {
+			empNameOptions.push(<option key={index}>{value}</option>)
+		  }
 
 		let addReleaseUI = "";
 		if (this.props.message === "CLICK_TIME_SLOT" || this.props.message === "ADD_TIMESLOT_ERROR") {
@@ -225,20 +234,19 @@ class Admin extends Component {
 											<div className = "col-6">
 													<form> 
 															<div className = "form-group row">
-																	<label htmlFor = "empName" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
+																	<label htmlFor = "empNamePayroll" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
 																	<div className = "col-8">
-																			<select id = "empName" className = "form-control">
+																			<select id = "empNamePayroll" className = "form-control">
 																					<option defaultValue>Choose employee</option>
-																					<option>John</option>
-																					<option>Joe</option>
+																					{empNameOptions}
 																			</select>
 																	</div>
 															</div>
 
 															<div className = "form-group row">
-																	<label htmlFor = "period" className = "col-4 col-form-label font-weight-bold">Period: &nbsp;</label>
+																	<label htmlFor = "periodPayroll" className = "col-4 col-form-label font-weight-bold">Period: &nbsp;</label>
 																	<div className = "col">
-																			<select id = "period" className = "form-control">
+																			<select id = "periodPayroll" className = "form-control">
 																					<option defaultValue>January</option>
 																					<option>February</option>
 																					<option>March</option>
@@ -254,7 +262,7 @@ class Admin extends Component {
 																			</select> 
 																	</div> &nbsp;
 																	<div className = "col">
-																			<select id = "period" className = "form-control yrControl">
+																			<select id = "periodPayroll" className = "form-control yrControl">
 																					<option defaultValue>2020</option>
 																					<option>2021</option>
 																					<option>2022</option>
@@ -271,23 +279,23 @@ class Admin extends Component {
 											<div className = "col-6">
 													<form>
 															<div className = "form-group row">
-																	<label htmlFor = "hours" className = "col-4 col-form-label font-weight-bold">Total Hours ($8/hr): &nbsp;</label>
+																	<label htmlFor = "hours" className = "col-4 col-form-label font-weight-bold">Total Hours: &nbsp;</label>
 																	<div className = "col-8">
-																			<input id = "hours" type = "number" className = "form-control" readOnly></input>
+																			<input id = "hours" type = "text" className = "form-control" readOnly></input>
 																	</div>
 															</div>
 
 															<div className = "form-group row">
 																	<label htmlFor = "totalot" className = "col-4 col-form-label font-weight-bold">Total OT: &nbsp;</label>
 																	<div className = "col-8">
-																			<input id = "hours" type = "number" className = "form-control" readOnly></input>
+																			<input id = "hours" type = "text" className = "form-control" readOnly></input>
 																	</div>
 															</div>
 
 															<div className = "form-group row">
 																	<label htmlFor = "otrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
 																	<div className = "col-8">
-																			<input id = "otrate" type = "number" className = "form-control" readOnly></input>
+																			<input id = "otrate" type = "text" className = "form-control" readOnly></input>
 																	</div>
 															</div>
 
@@ -306,12 +314,11 @@ class Admin extends Component {
 											<div className = "col-6">
 													<form> 
 															<div className = "form-group row">
-																	<label htmlFor = "empName" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
+																	<label htmlFor = "empNameOT" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
 																	<div className = "col-8">
-																			<select id = "empName" className = "form-control">
+																			<select id = "empNameOT" className = "form-control">
 																					<option defaultValue>Choose employee</option>
-																					<option>John</option>
-																					<option>Joe</option>
+																					{empNameOptions}
 																			</select>
 																	</div>
 															</div>
@@ -319,7 +326,7 @@ class Admin extends Component {
 															<div className = "form-group row">
 																	<label htmlFor = "oldrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
 																	<div className = "col-8">
-																			<input id = "oldrate" type = "number" className = "form-control" readOnly></input>
+																			<input id = "oldrate" type = "text" className = "form-control" readOnly></input>
 																	</div>
 															</div>
 							
