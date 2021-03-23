@@ -1,6 +1,7 @@
 const router = require("express-promise-router")();
 
 const databaseController = require("../controllers/database");
+const payrollController = require("../controllers/payroll");
 
 router.route("/clockIn")
 	.post(databaseController.clockIn);
@@ -29,5 +30,8 @@ router.route("/attendance")
 router.route("/book")
 	.post(databaseController.postBook)
 	.delete(databaseController.deleteBook);
+
+router.route("/payroll")
+	.get(payrollController.get);
 	
 module.exports = router;
