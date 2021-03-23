@@ -2,7 +2,7 @@ const db = require("../database");
 
 module.exports = {
     get: async (req, res, next) => {
-        const months = ["January", "February", "March", "April"];
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const monthInNum = months.indexOf(req.query.period) + 1;
         let dbMonth;
         if (monthInNum < 10) {
