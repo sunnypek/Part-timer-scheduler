@@ -29,8 +29,28 @@ export const addTimeslot = (data) => {
 
 export const clickAddTimeslot = () => {
 	return (dispatch) => dispatch({ type: UI_CHANGE, payload: "CLICK_TIME_SLOT"});
-}
+};
 
 export const cancelButton = () => {
 	return (dispatch) => dispatch({ type: UI_CHANGE, payload: "CANCEL"});
-}
+};
+
+export const signUp = (data) => {
+	return async (dispatch) => {
+		try {
+			delete data.Create_By;
+			data.authLevel = "user";
+			console.log(data);
+			const res = await axios.post("http://localhost:1337/users/signup", data);
+			dispatch({
+				type: ADD_TIMESLOT,
+				payload: "SUCCESS_ADD_USER"
+			});
+		} catch (error) {
+			dispatch({
+				type: ADD_TIMESLOT_ERROR,
+				payload: "ADD_USER_ERROR"
+			});
+		}
+	}
+};
