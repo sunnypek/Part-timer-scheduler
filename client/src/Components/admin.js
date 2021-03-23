@@ -197,6 +197,15 @@ class Admin extends Component {
 			}
 		}
 
+		let adminSignupAlert;
+		if (this.props.message === "SUCCESS_ADD_USER") {
+			adminSignupAlert = <div className="alert alert-success" role="alert">Successfully signed up!</div>;
+		} else if (this.props.message === "ADD_USER_ERROR") {
+			adminSignupAlert = <div className="alert alert-danger" role="alert">User already exists!</div>;
+		} else {
+			adminSignupAlert = "";
+		}
+
 		return(
 			<div>
 					<ul className = "nav-content nav nav-pills nav-justified">
