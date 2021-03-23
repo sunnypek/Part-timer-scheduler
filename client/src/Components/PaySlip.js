@@ -37,7 +37,6 @@ const dropdownBtn = {
     backgroundColor: "#FFFFFF",
     padding: "28px",
     maxWidth: "10px",
-    overflow: "hidden"
 };
 
 function PaySlip(){
