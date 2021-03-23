@@ -16,15 +16,15 @@ class ClockIn extends Component {
     }
   }
 
-  async getOptions(){
-    const res = await axios.get('http://localhost:1337/database/getTimeslotID')
-    const data = res.data
+  // async getOptions(){
+  //   //const res = await axios.get('http://localhost:1337/database/getTimeslotID')
+  //   //const data = res.data
 
-    const options = data.map(d => ({
-      "value" : d.id
-    }))
-    this.setState({selectOptions: options})
-  }
+  //   const options = data.map(d => ({
+  //     "value" : d.id
+  //   }))
+  //   this.setState({selectOptions: options})
+  // }
 
   componentDidMount(){
     this.getOptions()
@@ -72,11 +72,11 @@ class ClockIn extends Component {
                   <label for = "timeslotID" className = "col-4 col-form-label font-weight-bold">Timeslot ID: &nbsp;</label>
                     <div className = "col-8">
                     <select className = "form-control">
-                      {data.map(item => (
+                      {/* {data.map(item => (
                         <option key={item.objectID}>
                         {item.TimeSlot_ID}
                         </option>
-                      ))}
+                      ))} */}
                     </select>
                     </div>
               </div>
