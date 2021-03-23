@@ -374,34 +374,22 @@ class Admin extends Component {
 									<div className = "row">
 											<div className = "col-3"></div>
 											<div className = "col-6">
-													<form>                     
-															<div className = "form-group row">
-																	<label htmlFor = "name" className = "col-4 col-form-label font-weight-bold">Name: &nbsp;</label>
-																	<div className = "col-8">
-																			<input id = "name" type = "text" className = "form-control"></input>
-																	</div>
-															</div>
-							
-															<div className = "form-group row">
-																	<label htmlFor = "email" className = "col-4 col-form-label font-weight-bold">Email: &nbsp;</label>
-																	<div className = "col-8">
-																			<input id = "email" type = "email" className = "form-control"></input>
-																	</div>
-															</div>
-
-															<div className = "form-check">
-																	<input className="form-check-input" type="checkbox" value="" id="adminCheckBox"></input>
-																	<label className="form-check-label" htmlFor="adminCheckBox">
-																			Admin
-																	</label>
-															</div>
-							
-															<div className = "row">
-																	<button type = "button" className = "createBtn">Create</button>
-															</div>
-													</form>
+												<form id="addUserForm" className="needs-validation" onSubmit={ handleSubmit(this.onUserSubmit) }>
+													<div className="row">
+														<Field alt="req" name="username" type="text" id="username_add" label="Name" placeholder="Enter a username for user" component={ AddTimeslotInput } />
+													</div>
+													<div className="row">
+														<Field alt="req" name="email" type="email" id="email_add" label="Email" placeholder="Enter an email for user" component={ AddTimeslotInput } />
+													</div>
+													<div className="row">
+														<Field alt="req" name="password" type="text" id="password_add" label="Password" placeholder="Enter a password for user" component={ AddTimeslotInput } />
+													</div>
+													<div className="row"><div className="col-3"></div><div className="col-6">{ adminSignupAlert }</div><div className="col-3"></div></div>
+													<div className = "row">
+														<button type = "submit" className="searchBtn">Add User</button>
+													</div>
+												</form>
 											</div>
-											<div className = "col-3"></div>
 									</div>
 							</div>
 					</div>
