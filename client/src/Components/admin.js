@@ -124,6 +124,15 @@ class Admin extends Component {
         });
 	}
 
+	async adminPayroll () {
+		const employeeName = document.getElementById("empNamePayroll").value;
+		const period = document.getElementById("periodPayroll").value;
+		const year = document.getElementById("yearPayroll").value;
+		const result = await axios.get(`http://localhost:1337/database/payroll?employeeName=${employeeName}&period=${period}&year=${year}`);
+		document.getElementById("hoursPayroll").value = result.data.norm;
+		document.getElementById("OTPayroll").value = result.data.OT;
+	}
+
 	render() {
 		const { handleSubmit } = this.props;
 
@@ -262,7 +271,7 @@ class Admin extends Component {
 																			</select> 
 																	</div> &nbsp;
 																	<div className = "col">
-																			<select id = "periodPayroll" className = "form-control yrControl">
+																			<select id = "yearPayroll" className = "form-control yrControl">
 																					<option defaultValue>2020</option>
 																					<option>2021</option>
 																					<option>2022</option>
@@ -271,7 +280,7 @@ class Admin extends Component {
 															</div>
 
 															<div className = "row">
-																	<button type = "button" className = "searchBtn">Search</button>
+																	<button type = "button" className = "searchBtn" onClick={this.adminPayroll}>Search</button>
 															</div>
 													</form>
 											</div>
@@ -279,16 +288,16 @@ class Admin extends Component {
 											<div className = "col-6">
 													<form>
 															<div className = "form-group row">
-																	<label htmlFor = "hours" className = "col-4 col-form-label font-weight-bold">Total Hours: &nbsp;</label>
+																	<label htmlFor = "hoursPayroll" className = "col-4 col-form-label font-weight-bold">Total Hours: &nbsp;</label>
 																	<div className = "col-8">
-																			<input id = "hours" type = "text" className = "form-control" readOnly></input>
+																			<input id = "hoursPayroll" type = "text" className = "form-control" readOnly></input>
 																	</div>
 															</div>
 
 															<div className = "form-group row">
-																	<label htmlFor = "totalot" className = "col-4 col-form-label font-weight-bold">Total OT: &nbsp;</label>
+																	<label htmlFor = "OTPayroll" className = "col-4 col-form-label font-weight-bold">Total OT: &nbsp;</label>
 																	<div className = "col-8">
-																			<input id = "hours" type = "text" className = "form-control" readOnly></input>
+																			<input id = "OTPayroll" type = "text" className = "form-control" readOnly></input>
 																	</div>
 															</div>
 
