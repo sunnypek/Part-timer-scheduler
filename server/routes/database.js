@@ -14,6 +14,10 @@ router.route("/summary")
 router.route("/payslip")
 	.post(databaseController.payslip);
 
+router.route("/admin")
+	.post(databaseController.admin)
+	.post(databaseController.updateOTrate);
+
 router.route("/timeslot")
 	.get(databaseController.getTimeslot)
 	.post(databaseController.addTimeslot)
