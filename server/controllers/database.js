@@ -11,13 +11,18 @@ module.exports = {
 				if (err) {
 					res.status(400).json({ err });
 				} else {
-					res.status(200).json({ 
-						timeslotID: req.body.timeslotID,
-						employeeName: req.body.employeeName,
-						clockIn: req.body.clockIn,
-						clockOut: null,
-						normalHour: null,
-						overtimeHour: null
+					// res.status(200).json({ 
+					// 	timeslotID: req.body.timeslotID,
+					// 	employeeName: req.body.employeeName,
+					// 	clockIn: req.body.clockIn,
+					// 	clockOut: null,
+					// 	normalHour: null,
+					// 	overtimeHour: null
+					// });
+					res.status(200).json({
+						success: true,
+						employeeName: employeeName,
+						timeslotDetails: timeslotDetails[0],
 					});
 				}
 			}
