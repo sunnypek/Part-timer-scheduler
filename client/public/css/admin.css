@@ -78,3 +78,7 @@ body{
 .yrControl{
     width: 89%;
 }
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
