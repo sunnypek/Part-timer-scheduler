@@ -13,11 +13,19 @@ class SignUp extends Component {
 		this.onSubmit = this.onSubmit.bind(this);
 	}
 
+	componentDidMount() {
+		if (localStorage.getItem("AUTH_LEVEL") === "admin") {
+			this.props.history.push("/admin");
+		} else if (localStorage.getItem("AUTH_LEVEL") === "user") {
+			this.props.history.push("/calendar");
+		}
+	}
+
 	async onSubmit(formData) {
 		await this.props.signUp(formData);
 		if (!this.props.err) {
 			if (this.props.authLevel === "user") {
-				this.props.history.push("/clockIn");
+				this.props.history.push("/calendar");
 			} else {
 				this.props.history.push("/admin");
 			}

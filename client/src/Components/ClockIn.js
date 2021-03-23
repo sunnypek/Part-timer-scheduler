@@ -4,11 +4,12 @@ import { connect } from "react-redux";
 import * as clockingActions from "../actions/clockInOut";
 
 class ClockIn extends Component {
+  
   handleSubmit = (event) => {
     event.preventDefault();
     const data = {
       timeslotID: event.target.timeslotID.value,
-      employeeName: event.target.employeeName.value,
+      employeeName: localStorage.getItem("USERNAME"),
 			clockIn: event.target.clockIn.value,
 			clockOut: event.target.clockOut.value,
 			normalHour: event.target.normalHour.value,
@@ -31,10 +32,7 @@ class ClockIn extends Component {
           <div className="col-md-8 clock-form-wrapper text-center clearfix">
           <form onSubmit={event => this.handleSubmit(event)}>
               <div className="form-group col-md-6">
-                <input name="timeslotID" className="form-control" placeholder="Timeslot ID" type="text" />
-              </div>
-							<div className="form-group col-md-6">
-                <input name="employeeName" className="form-control" placeholder="Employee Name" type="text" />
+                <input name="timeslotID" className="form-control" placeholder="Timeslot ID" type="text"  />
               </div>
               <div className="form-group col-md-6">
                 <input name="clockIn" className="form-control" placeholder={ timeNow } type="text" value={ timeNow }/>

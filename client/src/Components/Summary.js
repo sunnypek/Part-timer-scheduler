@@ -151,7 +151,7 @@ function Summary() {
             hoursWorked++;
         }
 
-        hoursWorked = (hoursWorked + minutesWorked/60);
+        hoursWorked = (hoursWorked * 1.0 + minutesWorked/60);
 
         // Unbox query results
         for(var z = 0; z < data.bookingDetails.length; z++) {

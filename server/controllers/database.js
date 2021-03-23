@@ -3,8 +3,10 @@ const db = require("../database");
 module.exports = {
 	clockIn: (req, res, next) => {
 		db.execute(
-			"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name, Clock_IN, Clock_OUT, Normal_hr, OverTime_hr) VALUES (?, ?, ?, ?, ?, ?)",
-			[req.body.timeslotID, req.body.employeeName, req.body.clockIn, null, req.body.normalHour, req.body.overtimeHour],
+			"UPDATE bookingdetail SET Clock_In = ? WHERE Timeslot_ID = ? AND Employee_Name = ?",
+			[req.body.clockIn, req.body.timeslotID, req.body.employeeName],
+			//"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name, Clock_IN, Clock_OUT, Normal_hr, OverTime_hr) VALUES (?, ?, ?, ?, ?, ?)",
+			//[req.body.timeslotID, req.body.employeeName, req.body.clockIn, null, req.body.normalHour, req.body.overtimeHour],
 			(err, results, fields) => {
 				if (err) {
 					res.status(400).json({ err });
@@ -14,8 +16,8 @@ module.exports = {
 						employeeName: req.body.employeeName,
 						clockIn: req.body.clockIn,
 						clockOut: null,
-						normalHour: req.body.normalHour,
-						overtimeHour: req.body.overtimeHour
+						normalHour: null,
+						overtimeHour: null
 					});
 				}
 			}
@@ -40,6 +42,15 @@ module.exports = {
 		);
 	},
 
+	getTimeslotID: (req, res, next) => {
+		db.execute(
+			"SELECT * FROM bookingdetail", 
+			(err, results, fields) => {
+				err ? res.status(400).json({ err }) : res.status(200).json({ results });
+			}
+		);
+	},
+
 	getEmployees: (req, res, next) => {
 		db.execute(
 			"SELECT * FROM userinfo", 
@@ -60,7 +71,7 @@ module.exports = {
 	
 	getTimeslot: (req, res, next) => {
 		db.execute(
-			"SELECT TimeSlot_ID as title, Start_DateTime as start, End_DateTime as end FROM timeslot",
+			"SELECT TimeSlot_ID as title, Start_DateTime as start, End_DateTime as end, Normal_Rate as normalRate, OT_Rate as overtimeRate FROM timeslot",
 			(err, results, fields) => {
 				if (err) {
 					res.status(400).json(err);
@@ -86,6 +97,7 @@ module.exports = {
   },
 
 	patchTimeslot: async (req, res, next) => {
+		console.log(req.body);
 		let set = " ";
 		for (const [key, value] of Object.entries(req.body)) {
 				if (key === "TimeSlot_ID") continue;
@@ -101,7 +113,28 @@ module.exports = {
 	deleteTimeslot: async (req, res, next) => {
 		const result = await db.promise().query(
 			"DELETE FROM timeslot WHERE TimeSlot_ID = ?",
-			[req.body.TimeSlot_ID]
+			[req.query.timeslotID]
+		);
+		res.status(200).json(result);
+	},
+
+	postBook: async (req, res, next) => {
+		try {
+			const result = await db.promise().query(
+				"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name) VALUES (?, ?)",
+				[req.body.Timeslot_ID, req.body.Employee_Name]
+			);
+			res.status(200).json(result);	
+		} catch (error) {
+			console.error(error.sqlMessage);
+			res.status(500);
+		}
+	},
+
+	deleteBook: async (req, res, next) => {
+		const result = await db.promise().query(
+			"DELETE FROM bookingdetail WHERE Timeslot_ID = ? AND Employee_Name = ?",
+			[req.query.timeslotID, req.query.employeeName]
 		);
 		res.status(200).json(result);
 	},
