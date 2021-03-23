@@ -22,6 +22,7 @@ class Admin extends Component {
 		super(props);
 		this.state = {gotData: false};
 		this.onTimeslotSubmit = this.onTimeslotSubmit.bind(this);
+		this.onUserSubmit = this.onUserSubmit.bind(this);
 	}
 	
 	async onTimeslotSubmit(addData) {
@@ -29,6 +30,11 @@ class Admin extends Component {
 		if (!this.props.err) {
 			window.location.reload();
 		}
+	}
+
+	async onUserSubmit(addUserData) {
+		console.log(addUserData);
+		await this.props.signUp(addUserData);
 	}
 
 	async componentDidMount() {
@@ -149,7 +155,7 @@ class Admin extends Component {
 		let empNameOptions = [];
 		for (const [index, value] of employeeList.entries()) {
 			empNameOptions.push(<option key={index}>{value}</option>)
-		  }
+		};
 
 		let addReleaseUI = "";
 		if (this.props.message === "CLICK_TIME_SLOT" || this.props.message === "ADD_TIMESLOT_ERROR") {
