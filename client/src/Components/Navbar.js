@@ -39,9 +39,6 @@ class Navbar extends Component {
                     <li className="nav-item">
 						<Link className="nav-link" to="/clockOut">Clock Out</Link>
 					</li>
-					{/* <li className="nav-item">
-						<Link className="nav-link" to="/attendance">Attendance</Link>
-					</li> */}
 					<li className="nav-item">
 						<Link className="nav-link" to="/payslip">PaySlip</Link>
 					</li>
@@ -55,10 +52,7 @@ class Navbar extends Component {
 		} else {
 			loginSystem = <ul className="nav navbar-nav ms-auto">
 				<li className="nav-item">
-					<Link className="nav-link" to="/">Sign Up</Link>
-				</li>
-				<li className="nav-item">
-					<Link className="nav-link" to="/login">Login</Link>
+					<Link className="nav-link" to="/">Login</Link>
 				</li>
 			</ul>
 		}
