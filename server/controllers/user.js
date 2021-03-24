@@ -46,5 +46,9 @@ module.exports = {
 			authLevel: req.user.authLevel,
 			username: req.user.username
 		});
+	},
+
+	get: async (req, res, next) => {
+		
 	}
 }
