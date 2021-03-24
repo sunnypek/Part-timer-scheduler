@@ -2,6 +2,7 @@ const router = require("express-promise-router")();
 
 const databaseController = require("../controllers/database");
 const payrollController = require("../controllers/payroll");
+const usersController = require("../controllers/user");
 
 router.route("/clockIn")
 	.post(databaseController.clockIn);
@@ -33,5 +34,8 @@ router.route("/book")
 
 router.route("/payroll")
 	.get(payrollController.get);
+
+router.route("/timeslots")
+	.get(usersController.get);
 	
 module.exports = router;
