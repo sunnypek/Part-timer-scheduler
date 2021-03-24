@@ -44,17 +44,24 @@ class ClockIn extends Component {
   async onSubmit(formData) {
     formData.clockIn = convertedTimeNowToSave;
     formData.employeeName = localStorage.getItem("USERNAME");
-    const result = await axios.post("http://localhost:1337/database/clockIn", formData);
-    if (result.data.updated) {
+    if (!formData.hasOwnProperty("timeslotID") || formData.timeslotID === "Click to choose timeslot") {
       Swal.fire({
-        icon: "success",
-        text: "Successfully clocked in!"
-      })
+        icon: "error",
+        text: "Please choose a timeslot!"
+      });
     } else {
-      Swal.fire({
-        icon: "warning",
-        text: "Already clocked in!"
-      })
+      const result = await axios.post("http://localhost:1337/database/clockIn", formData);
+      if (result.data.updated) {
+        Swal.fire({
+          icon: "success",
+          text: "Successfully clocked in!"
+        })
+      } else {
+        Swal.fire({
+          icon: "warning",
+          text: "Already clocked in!"
+        })
+      }
     }
 	}
 
