@@ -22,6 +22,14 @@ class Login extends Component {
 			}
 		}
 	}
+
+	componentDidMount() {
+		if (localStorage.getItem("AUTH_LEVEL") === "admin") {
+			this.props.history.push("/admin");
+		} else if (localStorage.getItem("AUTH_LEVEL") === "user") {
+			this.props.history.push("/calendar");
+		}
+	}
 	
 	render() {
 		const { handleSubmit } = this.props;
