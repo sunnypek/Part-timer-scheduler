@@ -1,109 +1,103 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
+import { reduxForm, Field } from "redux-form";
+import { compose } from "redux";
 import axios from "axios";
-import Select from 'react-select';
+import Swal from "sweetalert2";
 
-import * as clockingActions from "../actions/clockInOut";
+let timeslots = [];
 
-class ClockIn extends Component {
-  
+const getRoundedDate = (minutes, d=new Date()) => {
 
-  constructor(props){
-    super(props)
-    this.state = {
-      selectOptions : [],
-      id: ""
-    }
-  }
+  let ms = 1000 * 60 * minutes; // convert minutes to ms
+  let roundedDate = new Date(Math.round(d.getTime() / ms) * ms);
 
-  // async getOptions(){
-  //   //const res = await axios.get('http://localhost:1337/database/getTimeslotID')
-  //   //const data = res.data
-
-  //   const options = data.map(d => ({
-  //     "value" : d.id
-  //   }))
-  //   this.setState({selectOptions: options})
-  // }
-
-  componentDidMount(){
-    this.getOptions()
+  return roundedDate;
 }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const data = {
-      timeslotID: event.target.timeslotID.value,
-      employeeName: localStorage.getItem("USERNAME"),
-			clockIn: event.target.clockIn.value,
-			clockOut: event.target.clockOut.value,
-			normalHour: event.target.normalHour.value,
-			overtimeHour: event.target.overtimeHour.value
-    };
-    console.log(data);
-		this.props.clockIn(data);
-    
+const timeNow = getRoundedDate(30).toISOString().slice(0, 19).replace("T", " ");
+const hourOffset = parseInt(timeNow.slice(11,13)) + 8;
+const convertedTimeNowToSave = timeNow.slice(0,11) + hourOffset.toString() + timeNow.slice(13);
+let convertedTimeNow;
+if (hourOffset > 12) {
+  convertedTimeNow = timeNow.slice(0,11) + (hourOffset - 12).toString() + timeNow.slice(13, 16) + " PM";
+} else {
+  convertedTimeNow = timeNow.slice(0,11) + (hourOffset - 12).toString() + timeNow.slice(13, 16) + " AM";
+}
+
+class ClockIn extends Component {
+  constructor(props){
+    super(props);
+    this.state = { gotData: false };
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
-  handleChange(e){
-    this.setState({id:e.value})
-   }
-  
+  async componentDidMount() {
+    const result = await axios.get("http://localhost:1337/database/timeslots?username=" + localStorage.getItem("USERNAME"));
+    timeslots = [];
+    timeslots.push(<option key="first">Click to choose timeslot</option>)
+    for (let i = 0; i < result.data.length; i++) {
+      timeslots.push(<option key = {i}>{result.data[i].Timeslot_ID}</option>);
+    };
+    this.setState({ gotData: true });
+  }
+
+  async onSubmit(formData) {
+    formData.clockIn = convertedTimeNowToSave;
+    formData.employeeName = localStorage.getItem("USERNAME");
+    const result = await axios.post("http://localhost:1337/database/clockIn", formData);
+    if (result.data.updated) {
+      Swal.fire({
+        icon: "success",
+        text: "Successfully clocked in!"
+      })
+    } else {
+      Swal.fire({
+        icon: "warning",
+        text: "Already clocked in!"
+      })
+    }
+	}
 
   render() {
-		// eslint-disable-next-line
     const { handleSubmit } = this.props;
-    console.log(this.state.selectOptions);
 
+    let UI;
+    if (this.state.gotData) {
+      UI =  <form onSubmit={ handleSubmit(this.onSubmit) }>
+            <div>
+              <fieldset>
+                <label htmlFor="timeslotID">Select a timeslot</label>
+                <Field name="timeslotID" id="timeslotID" type="select" component= "select" className="form-control">
+                  {timeslots}
+                </Field>
+              </fieldset>
+              <fieldset>
+                <label htmlFor="clockInTimeNow">Clock in time (rounded to nearest half hour)</label>
+                <input className="form-control mb-3" id="clockInTimeNow" value={convertedTimeNow} readOnly />
+              </fieldset>
 
-  
+              <button type="submit" className="btn btn-primary">Clock In</button>
+            </div>
+            </form>;
+    } else {
+      UI = <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          </div>;
+    }
 
-    const timeNow = new Date().toISOString().split('T')[0]+' '+ new Date().toTimeString().split(' ')[0];
-    
     return (
-      <div className="section-content-block section-process">
-
-        <div className="row">
-          <div className="col-md-2" />
-          <div className="col-md-8 clock-form-wrapper text-center clearfix">
-          <form onSubmit={event => this.handleSubmit(event)}>
-
-                <div className = "form-group row">
-                  <label for = "timeslotID" className = "col-4 col-form-label font-weight-bold">Timeslot ID: &nbsp;</label>
-                    <div className = "col-8">
-                    <select className = "form-control">
-                      {/* {data.map(item => (
-                        <option key={item.objectID}>
-                        {item.TimeSlot_ID}
-                        </option>
-                      ))} */}
-                    </select>
-                    </div>
-              </div>
-
-
-              <div className="form-group col-md-6">
-                <input name="clockIn" className="form-control" placeholder={ timeNow } type="text" value={ timeNow }/>
-              </div>
-              <div className="form-group col-md-6">
-                <input name="clockOut" className="form-control" placeholder="Leave empty for clocking in" type="text" />
-              </div>
-              <div className="form-group col-md-6">
-                <input name="normalHour" className="form-control" placeholder="Normal Hour" type="text" />
-              </div>
-              <div className="form-group col-md-6">
-                <input name="overtimeHour" className="form-control" placeholder="Overtime Hour" type="text" />
-              </div>
-              <div className="form-group col-md-12 col-sm-12 col-xs-12">
-                <button className="btn-submit" type="submit">Submit</button>
-              </div>
-            </form>
-          </div>
-          <div className="col-md-2" />
-        </div>
-      </div>
+      <div className="row justify-content-center">
+				<div className="col-xl-4 col-lg-4 col-md-6 col-sm-10 col-10">
+					
+						{ UI }
+				</div>
+			</div>
     );
   }
 }
 
-export default connect(null, clockingActions)(ClockIn);
+export default compose(
+  reduxForm({ form: "clockin" })
+)(ClockIn);
