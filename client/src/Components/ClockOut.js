@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 
-import * as clockingActions from "../actions/clockInOut";
-
 class ClockOut extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
@@ -45,4 +43,4 @@ class ClockOut extends Component {
   }
 }
 
-export default connect(null, clockingActions)(ClockOut);
+export default connect(null)(ClockOut);
