@@ -5,3 +5,6 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const ADD_TIMESLOT_ERROR = "ADD_TIMESLOT_ERROR";
 export const ADD_TIMESLOT = "ADD_TIMESLOT";
 export const UI_CHANGE = "UI_CHANGE";
+export const USER_CLOCK_IN = "USER_CLOCK_IN";
+export const USER_CLOCK_OUT = "USER_CLOCK_OUT";
+export const USER_CLOCK_ERROR = "USER_CLOCK_ERROR";
