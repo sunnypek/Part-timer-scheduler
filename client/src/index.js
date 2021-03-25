@@ -9,7 +9,6 @@ import reportWebVitals from './reportWebVitals';
 import App from "./Components/App";
 import ClockIn from "./Components/ClockIn";
 import ClockOut from "./Components/ClockOut";
-import Attendance from "./Components/Attendance";
 import PaySlip from "./Components/PaySlip";
 import Login from "./Components/Login";
 import Logout from "./Components/Logout";
@@ -41,7 +40,6 @@ ReactDOM.render(
 				<Route exact path="/payslip" component={authGuard(PaySlip)} />
 				<Route exact path="/logout" component={authGuard(Logout)} />
 				<Route exact path="/admin" component={adminGuard(authGuard(Admin))} />
-				<Route exact path="/attendance" component={authGuard(Attendance)} />
 			</App>
 		</BrowserRouter>
 	</Provider>,
