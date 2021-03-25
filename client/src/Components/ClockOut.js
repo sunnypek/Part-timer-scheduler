@@ -57,15 +57,15 @@ class ClockOut extends Component {
           text: "Successfully clocked out!"
         });
       } else {
-        if (!result.data.clockin) {
-          Swal.fire({
-            icon: "error",
-            text: "You have not clocked in for this timeslot!"
-          });
-        } else {
+        if (result.data.clockIn) {
           Swal.fire({
             icon: "warning",
             text: "Already clocked out!"
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            text: "You have not clocked in for this timeslot!"
           });
         }
       }
