@@ -245,8 +245,6 @@ module.exports = {
 	},
 
 	payslip: async (req, res, next) => {
-		console.log(req.body);
-
 		// Get userinfo using username
 		const employeeNameQuery = await db.promise().query(`SELECT * FROM userinfo WHERE Employee_Name = "${req.body.username}"`);
 		const employeeName = req.body.username;
