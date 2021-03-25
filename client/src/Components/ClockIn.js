@@ -55,12 +55,12 @@ class ClockIn extends Component {
         Swal.fire({
           icon: "success",
           text: "Successfully clocked in!"
-        })
+        });
       } else {
         Swal.fire({
           icon: "warning",
           text: "Already clocked in!"
-        })
+        });
       }
     }
 	}
