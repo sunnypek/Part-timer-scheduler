@@ -3,7 +3,7 @@ const db = require("../database");
 module.exports = {
     get: async (req, res, next) => {
         await db.promise().query(
-            `SELECT * FROM bookingdetail WHERE Timeslot_ID = '${req.query.timeslotID}' AND Employee_Name != '${req.query.username}'`
+            `SELECT * FROM bookingdetail WHERE Timeslot_ID = '${req.query.timeslotID}'`
         ).then((result) => {
             res.status(200).json(result[0]);
         }).catch(() => {
