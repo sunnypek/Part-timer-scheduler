@@ -396,13 +396,13 @@ class Admin extends Component {
 											<div className = "col-6">
 													<form>
 															<div className = "form-group row">
-																	<label htmlFor = "hoursPayroll" className = "col-4 col-form-label font-weight-bold">Total Hours: &nbsp;</label>
+																	<label htmlFor = "hoursPayroll" className = "col-4 col-form-label font-weight-bold">Normal Hours: &nbsp;</label>
 																	<div className = "col-8">
 																			<input id = "hoursPayroll" type = "text" className = "form-control" readOnly></input>
 																	</div>
 															</div>
 															<div className = "form-group row">
-																	<label htmlFor = "OTPayroll" className = "col-4 col-form-label font-weight-bold">Total OT: &nbsp;</label>
+																	<label htmlFor = "OTPayroll" className = "col-4 col-form-label font-weight-bold">OT Hours: &nbsp;</label>
 																	<div className = "col-8">
 																			<input id = "OTPayroll" type = "text" className = "form-control" readOnly></input>
 																	</div>
