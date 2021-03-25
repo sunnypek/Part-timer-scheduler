@@ -15,8 +15,6 @@ module.exports = {
 		} else {
 			res.status(200).json({ updated: false });
 		}
-		
-		
 	},
   
   clockOut: (req, res, next) => {
@@ -119,10 +117,10 @@ module.exports = {
 				"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name) VALUES (?, ?)",
 				[req.body.Timeslot_ID, req.body.Employee_Name]
 			);
-			res.status(200).json(result);	
+			res.status(200).json({ alreadybooked: false });	
 		} catch (error) {
 			console.error(error.sqlMessage);
-			res.status(500);
+			res.status(200).json({ alreadybooked: true });
 		}
 	},
 
