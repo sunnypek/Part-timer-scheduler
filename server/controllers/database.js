@@ -8,7 +8,7 @@ module.exports = {
 		);
 		if (clockInExists[0][0].clockIn === null) {
 			await db.promise().query(
-				"UPDATE bookingdetail SET Clock_In = ? WHERE Timeslot_ID = ? AND Employee_Name = ?",
+				"UPDATE bookingdetail SET Clock_IN = ? WHERE Timeslot_ID = ? AND Employee_Name = ?",
 				[req.body.clockIn, req.body.timeslotID, req.body.employeeName]
 			);
 			res.status(200).json({ updated: true });
@@ -17,22 +17,49 @@ module.exports = {
 		}
 	},
   
-  clockOut: (req, res, next) => {
-		db.execute(
-			"UPDATE bookingdetail SET Clock_Out = ? WHERE Timeslot_ID = ? AND Employee_Name = ?",
-			[req.body.clockOut, req.body.timeslotID, req.body.employeeName],
-			(err, results, fields) => {
-				if (err) {
-					res.status(400).json({ err });
-				} else {
-					res.status(200).json({
-						clockOut: req.body.clockOut,
-						timeslotID: req.body.timeslotID,
-						employeeName: req.body.employeeName		
-					});
-				}
-			}
+  clockOut: async (req, res, next) => {
+		const clockInExists = await db.promise().query(
+			`SELECT Clock_IN as clockIn FROM bookingdetail WHERE Timeslot_ID = ? AND Employee_Name = ?`,
+			[req.body.timeslotID, req.body.employeeName]
 		);
+		if (clockInExists[0][0].clockIn === null) {
+			res.status(200).json({ updated: false, clockin: false });
+		} else {
+			const clockOutExists = await db.promise().query(
+				`SELECT Clock_OUT as clockOut FROM bookingdetail WHERE Timeslot_ID = ? AND Employee_Name = ?`,
+				[req.body.timeslotID, req.body.employeeName]
+			);
+			if (clockOutExists[0][0].clockOut === null) {
+				await db.promise().query(
+					`UPDATE bookingdetail SET Clock_OUT = '${req.body.clockOut}' WHERE Timeslot_ID = '${req.body.timeslotID}' AND Employee_Name = '${req.body.employeeName}'`
+				);
+				const durationOfTimeslot = await db.promise().query(
+					`SELECT TIMEDIFF(End_DateTime, Start_DateTime) AS diff FROM timeslot WHERE TimeSlot_ID = '${req.body.timeslotID}'`
+				);
+				const durationOfWork = await db.promise().query(
+					`SELECT TIMEDIFF(Clock_OUT, Clock_IN) AS diff FROM bookingdetail WHERE TimeSlot_ID = '${req.body.timeslotID}' AND Employee_Name ='${req.body.employeeName}'`
+				);
+				let normalRate = parseFloat(durationOfWork[0][0].diff.slice(0,2));
+				if (durationOfWork[0][0].diff[3] === '3') {
+					normalRate += 0.5;
+				}
+				let timeslotRate = parseFloat(durationOfTimeslot[0][0].diff.slice(0,2));
+				if (durationOfTimeslot[0][0].diff[3] === '3') {
+					timeslotRate += 0.5;
+				}
+				let overtimeRate = 0;
+				if (normalRate > timeslotRate) {
+					overtimeRate = normalRate - timeslotRate;
+					normalRate -= overtimeRate;
+				}
+				await db.promise().query(
+					`UPDATE bookingdetail SET Normal_hr = '${normalRate}', OverTime_hr = '${overtimeRate}' WHERE Timeslot_ID = '${req.body.timeslotID}' AND Employee_Name = '${req.body.employeeName}'`
+				);
+				res.status(200).json({ updated: true });
+			} else {
+				res.status(200).json({ updated: false });
+			}
+		}
 	},
 
 	getTimeslotID: (req, res, next) => {
