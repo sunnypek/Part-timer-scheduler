@@ -1,6 +1,9 @@
 const db = require("../database");
 
 module.exports = {
+    get: async (req, res, next) => {
+        
+    },
     post: async (req, res, next) => {
 		try {
 			const result = await db.promise().query(

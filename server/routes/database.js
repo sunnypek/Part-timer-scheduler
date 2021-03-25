@@ -30,6 +30,7 @@ router.route("/attendance")
 	.get(databaseController.attendance);
 
 router.route("/book")
+	.get(bookingController.get)
 	.post(bookingController.post)
 	.delete(bookingController.delete);
 
