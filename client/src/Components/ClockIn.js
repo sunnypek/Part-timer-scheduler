@@ -21,7 +21,7 @@ let convertedTimeNow;
 if (hourOffset > 12) {
   convertedTimeNow = timeNow.slice(0,11) + (hourOffset - 12).toString() + timeNow.slice(13, 16) + " PM";
 } else {
-  convertedTimeNow = timeNow.slice(0,11) + (hourOffset - 12).toString() + timeNow.slice(13, 16) + " AM";
+  convertedTimeNow = timeNow.slice(0,11) + hourOffset.toString() + timeNow.slice(13, 16) + " AM";
 }
 
 class ClockIn extends Component {
