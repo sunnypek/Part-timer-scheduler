@@ -63,9 +63,12 @@ class RegisterSlots extends Component {
                             Normal_hr: event.normalRate,
                             OverTime_hr: event.overtimeRate
                         };
-                        await axios.post("http://localhost:1337/database/book", data).then((res) => {
-                            if (res.status === 200) Swal.fire({icon: "success",title: "Registered!"});
-                        }).catch(Swal.fire({icon: "error",title: "Already registered for this slot!" }));
+                        const res = await axios.post("http://localhost:1337/database/book", data)
+                        if (res.data.alreadybooked) {
+                            Swal.fire({icon: "error",title: "Already registered for this slot!" });
+                        } else {
+                            Swal.fire({icon: "success",title: "Registered!"});
+                        }
                     };
                 });
                 
