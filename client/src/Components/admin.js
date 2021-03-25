@@ -228,12 +228,6 @@ class Admin extends Component {
 									</a>
 							</li>
 							<li className = "nav-item col-3">
-									<a className = "nav-link navi" data-toggle = "pill" href = "#ot">
-											<i className="fas fa-sliders-h"></i><br/>
-											Generate OT Rate
-									</a>
-							</li>
-							<li className = "nav-item col-3">
 									<a className = "nav-link navi" data-toggle = "pill" href = "#user">
 											<i className="fas fa-plus"></i><br/>
 											Create New User
@@ -308,65 +302,18 @@ class Admin extends Component {
 																			<input id = "hoursPayroll" type = "text" className = "form-control" readOnly></input>
 																	</div>
 															</div>
-
 															<div className = "form-group row">
 																	<label htmlFor = "OTPayroll" className = "col-4 col-form-label font-weight-bold">Total OT: &nbsp;</label>
 																	<div className = "col-8">
 																			<input id = "OTPayroll" type = "text" className = "form-control" readOnly></input>
 																	</div>
 															</div>
-
-															<div className = "form-group row">
-																	<label htmlFor = "otrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
-																	<div className = "col-8">
-																			<input id = "otrate" type = "text" className = "form-control" readOnly></input>
-																	</div>
-															</div>
-
 															<div className = "row">
 																	<button type = "button" className = "payslipBtn">Generate Payslip</button>
 															</div>
 															
 													</form>
 											</div>
-									</div>
-							</div>
-
-							<div id = "ot" className = "tab-pane">
-									<div className = "row">
-											<div className = "col-3"></div>
-											<div className = "col-6">
-													<form> 
-															<div className = "form-group row">
-																	<label htmlFor = "empNameOT" className = "col-4 col-form-label font-weight-bold">Employee Name: &nbsp;</label>
-																	<div className = "col-8">
-																			<select id = "empNameOT" className = "form-control">
-																					<option defaultValue>Choose employee</option>
-																					{empNameOptions}
-																			</select>
-																	</div>
-															</div>
-							
-															<div className = "form-group row">
-																	<label htmlFor = "oldrate" className = "col-4 col-form-label font-weight-bold">Current OT Rate: &nbsp;</label>
-																	<div className = "col-8">
-																			<input id = "oldrate" type = "text" className = "form-control" readOnly></input>
-																	</div>
-															</div>
-							
-															<div className = "form-group row">
-																	<label htmlFor = "newrate" className = "col-4 col-form-label font-weight-bold">New OT Rate: &nbsp;</label>
-																	<div className = "col-8">
-																			<input id = "newrate" type = "number" className = "form-control"></input>
-																	</div>
-															</div>
-							
-															<div className = "row">
-																	<button type = "button" className = "updateBtn">Update</button>
-															</div>
-													</form>
-											</div>
-											<div className = "col-3"></div>
 									</div>
 							</div>
 
