@@ -82,6 +82,15 @@ class Admin extends Component {
 	}
 
 	async selectEvent(event) {
+		const result = await axios.get(`http://localhost:1337/database/book?timeslotID=${event.title}`);
+        let registeredUsers = "";
+        if (result.data.length > 0) {
+            for (let i = 0; i < result.data.length; i++) {
+                registeredUsers += `<li>${result.data[i].Employee_Name}</li>`;
+            };
+        } else {
+            registeredUsers += "No one have registered yet!";
+        }
 		let formatStartTime, formatEndTime;
 		if (parseInt(event.start.slice(11,13)) > 12) {
 			const newStartHour = event.start.slice(11,13) - 12;
@@ -98,9 +107,31 @@ class Admin extends Component {
 		Swal.fire({
             title: event.title,
             html: `
-                Time: <span style="color: #e67e22">${formatStartTime}</span> to <span style="color: #e74c3c">${formatEndTime}</span><br/>
-                Normal Rate: <strong style="color: #16a085">$${event.normalRate}</strong><br/>
-                Overtime Rate: <strong style="color: #f39c12">$${event.overtimeRate}</strong>`,
+				<div class="row">
+					<div class="col-6" style="text-align:right;">
+						<br/>
+						Time:<br/><br/>
+						Normal Rate:<br/>
+						Overtime Rate:
+					</div>
+					<div class="col-6" style="text-align:left">
+						<span style="color: #e67e22">${formatStartTime}</span><br/>
+						<div style="width: 65%; text-align: center;">to</div>
+						<span style="color: #e74c3c">${formatEndTime}</span><br/>
+						<strong style="color: #16a085">$${event.normalRate}</strong><br/>
+						<strong style="color: #f39c12">$${event.overtimeRate}</strong>
+					</div>
+				</div>
+				<br/><br/>
+				<div class="row">
+					<div class="col-6" style="text-align:right;">
+						Registered users:
+					</div>
+					<div class="col-6" style="text-align:left">
+						<ol style="text-align:left">${registeredUsers}</ol>
+					</div>
+				</div>
+			`,
             showDenyButton: true,
 			showCancelButton: true,
             confirmButtonText: `Edit`,
