@@ -130,13 +130,17 @@ class Admin extends Component {
         });
 	}
 
-	async adminPayroll () {
+	async adminPayroll() {
 		const employeeName = document.getElementById("empNamePayroll").value;
 		const period = document.getElementById("periodPayroll").value;
 		const year = document.getElementById("yearPayroll").value;
 		const result = await axios.get(`http://localhost:1337/database/payroll?employeeName=${employeeName}&period=${period}&year=${year}`);
 		document.getElementById("hoursPayroll").value = result.data.norm;
 		document.getElementById("OTPayroll").value = result.data.OT;
+	}
+
+	async adminPayslip() {
+
 	}
 
 	render() {
@@ -309,7 +313,7 @@ class Admin extends Component {
 																	</div>
 															</div>
 															<div className = "row">
-																	<button type = "button" className = "payslipBtn">Generate Payslip</button>
+																	<button type = "button" className = "payslipBtn" onClick={this.adminPayslip}>Generate Payslip</button>
 															</div>
 															
 													</form>
