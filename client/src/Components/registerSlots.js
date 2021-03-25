@@ -25,6 +25,7 @@ class RegisterSlots extends Component {
         const result = await axios.get(`http://localhost:1337/database/book?timeslotID=${event.title}`);
         let registeredUsers = "";
         if (result.data.length > 0) {
+            registeredUsers += "<ol style='padding-left: 1rem;'>";
             for (let i = 0; i < result.data.length; i++) {
                 if (result.data[i].Employee_Name === localStorage.getItem("USERNAME")) {
                     registeredUsers += `<li style="color:#e74c3c">${result.data[i].Employee_Name}</li>`;
@@ -32,6 +33,7 @@ class RegisterSlots extends Component {
                     registeredUsers += `<li>${result.data[i].Employee_Name}</li>`;
                 }
             };
+            registeredUsers += "</ol>";
         } else {
             registeredUsers += "No one have registered yet!";
         }
@@ -56,6 +58,7 @@ class RegisterSlots extends Component {
                     <div class="col-6" style="text-align:right;">
                         <br/>
                         Time:<br/><br/>
+                        <br/>
                         Normal Rate:<br/>
                         Overtime Rate:
                     </div>
@@ -63,17 +66,18 @@ class RegisterSlots extends Component {
                         <span style="color: #e67e22">${formatStartTime}</span><br/>
                         <div style="width: 65%; text-align: center;">to</div>
                         <span style="color: #e74c3c">${formatEndTime}</span><br/>
+                        <br/>
                         <strong style="color: #16a085">$${event.normalRate}</strong><br/>
                         <strong style="color: #f39c12">$${event.overtimeRate}</strong>
                     </div>
                 </div>
-                <br/><br/>
+                <br/>
                 <div class="row">
                     <div class="col-6" style="text-align:right;">
                         Registered users:
                     </div>
                     <div class="col-6" style="text-align:left">
-                        <ol style="text-align:left">${registeredUsers}</ol>
+                        ${registeredUsers}
                     </div>
                 </div>
             `,
