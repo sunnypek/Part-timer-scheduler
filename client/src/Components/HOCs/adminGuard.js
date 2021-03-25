@@ -6,7 +6,7 @@ const adminGuard = (OriginalComponent) => {
 		
 		checkAuth() {
 			if (this.props.authLevel !== "admin") {
-				this.props.history.push("/home");
+				this.props.history.push("/");
 			}
 		}
 
