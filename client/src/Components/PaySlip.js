@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react"
-//import { MonthPicker, YearPicker } from "react-dropdown-date";
 import DropdownButton from "react-bootstrap/DropdownButton"
 import Dropdown from "react-bootstrap/Dropdown"
 
@@ -77,12 +76,10 @@ function PaySlip(){
     }
 
     const YrHandleChange = event => {
-        console.log(event.target.text);
         setYear(event.target.text);
     }
 
     const MonHandleChange = event => {
-        console.log(event.target.text);
         var num = monthName.indexOf(event.target.text)
         setMonth(num);
     }
@@ -97,13 +94,10 @@ function PaySlip(){
 
     var hoursWorked = 0;
     var hoursOT = 0;
-    var databaseError;
     var OTtotal = 0;
     var NormTotal = 0;
 
     if (data != null) {
-        databaseError = data.databaseError;
-        console.log(databaseError);
         
         for(var z = 0; z < data.payslipbookingDetails.length; z++) {
             hoursWorked += data.payslipbookingDetails[z].Normal_hr;
@@ -117,8 +111,6 @@ function PaySlip(){
                         OTtotal += (data.payslipbookingDetails[z].OverTime_hr * data.paysliptimeslotDetails[y].OT_Rate);
                         NormTotal += (data.payslipbookingDetails[z].Normal_hr * data.paysliptimeslotDetails[y].Normal_Rate);
                     } 
-
-                    
                 }
             }
         }
