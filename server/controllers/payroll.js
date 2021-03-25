@@ -9,15 +9,13 @@ module.exports = {
             dbMonth = "0" + monthInNum.toString();
         } else {
             dbMonth = monthInNum.toString();
-        }
-        const compareStart = req.query.year + "-" + dbMonth + "-01";
-        const compareEnd = req.query.year + "-" + dbMonth + "-31";
+        };
         const result = await db.promise().query(
 			"SELECT Normal_hr as norm, OverTime_hr as OT FROM bookingdetail " + 
             "WHERE Employee_Name = ? " + 
-            "AND Clock_IN BETWEEN CAST(? as date) AND CAST(? as date) " + 
-            "AND Clock_OUT BETWEEN CAST(? as date) AND CAST(? as date)",
-			[req.query.employeeName, compareStart, compareEnd, compareStart, compareEnd]
+            "AND YEAR(Clock_IN) = ? AND MONTH(Clock_IN) = ? " + 
+            "AND YEAR(Clock_OUT) = ? AND MONTH(Clock_OUT) = ?",
+			[req.query.employeeName, req.query.year, dbMonth, req.query.year, dbMonth]
 		);
         let norm = 0, OT = 0;
         result[0].forEach(value => {
