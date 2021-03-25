@@ -66,7 +66,6 @@ class Admin extends Component {
 	}
 
 	async onUserSubmit(addUserData) {
-		console.log(addUserData);
 		await this.props.signUp(addUserData);
 	}
 
