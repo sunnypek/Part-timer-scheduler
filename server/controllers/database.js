@@ -139,7 +139,6 @@ module.exports = {
 	},
 
 	summary: async (req, res, next) => {
-		console.log(req.body);
 
 		// Get userinfo using email
 		// const employeeNameQuery = await db.promise().query(`SELECT * FROM userinfo WHERE Email = "${req.body.email}"`);

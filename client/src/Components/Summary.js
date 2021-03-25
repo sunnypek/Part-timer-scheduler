@@ -83,7 +83,6 @@ function Summary() {
     const [year, setYear] = useState(currentYear);
 
     const handleChange = event => {
-        console.log(event.target.text);
         setYear(event.target.text);
     }
 
@@ -94,11 +93,9 @@ function Summary() {
     const [data, setData] = useState();
     
     const username = localStorage.getItem("USERNAME");
-    console.log(username);
 
     useEffect(() => {
         var body = {};
-        // body["email"] = "Carolann_Venners@gmail.com";
         body["year"] = year;
         body["username"] = username;
         const requestOptions = {
@@ -110,9 +107,6 @@ function Summary() {
             .then(response => response.json())
             .then(data => setData(data));
     }, [year, username])
-
-    // For debugging
-    console.log(data);
 
     var daysWorked = 0;
     var hoursWorked = 0;
@@ -132,7 +126,6 @@ function Summary() {
 
     if(data != null) {
         databaseError = data.databaseError;
-        console.log(databaseError);
 
         // Extract data for 3 cards
         daysWorked = data.daysWorked;
