@@ -13,9 +13,42 @@ import AddTimeslotInput from "./addTimeslotInput";
 import AddTimeslotReadonlyInput from "./addTimeslotReadonlyInput";
 import DatePicker from "./datePicker";
 
+const column = {
+    padding: "5px",
+    width: "50%",
+    float: "left"
+};
+const td = {
+    textalign: "left",
+    padding: "16px"
+};
+const th = {
+    textalign: "left",
+    padding: "10px",
+    backgroundColor: "#f9e79f",
+    width: "1000px"
+};
+const th2 = {
+    textalign: "right",
+    padding: "10px",
+    backgroundColor: "#f9e79f"
+};
+const th3 = {
+    textalign: "right",
+    padding: "10px",
+};
+const divformat = {
+    display: "flex"
+};
+const fomatleft = {
+    marginLeft: "auto"
+};
+
 const local = momentLocalizer(moment);
 let eventsList = [{}];
 let employeeList = [];
+let hoursWorked = 0, hoursOT = 0, OTtotal = 0, NormTotal = 0
+let totalTime = 0, salary = 0, OTSalary = 0, totalsalary = 0, employeeCPF = 0, employerCPF = 0, cdac = (0).toFixed(2), finalSalary = 0;
 
 class Admin extends Component {
 	constructor(props) {
@@ -137,10 +170,72 @@ class Admin extends Component {
 		const result = await axios.get(`http://localhost:1337/database/payroll?employeeName=${employeeName}&period=${period}&year=${year}`);
 		document.getElementById("hoursPayroll").value = result.data.norm;
 		document.getElementById("OTPayroll").value = result.data.OT;
-	}
+		
+		hoursWorked = 0; hoursOT = 0; OTtotal = 0; NormTotal = 0
+		totalTime = 0; salary = 0; OTSalary = 0; totalsalary = 0; employeeCPF = 0; employerCPF = 0; cdac = (0).toFixed(2); finalSalary = 0;
+		const monthName = ["Month","January","February","March","April","May","June","July","August","September","October","November","December"];
+		const month = monthName.indexOf(document.getElementById("periodPayroll").value);
+		const data = {
+			year: year,
+			month: month,
+			username: employeeName
+		}
+		const res = await axios.post("http://localhost:1337/database/payslip", data);
+		for (let i = 0; i < res.data.payslipbookingDetails.length; i++) {
+			hoursWorked += res.data.payslipbookingDetails[i].Normal_hr;
+			hoursOT += res.data.payslipbookingDetails[i].OverTime_hr;
 
-	async adminPayslip() {
+			for (let k = 0; k < res.data.paysliptimeslotDetails.length; k++) {
+				if (res.data.payslipbookingDetails[i].Timeslot_ID === res.data.paysliptimeslotDetails[k].TimeSlot_ID) {
+					if (res.data.payslipbookingDetails[i].Clock_IN != null && res.data.payslipbookingDetails[i].Clock_OUT != null) {
+						OTtotal += (res.data.payslipbookingDetails[i].OverTime_hr * res.data.paysliptimeslotDetails[k].OT_Rate);
+                        NormTotal += (res.data.payslipbookingDetails[i].Normal_hr * res.data.paysliptimeslotDetails[k].Normal_Rate);
+					}
+				}
+			}
+		}
+		totalTime = hoursWorked + hoursOT;
+        if (totalTime < 10) totalTime = '0'+ totalTime;
+        salary = NormTotal;
+        OTSalary = OTtotal;
+        totalsalary = (salary + OTSalary);
+        employeeCPF = (0.20 * totalsalary);
+        employerCPF = (0.17 * totalsalary);
 
+        if (totalsalary !== 0) {
+            if (totalsalary <= 2000){
+                cdac = 0.50.toFixed(2);
+            }
+            else if (totalsalary > 2000){
+                cdac = 1.00.toFixed(2);
+            }
+            else if (totalsalary > 3500){
+                cdac = 1.50.toFixed(2);
+            }
+            else if (totalsalary > 5000){
+                cdac = 2.00.toFixed(2);
+            }
+            else if (totalsalary > 7500){
+                cdac = 3.00.toFixed(2);
+            }
+        }
+
+        finalSalary = (totalsalary - employeeCPF - cdac).toFixed(2);
+        totalsalary = totalsalary.toFixed(2);
+        employeeCPF = employeeCPF.toFixed(2);
+        employerCPF = employerCPF.toFixed(2);
+        salary = salary.toFixed(2);
+        OTSalary = OTSalary.toFixed(2);
+		document.getElementById("totalTime").innerHTML = totalTime;
+		document.getElementById("salary").innerHTML = "$" + salary;
+		document.getElementById("OTSalary").innerHTML = "$" + OTSalary;
+		document.getElementById("totalsalary").innerHTML = "$" + totalsalary;
+		document.getElementById("cdac").innerHTML = "$" + cdac;
+		document.getElementById("cdac2").innerHTML = "$" + cdac;
+		document.getElementById("employerCPF").innerHTML = "$" + employerCPF;
+		document.getElementById("employeeCPF").innerHTML = "$" + employeeCPF;
+		document.getElementById("finalSalary").innerHTML = "$" + finalSalary;
+		document.getElementById("totalsalary2").innerHTML = "$" + totalsalary;
 	}
 
 	render() {
@@ -312,11 +407,86 @@ class Admin extends Component {
 																			<input id = "OTPayroll" type = "text" className = "form-control" readOnly></input>
 																	</div>
 															</div>
-															<div className = "row">
-																	<button type = "button" className = "payslipBtn" onClick={this.adminPayslip}>Generate Payslip</button>
-															</div>
-															
 													</form>
+											</div>
+											<div className="row mt-3">
+												<div>
+													<div style={divformat}>
+														<p style={fomatleft}>Hours Worked (Per Month): <span id="totalTime">{totalTime}</span> hours (Include OT)</p>
+													</div>
+													
+													<div className="row">
+														<div style={column}>
+															<table>
+																<tr>
+																	<th style={th}>Payments</th>
+																	<th style={th2}>SGD$</th>
+																</tr>
+																<tr>
+																	<td style={td}>Salary</td>
+																	<th style={th3} id="salary">${salary}</th>
+																</tr>
+																<tr>
+																	<td style={td}>Overtime</td>
+																	<th style={th3} id="OTSalary">${OTSalary}</th>
+																</tr>
+																<tr>
+																	<td style={td}>Total</td>
+																	<th style={th3} id="totalsalary">${totalsalary}</th>
+																</tr>
+															</table>
+														</div>
+													
+														<div style={column}>
+															<table>
+																<tr>
+																	<th style={th}>Deductions</th>
+																	<th style={th2}>SGD$</th>
+																</tr>
+																<tr>
+																	<td style={td}>CDAC</td>
+																	<th style={th3} id="cdac">${cdac}</th>
+																</tr>
+																<tr>
+																	<td style={td}>Total</td>
+																	<th style={th3} id="cdac2">${cdac}</th>
+																</tr>
+															</table>
+														</div>
+														<div style={column}>
+															<table>
+																<tr>
+																	<th style={th}>CPF Constributions</th>
+																	<th style={th2}>SGD$</th>
+																</tr>
+																<tr>
+																	<td style={td}>Employer's CPF</td>
+																	<th style={th3} id="employerCPF">${employerCPF}</th>
+																</tr>
+																<tr>
+																	<td style={td}>Employee's CPF</td>
+																	<th style={th3} id="employeeCPF">${employeeCPF}</th>
+																</tr>
+															</table>
+														</div>
+														<div style={column}>
+															<table>
+																<tr>
+																	<th style={th}>Earnings</th>
+																	<th style={th2}>SGD$</th>
+																</tr>
+																<tr>
+																	<td style={td}>Nett Salary</td>
+																	<th style={th3} id="finalSalary">${finalSalary}</th>
+																</tr>
+																<tr>
+																	<td style={td}>Gross Salary</td>
+																	<th style={th3} id="totalsalary2">${totalsalary}</th>
+																</tr>
+															</table>
+														</div>
+													</div>                
+												</div>
 											</div>
 									</div>
 							</div>
