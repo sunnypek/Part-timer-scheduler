@@ -91,7 +91,7 @@ class Admin extends Component {
             };
 			registeredUsers += "</ol>";
         } else {
-            registeredUsers += "No one have registered yet!</span>";
+            registeredUsers += "No one have registered yet!";
         }
 		let formatStartTime, formatEndTime;
 		if (parseInt(event.start.slice(11,13)) > 12) {
