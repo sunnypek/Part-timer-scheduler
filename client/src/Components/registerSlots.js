@@ -4,8 +4,7 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import { connect } from "react-redux";
 import Swal from "sweetalert2";
-// eslint-disable-next-line
-import styles from 'react-big-calendar/lib/css/react-big-calendar.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const local = momentLocalizer(moment);
 let eventsList = [{}];
@@ -22,7 +21,20 @@ class RegisterSlots extends Component {
 		this.setState({ gotData: true });
 	}
 
-    selectEvent(event) {
+    async selectEvent(event) {
+        const result = await axios.get(`http://localhost:1337/database/book?timeslotID=${event.title}`);
+        let registeredUsers = "";
+        if (result.data.length > 0) {
+            for (let i = 0; i < result.data.length; i++) {
+                if (result.data[i].Employee_Name === localStorage.getItem("USERNAME")) {
+                    registeredUsers += `<li style="color:#e74c3c">${result.data[i].Employee_Name}</li>`;
+                } else {
+                    registeredUsers += `<li>${result.data[i].Employee_Name}</li>`;
+                }
+            };
+        } else {
+            registeredUsers += "No one have registered yet!";
+        }
         let formatStartTime, formatEndTime;
 		if (parseInt(event.start.slice(11,13)) > 12) {
 			const newStartHour = event.start.slice(11,13) - 12;
@@ -43,6 +55,8 @@ class RegisterSlots extends Component {
                 Time: <span style="color: #e67e22">${formatStartTime}</span> to <span style="color: #e74c3c">${formatEndTime}</span><br/>
                 Normal Rate: <strong style="color: #16a085">$${event.normalRate}</strong><br/>
                 Overtime Rate: <strong style="color: #f39c12">$${event.overtimeRate}</strong>
+                <br/><br/>
+                Registered users: <ol>${registeredUsers}</ol>
             `,
             showDenyButton: true,
             confirmButtonText: `Yes`,
