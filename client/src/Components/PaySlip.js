@@ -48,21 +48,6 @@ function PaySlip(){
     const [data, setData] = useState();
 
     const username = localStorage.getItem("USERNAME");
-    console.log(username);
-
-    /* const [drpbtnMon, setDrpbtnMon] = useState();
-    const [drpbtnYr, setDrpbtnYr] = useState(); */
-    //var monVal = new Date().getMonth() + 1;
-    
-    /* const onMonthchangehandler = () => {
-        monVal = setDrpbtnMon(drpbtnMon);
-        console.log(drpbtnMon);
-    }
-
-    const onYearchangehandler = () => {
-        setDrpbtnYr(drpbtnYr);
-        console.log(drpbtnYr);
-    } */
 
     useEffect(() => {
         var body = {};
@@ -78,19 +63,6 @@ function PaySlip(){
             .then(response => response.json())
             .then(data => setData(data));
     }, [year, month, username])
-
-    /* useEffect(()=>{
-        var mth = {};
-        mth["month"] = month;
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(mth)
-        };
-        fetch('http://localhost:1337/database/payslip', requestOptions)
-        .then(response=>response.json())
-        .then(data=>setData(data));
-    }, [month]) */
     
     const yearArray = [];
     const monthArray = [];
@@ -190,35 +162,7 @@ function PaySlip(){
         <div>
             <h1>Welcome {username}</h1>
             <h2>My Payslips</h2>
-            {/* <p onLoad={MonHandleChange}> Month: {monthName[month]} </p> */}
             <div style={divformat}>
-                {/* <MonthPicker
-                    defaultValue={'Month'}
-                    year={drpbtnYr}    // mandatory
-                    required={true}           // default is false
-                    disabled={false}           // default is false
-                    value={drpbtnMon}  // mandatory
-                    onChange={onMonthchangehandler}
-                    id={'month'}
-                    name={'month'}
-                    classes={'classes'}
-                    optionClasses={'option classes'}
-                />
-
-                <YearPicker
-                    defaultValue={'Year'}
-                    start={2000}                // default is 1900
-                    end=''                 // default is current year
-                    reverse                     // default is ASCENDING
-                    required={true}             // default is false
-                    disabled={false}             // default is false
-                    value={drpbtnYr}     // mandatory
-                    onChange={onYearchangehandler}
-                    id={'year'}
-                    name={'year'}
-                    classes={'classes'}
-                    optionClasses={'option classes'}
-                /> */}
                 <DropdownButton id="dropdown-basic-button" title={monthName[month]} data-toggle="dropdown" bsPrefix={dropdownBtn}>
                     {monthDropdownItems}
                 </DropdownButton>
@@ -303,8 +247,6 @@ function PaySlip(){
                 </div>
             </div>                
         </div>
-
-        
     );
 } 
 export default PaySlip
