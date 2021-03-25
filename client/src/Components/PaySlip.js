@@ -68,7 +68,7 @@ function PaySlip(){
     const monthDropdownItems = [];
     const yearDropdownItems = [];
     const monthName = ["Month","January","February","March","April","May","June","July","August","September","October","November","December"];
-    for(var i = 0; i < 50; i++) {
+    for(var i = 0; i < 10; i++) {
         yearArray[i] = currentYear - i;
     }
     for(var j=1; j < 13; j++) {
