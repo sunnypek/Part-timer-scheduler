@@ -2,7 +2,6 @@ const db = require("../database");
 
 module.exports = {
     get: async (req, res, next) => {
-        console.log(req.query);
         await db.promise().query(
             `SELECT * FROM bookingdetail WHERE Timeslot_ID = '${req.query.timeslotID}' AND Employee_Name != '${req.query.username}'`
         ).then((result) => {
