@@ -3,6 +3,7 @@ const router = require("express-promise-router")();
 const databaseController = require("../controllers/database");
 const payrollController = require("../controllers/payroll");
 const usersController = require("../controllers/user");
+const bookingController = require("../controllers/booking");
 
 router.route("/clockIn")
 	.post(databaseController.clockIn);
@@ -29,8 +30,8 @@ router.route("/attendance")
 	.get(databaseController.attendance);
 
 router.route("/book")
-	.post(databaseController.postBook)
-	.delete(databaseController.deleteBook);
+	.post(bookingController.post)
+	.delete(bookingController.delete);
 
 router.route("/payroll")
 	.get(payrollController.get);
