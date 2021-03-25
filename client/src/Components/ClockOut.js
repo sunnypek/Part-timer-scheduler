@@ -42,7 +42,7 @@ class ClockOut extends Component {
   }
 
   async onSubmit(formData) {
-    formData.clockIn = convertedTimeNowToSave;
+    formData.clockOut = convertedTimeNowToSave;
     formData.employeeName = localStorage.getItem("USERNAME");
     if (!formData.hasOwnProperty("timeslotID") || formData.timeslotID === "Click to choose timeslot") {
       Swal.fire({
