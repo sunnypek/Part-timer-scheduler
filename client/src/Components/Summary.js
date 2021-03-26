@@ -41,7 +41,7 @@ function TimeslotEntry(props) {
                 } 
                 dayOfWeek={props.dayOfWeek} 
                 startTime = {
-                    ((props.tempClockInHours > 12) ? props.tempClockInHours - 1 : props.tempClockInHours) +
+                    ((props.tempClockInHours > 12) ? props.tempClockInHours - 12 : props.tempClockInHours) +
                     "." +
                     ((props.tempClockInMinutes < 10) ? ("0" + props.tempClockInMinutes) : props.tempClockInMinutes) +
                     ((props.tempClockInHours <= 12) ? "am" : "pm")
