@@ -19,7 +19,6 @@ module.exports = {
 			);
 			res.status(200).json({ alreadybooked: false });	
 		} catch (error) {
-			console.error(error.sqlMessage);
 			res.status(200).json({ alreadybooked: true });
 		}
 	},
