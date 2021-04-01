@@ -12,15 +12,23 @@ module.exports = {
     },
 
     post: async (req, res, next) => {
-		try {
-			const result = await db.promise().query(
-				"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name) VALUES (?, ?)",
-				[req.body.Timeslot_ID, req.body.Employee_Name]
-			);
-			res.status(200).json({ alreadybooked: false });	
-		} catch (error) {
+		await db.promise().query(
+			"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name) VALUES (?, ?)",
+			[req.body.Timeslot_ID, req.body.Employee_Name]
+		).then(async () => {
+			await db.promise().query(
+				`SELECT need from timeslot WHERE TimeSlot_ID = '${req.body.Timeslot_ID}'`
+			).then(async result => {
+				let need = parseInt(result[0][0].need);
+				await db.promise().query(
+					`UPDATE timeslot SET need = '${need - 1}' WHERE TimeSlot_ID = '${req.body.Timeslot_ID}'`
+				).then(() => {
+					res.status(200).json({ alreadybooked: false });
+				});
+			});
+		}).catch(() => {
 			res.status(200).json({ alreadybooked: true });
-		}
+		});
 	},
 
 	delete: async (req, res, next) => {
