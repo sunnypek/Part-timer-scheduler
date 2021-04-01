@@ -138,6 +138,16 @@ module.exports = {
 		res.status(200).json(result);
 	},
 
+	getNeed: async (req, res, next) => {
+		await db.promise().query(
+			`SELECT need from timeslot WHERE TimeSlot_ID = '${req.query.timeslotID}'`
+		).then(result => {
+			res.status(200).json(result[0][0].need);
+		}).catch(() => {
+            res.status(500).json({ none: true });
+        });
+	},
+
 	summary: async (req, res, next) => {
 
 		// Get userinfo using email

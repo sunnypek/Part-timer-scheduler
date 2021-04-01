@@ -39,5 +39,8 @@ router.route("/payroll")
 
 router.route("/timeslots")
 	.get(usersController.get);
+
+router.route("/getNeed")
+	.get(databaseController.getNeed);
 	
 module.exports = router;
