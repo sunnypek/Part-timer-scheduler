@@ -39,7 +39,6 @@ function Chart(props) {
             scales: {
                 xAxes: [{
                     ticks: {
-                        fontColor: ['#070', '#070', '#070', '#070', '#070'],
                         callback: function(value, index, values) {
                             if(value === monthList[props.month]) {
                                 return value + "(Current)";
