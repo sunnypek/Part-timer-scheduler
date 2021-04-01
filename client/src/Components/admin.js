@@ -128,6 +128,14 @@ class Admin extends Component {
 				<br/>
 				<div class="row">
 					<div class="col-6" style="text-align:right;">
+						Part timers needed:
+					</div>
+					<div class="col-6" style="text-align:left">
+						${event.need}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6" style="text-align:right;">
 						Registered users:
 					</div>
 					<div class="col-6" style="text-align:left">
