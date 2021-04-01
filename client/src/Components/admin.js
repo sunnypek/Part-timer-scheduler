@@ -171,6 +171,12 @@ class Admin extends Component {
 								<label class="col-form-label font-weight-bold">OT Rate</label>
 								<input id="editEventOTRate"  value="${event.overtimeRate}" class = "form-control" />
 							</div>
+						</div>
+						<div class="row">
+							<div class="col-6">
+								<label class="col-form-label font-weight-bold">P/T Needed</label>
+								<input id="editEventNeed"  value="${event.need}" class = "form-control" />
+							</div>
 						</div>`,
 						showCancelButton: true,
 						confirmButtonText: `Confirm Edit`
@@ -181,7 +187,8 @@ class Admin extends Component {
 							Start_DateTime: document.getElementById("editEventStart").value,
 							End_DateTime: document.getElementById("editEventEnd").value,
 							Normal_Rate: document.getElementById("editEventNormalRate").value,
-							OT_Rate: document.getElementById("editEventOTRate").value
+							OT_Rate: document.getElementById("editEventOTRate").value,
+							need: document.getElementById("editEventNeed").value
 						}
 						await axios.patch("http://localhost:1337/database/timeslot", updateData);
 						window.location.reload();
