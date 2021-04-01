@@ -112,6 +112,8 @@ class RegisterSlots extends Component {
                         const res = await axios.post("http://localhost:1337/database/book", data)
                         if (res.data.alreadybooked) {
                             Swal.fire({icon: "error",title: "Already registered for this slot!" });
+                        } else if (res.data.alreadyFull) {
+                            Swal.fire({icon: "info",title: "Sorry there is no more slots!" });
                         } else {
                             Swal.fire({icon: "success",title: "Registered!"});
                         }
