@@ -3,9 +3,15 @@ import { Line } from "react-chartjs-2";
 import { MDBContainer } from "mdbreact";
 
 function Chart(props) {
+    const monthList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var gridLineColor = [];
+
+    if(props.currentYear)
+        gridLineColor[props.month] = "red";
+
     const state = {
         dataLine: {
-            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            labels: monthList,
             datasets: [
             {
                 label: "earnings in $",
@@ -28,11 +34,29 @@ function Chart(props) {
                 pointHitRadius: 10,
                 data: props.earnings
             }]
-        }
+        },
+        options: { 
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        callback: function(value, index, values) {
+                            if(value === monthList[props.month]) {
+                                return value + "(Current)";
+                            }
+                            return value;
+                        }
+                    },
+                    gridLines: {
+                        color: gridLineColor
+                    }
+                }]
+            }
+        },
+        responsive: true
     }
     return (
         <MDBContainer>
-            <Line data={state.dataLine} options={{ responsive: true }} />
+            <Line data={state.dataLine} options={state.options} />
         </MDBContainer>
     )
 }

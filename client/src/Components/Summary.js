@@ -73,8 +73,10 @@ function Summary() {
     const dayOfWeek = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
 
     const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
     const yearArray = [];
     const yearDropdownItems = [];
+    var currentYearBool = false;
 
     for(var i = 0; i < 5; i++) {
         yearArray[i] = currentYear - i;
@@ -107,6 +109,11 @@ function Summary() {
             .then(response => response.json())
             .then(data => setData(data));
     }, [year, username])
+
+    if(year == currentYear) 
+        currentYearBool = true;
+    else 
+        currentYearBool = false;
 
     var daysWorked = 0;
     var hoursWorked = 0;
@@ -263,7 +270,7 @@ function Summary() {
                             </tr>
                         </table>
                         <h1 className="std header align-left">Total Earnings</h1>
-                        <Chart earnings={earnings}/>
+                        <Chart earnings={earnings} month={currentMonth} currentYear={currentYearBool}/>
                     </td>
                     <td className="align-top">
                         <table className="">
