@@ -23,6 +23,7 @@ class RegisterSlots extends Component {
 
     async selectEvent(event) {
         const result = await axios.get(`http://localhost:1337/database/book?timeslotID=${event.title}`);
+        const need = await axios.get(`http://localhost:1337/database/getNeed?timeslotID=${event.title}`);
         let registeredUsers = "";
         if (result.data.length > 0) {
             registeredUsers += "<ol style='padding-left: 1rem;'>";
@@ -72,6 +73,14 @@ class RegisterSlots extends Component {
                     </div>
                 </div>
                 <br/>
+                <div class="row">
+                    <div class="col-6" style="text-align:right;">
+                        Part timers needed:
+                    </div>
+                    <div class="col-6" style="text-align:left">
+                        ${need.data}
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-6" style="text-align:right;">
                         Registered users:
