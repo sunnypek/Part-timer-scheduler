@@ -110,7 +110,7 @@ function Summary() {
             .then(data => setData(data));
     }, [year, username])
 
-    if(year == currentYear) 
+    if(year === currentYear) 
         currentYearBool = true;
     else 
         currentYearBool = false;
