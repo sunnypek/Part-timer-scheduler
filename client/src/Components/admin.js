@@ -318,6 +318,11 @@ class Admin extends Component {
 							<Field alt="req" name="OT_Rate" type="number" id="overtimeRate_add" label="OT rate" placeholder="Overtime rate per hour for this job" component={ AddTimeslotInput } />
 						</div>
 					</div>
+					<div className="row">
+						<div className="col-6 row">
+							<Field alt="req" name="need" type="number" id="need" label="P/T needed" placeholder="" component={ AddTimeslotInput } />
+						</div>
+					</div>
 					<div className="row"><div className="col-3"></div><div className="col-6">{alert}</div><div className="col-3"></div></div>
 					<div className = "row">
 							<button type = "submit" className="searchBtn">Add Timeslot</button>

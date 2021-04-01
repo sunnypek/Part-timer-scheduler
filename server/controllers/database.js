@@ -104,8 +104,8 @@ module.exports = {
 
 	addTimeslot: (req, res, next) => {
 		db.execute(
-			"INSERT INTO timeslot (TimeSlot_ID, Start_DateTime, End_DateTime, Create_By, Normal_Rate, OT_Rate) VALUES (?, ?, ?, ?, ?, ?)",
-			[req.body.TimeSlot_ID, req.body.Start_DateTime, req.body.End_DateTime, req.body.Create_By, req.body.Normal_Rate, req.body.OT_Rate],
+			"INSERT INTO timeslot (TimeSlot_ID, Start_DateTime, End_DateTime, Create_By, Normal_Rate, OT_Rate, need) VALUES (?, ?, ?, ?, ?, ?, ?)",
+			[req.body.TimeSlot_ID, req.body.Start_DateTime, req.body.End_DateTime, req.body.Create_By, req.body.Normal_Rate, req.body.OT_Rate, req.body.need],
 			(err, results, fields) => {
 				if (err) {
 					res.status(400).json({ err });
