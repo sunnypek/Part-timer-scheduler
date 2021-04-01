@@ -13,21 +13,25 @@ module.exports = {
 
     post: async (req, res, next) => {
 		await db.promise().query(
-			"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name) VALUES (?, ?)",
-			[req.body.Timeslot_ID, req.body.Employee_Name]
-		).then(async () => {
-			await db.promise().query(
-				`SELECT need from timeslot WHERE TimeSlot_ID = '${req.body.Timeslot_ID}'`
-			).then(async result => {
-				let need = parseInt(result[0][0].need);
+			`SELECT need from timeslot WHERE TimeSlot_ID = '${req.body.Timeslot_ID}'`
+		).then(async needResult => {
+			let need = parseInt(needResult[0][0].need);
+			if (need === 0) {
+				res.status(200).json({ alreadyFull: true })
+			} else {
 				await db.promise().query(
-					`UPDATE timeslot SET need = '${need - 1}' WHERE TimeSlot_ID = '${req.body.Timeslot_ID}'`
-				).then(() => {
-					res.status(200).json({ alreadybooked: false });
+					"INSERT INTO bookingdetail (Timeslot_ID, Employee_Name) VALUES (?, ?)",
+					[req.body.Timeslot_ID, req.body.Employee_Name]
+				).then(async () => {
+					await db.promise().query(
+						`UPDATE timeslot SET need = '${need - 1}' WHERE TimeSlot_ID = '${req.body.Timeslot_ID}'`
+					).then(() => {
+						res.status(200).json({ alreadybooked: false });
+					});
+				}).catch(() => {
+					res.status(200).json({ alreadybooked: true });
 				});
-			});
-		}).catch(() => {
-			res.status(200).json({ alreadybooked: true });
+			};
 		});
 	},
 
