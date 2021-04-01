@@ -91,7 +91,7 @@ module.exports = {
 	
 	getTimeslot: (req, res, next) => {
 		db.execute(
-			"SELECT TimeSlot_ID as title, Start_DateTime as start, End_DateTime as end, Normal_Rate as normalRate, OT_Rate as overtimeRate FROM timeslot",
+			"SELECT TimeSlot_ID as title, Start_DateTime as start, End_DateTime as end, Normal_Rate as normalRate, OT_Rate as overtimeRate, need FROM timeslot",
 			(err, results, fields) => {
 				if (err) {
 					res.status(400).json(err);
