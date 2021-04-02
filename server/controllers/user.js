@@ -29,7 +29,7 @@ module.exports = {
 			authLevel: authLevel
 		})
 		await newUser.save();
-		db.execute("INSERT INTO userinfo (Email, Employee_Name, Employer_Name) VALUES (?, ?, ?)",[newUser.email, newUser.username, newUser.username]);
+		db.execute("INSERT INTO userinfo (Email, Employee_Name, Employer_Name, authLevel) VALUES (?, ?, ?, ?)",[newUser.email, newUser.username, newUser.username, "user"]);
 		const token = signToken(newUser);
 
 		res.status(200).json({ 
