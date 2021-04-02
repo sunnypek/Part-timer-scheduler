@@ -339,7 +339,7 @@ class Admin extends Component {
 					</div>
 					<div className="row">
 						<div className="col-6 row">
-							<Field alt="req" name="need" type="number" id="need" label="P/T needed" placeholder="" component={ AddTimeslotInput } />
+							<Field alt="req" name="need" type="number" id="need" label="P/T needed" placeholder="How many part timers do you need" component={ AddTimeslotInput } />
 						</div>
 					</div>
 					<div className="row"><div className="col-3"></div><div className="col-6">{alert}</div><div className="col-3"></div></div>
