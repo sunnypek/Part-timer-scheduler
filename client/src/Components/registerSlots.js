@@ -103,19 +103,23 @@ class RegisterSlots extends Component {
                     confirmButtonText: "Yes"
                 }).then(async (result) => {
                     if (result.isConfirmed) {
-                        const data = {
-                            Timeslot_ID: event.title,
-                            Employee_Name: localStorage.getItem("USERNAME"),
-                            Normal_hr: event.normalRate,
-                            OverTime_hr: event.overtimeRate
-                        };
-                        const res = await axios.post("http://localhost:1337/database/book", data)
-                        if (res.data.alreadybooked) {
-                            Swal.fire({icon: "error",title: "Already registered for this slot!" });
-                        } else if (res.data.alreadyFull) {
-                            Swal.fire({icon: "info",title: "Sorry there is no more slots!" });
+                        if (event.start > new Date().toISOString().slice(0, 19).replace("T", " ")) {
+                            const data = {
+                                Timeslot_ID: event.title,
+                                Employee_Name: localStorage.getItem("USERNAME"),
+                                Normal_hr: event.normalRate,
+                                OverTime_hr: event.overtimeRate
+                            };
+                            const res = await axios.post("http://localhost:1337/database/book", data)
+                            if (res.data.alreadybooked) {
+                                Swal.fire({icon: "error",title: "Already registered for this slot!" });
+                            } else if (res.data.alreadyFull) {
+                                Swal.fire({icon: "info",title: "Sorry there is no more slots!" });
+                            } else {
+                                Swal.fire({icon: "success",title: "Registered!"});
+                            };
                         } else {
-                            Swal.fire({icon: "success",title: "Registered!"});
+                            Swal.fire({ icon: "error", title: "Sorry event is already over!"});
                         }
                     };
                 });
