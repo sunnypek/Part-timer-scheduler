@@ -73,7 +73,7 @@ module.exports = {
 
 	getEmployees: (req, res, next) => {
 		db.execute(
-			"SELECT * FROM userinfo", 
+			"SELECT * FROM userinfo WHERE authLevel = 'user'", 
 			(err, results, fields) => {
 				err ? res.status(400).json({ err }) : res.status(200).json({ results });
 			}
