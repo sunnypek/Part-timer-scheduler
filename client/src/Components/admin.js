@@ -105,6 +105,16 @@ class Admin extends Component {
 		} else {
 			formatEndTime = event.end.slice(0, 16) + " AM";
 		}
+		if (event.start.slice(11,13) === "") {
+			formatStartTime = event.start.slice(0, 11) + " 12:00 AM";
+		} else if (event.start.slice(11,13) === "00") {
+			formatStartTime = event.start.slice(0, 11) + " 12:30 AM";
+		}
+		if (event.end.slice(11,13) === "") {
+			formatEndTime = event.end.slice(0, 11) + " 12:00 AM";
+		} else if (event.end.slice(11,13) === "00") {
+			formatEndTime = event.end.slice(0, 11) + " 12:30 AM";
+		}
 		Swal.fire({
             title: event.title,
             html: `
