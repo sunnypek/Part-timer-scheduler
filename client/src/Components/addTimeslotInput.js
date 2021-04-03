@@ -11,6 +11,8 @@ export default class AddTimeslotInput extends Component {
 			placeholder = { this.props.placeholder }
 			className = "form-control"
 			type = { this.props.type }
+			min={this.props.min}
+			step ={this.props.step}
 			value = { value }
 			onChange = { onChange }
 			required />
