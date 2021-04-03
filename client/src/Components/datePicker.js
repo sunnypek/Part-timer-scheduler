@@ -22,6 +22,7 @@ export default class DatePicker extends Component {
                             placeholderText= {this.props.placeholder}
                             showTimeSelect
                             selected= { value }
+                            minDate={this.props.minDate}
                             dateFormat= "yyyy-MM-dd h:mm aa"
                             required />
 					</div>
