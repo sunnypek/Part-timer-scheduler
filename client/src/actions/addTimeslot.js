@@ -10,13 +10,16 @@ export const addTimeslot = (data) => {
 			let startHour = parseInt(startTime.slice(11,13));
 			let endHour = parseInt(endTime.slice(11,13));
 			let convertedStartTime, convertedEndTime;
+			let startNeedAdd = false, endNeedAdd = false;
 			if (startHour >= 16) {
 				let startDate = parseInt(startTime.slice(8,10)) + 1;
 				convertedStartTime = startTime.slice(0,8) + startDate.toString() + " ";
+				startNeedAdd = true;
 			};
 			if (endHour >= 16) {
 				let endDate = parseInt(endTime.slice(8,10)) + 1;
 				convertedEndTime = endTime.slice(0,8) + endDate.toString() + " ";
+				endNeedAdd = true;
 			};
 			startHour = startHour + 8;
 			endHour = endHour + 8;
@@ -30,8 +33,16 @@ export const addTimeslot = (data) => {
 			} else if (endHour > 24) {
 				endHour = endHour - 24;
 			};
-			convertedStartTime = convertedStartTime + startHour.toString() + startTime.slice(13);
-			convertedEndTime = convertedEndTime + endHour.toString() + endTime.slice(13);
+			if (startNeedAdd) {
+				convertedStartTime = convertedStartTime + startHour.toString() + startTime.slice(13);
+			} else {
+				convertedStartTime = startTime.slice(0,11) + startHour.toString() + startTime.slice(13);
+			};
+			if (endNeedAdd) {
+				convertedEndTime = convertedEndTime + endHour.toString() + endTime.slice(13);
+			} else {
+				convertedEndTime = endTime.slice(0,11) + endHour.toString() + endTime.slice(13);
+			};
 			data.Start_DateTime = convertedStartTime;
 			data.End_DateTime = convertedEndTime;
 			await axios.post("http://localhost:1337/database/timeslot", data);
