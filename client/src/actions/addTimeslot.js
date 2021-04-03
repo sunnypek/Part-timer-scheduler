@@ -7,16 +7,27 @@ export const addTimeslot = (data) => {
 		try {
 			const startTime = data.Start_DateTime.toISOString().slice(0, 19).replace("T", " ");
 			const endTime = data.End_DateTime.toISOString().slice(0, 19).replace("T", " ");
-			let startHour = parseInt(startTime.slice(11,13)) + 8;
-			let endHour = parseInt(endTime.slice(11,13)) + 8;
+			let startHour = parseInt(startTime.slice(11,13));
+			let endHour = parseInt(endTime.slice(11,13));
+			let convertedStartTime, convertedEndTime;
+			if (startHour >= 16) {
+				let startDate = parseInt(startTime.slice(8,10)) + 1;
+				convertedStartTime = startTime.slice(0,8) + startDate.toString() + " ";
+			};
+			if (endHour >= 16) {
+				let endDate = parseInt(endTime.slice(8,10)) + 1;
+				convertedEndTime = endTime.slice(0,8) + endDate.toString() + " ";
+			};
+			startHour = startHour + 8;
+			endHour = endHour + 8;
 			if (startHour === 24) {
 				startHour = 0;
 			};
 			if (endHour ===24) {
 				endHour = 0;
-			}
-			const convertedStartTime = startTime.slice(0,11) + startHour.toString() + startTime.slice(13);
-			const convertedEndTime = endTime.slice(0,11) + endHour.toString() + endTime.slice(13);
+			};
+			convertedStartTime = convertedStartTime + startHour.toString() + startTime.slice(13);
+			convertedEndTime = convertedEndTime + endHour.toString() + endTime.slice(13);
 			data.Start_DateTime = convertedStartTime;
 			data.End_DateTime = convertedEndTime;
 			await axios.post("http://localhost:1337/database/timeslot", data);
