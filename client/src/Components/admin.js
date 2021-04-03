@@ -12,7 +12,6 @@ import * as timeSlotActions from "../actions/addTimeslot";
 import AddTimeslotInput from "./addTimeslotInput";
 import AddTimeslotReadonlyInput from "./addTimeslotReadonlyInput";
 import DatePicker from "./datePicker";
-import { date } from "joi";
 
 const column = {
     padding: "5px",
@@ -93,38 +92,48 @@ class Admin extends Component {
         } else {
             registeredUsers += "No one have registered yet!";
         }
-		let formatStartTime, formatEndTime ;
-
+		let formatStartTime, formatEndTime;
+		let startAddZero = false, endAddZero = false;
+		let startIsPM = false, endIsPM = false;
 		if (parseInt(event.start.slice(11,13)) > 12) {
 			const newStartHour = event.start.slice(11,13) - 12;
-			formatStartTime = event.start.slice(0,11) + newStartHour.toString() + event.start.slice(13, 16) + " PM";
-		
+			if (newStartHour < 10) {
+				startAddZero = true;
+			};
+			if (startAddZero) {
+				formatStartTime = event.start.slice(0,11) + "0" + newStartHour.toString() + event.start.slice(13, 16) + " PM";
+				startIsPM = true;
+			} else {
+				formatStartTime = event.start.slice(0,11) + newStartHour.toString() + event.start.slice(13, 16) + " PM";
+				startIsPM = true;
+			};
 		} else {
 			formatStartTime = event.start.slice(0,16) + " AM";
-		
 		}
-
 		if (parseInt(event.end.slice(11,13)) > 12) {
 			const newEndHour = event.end.slice(11,13) - 12;
-			formatEndTime = event.end.slice(0, 11) + newEndHour.toString() + event.end.slice(13, 16) + " PM";
-	
+			if (newEndHour < 10) {
+				endAddZero = true;
+			};
+			if (endAddZero) {
+				formatEndTime = event.end.slice(0, 11) + "0" + newEndHour.toString() + event.end.slice(13, 16) + " PM";
+				endIsPM = true;
+			} else {
+				formatEndTime = event.end.slice(0, 11) + newEndHour.toString() + event.end.slice(13, 16) + " PM";
+				endIsPM = true;
+			};
 		} else {
 			formatEndTime = event.end.slice(0, 16) + " AM";
-		
 		}
 		if (event.start.slice(11,13) === "") {
 			formatStartTime = event.start.slice(0, 11) + " 12:00 AM";
-	
 		} else if (event.start.slice(11,13) === "00") {
 			formatStartTime = event.start.slice(0, 11) + " 12:30 AM";
-
 		}
 		if (event.end.slice(11,13) === "") {
 			formatEndTime = event.end.slice(0, 11) + " 12:00 AM";
-		
 		} else if (event.end.slice(11,13) === "00") {
 			formatEndTime = event.end.slice(0, 11) + " 12:30 AM";
-	
 		}
 		Swal.fire({
             title: event.title,
@@ -176,11 +185,11 @@ class Admin extends Component {
 						<div class="row">
 							<div class="col-6">
 								<label class="col-form-label font-weight-bold">Start D/T</label>
-								<input id="editEventStart"  value=" ${formatStartTime.slice(0,16) +":00"}" class = "form-control" />
+								<input id="editEventStart"  value=" ${startIsPM ? formatStartTime.slice(0,11) + (parseInt(formatStartTime.slice(11,13)) + 12).toString() + formatStartTime.slice(13,16) + ":00" : formatStartTime.slice(0,16)+":00"}" class = "form-control" />
 							</div>
 							<div class="col-6">
 								<label class="col-form-label font-weight-bold">End D/T</label>
-								<input id="editEventEnd"  value="${formatEndTime.slice(0,16)+":00"}" class = "form-control" />
+								<input id="editEventEnd"  value="${endIsPM ? formatEndTime.slice(0,11) + (parseInt(formatEndTime.slice(11,13)) + 12).toString() + formatEndTime.slice(13,16) + ":00" : formatEndTime.slice(0,16)+":00"}" class = "form-control" />
 							</div>
 						</div>
 						<div class="row">
