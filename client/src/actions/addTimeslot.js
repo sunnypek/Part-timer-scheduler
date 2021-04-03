@@ -22,9 +22,13 @@ export const addTimeslot = (data) => {
 			endHour = endHour + 8;
 			if (startHour === 24) {
 				startHour = 0;
+			} else if (startHour > 24) {
+				startHour = startHour - 24;
 			};
-			if (endHour ===24) {
+			if (endHour === 24) {
 				endHour = 0;
+			} else if (endHour > 24) {
+				endHour = endHour - 24;
 			};
 			convertedStartTime = convertedStartTime + startHour.toString() + startTime.slice(13);
 			convertedEndTime = convertedEndTime + endHour.toString() + endTime.slice(13);
