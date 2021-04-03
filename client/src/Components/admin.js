@@ -12,6 +12,7 @@ import * as timeSlotActions from "../actions/addTimeslot";
 import AddTimeslotInput from "./addTimeslotInput";
 import AddTimeslotReadonlyInput from "./addTimeslotReadonlyInput";
 import DatePicker from "./datePicker";
+import { date } from "joi";
 
 const column = {
     padding: "5px",
@@ -131,8 +132,8 @@ class Admin extends Component {
 						<div style="width: 65%; text-align: center;">to</div>
 						<span style="color: #e74c3c">${formatEndTime}</span><br/>
 						<br/>
-						<strong style="color: #16a085">$${event.normalRate}</strong><br/>
-						<strong style="color: #f39c12">$${event.overtimeRate}</strong>
+						<strong style="color: #16a085">$${event.normalRate.toFixed(2)}</strong><br/>
+						<strong style="color: #f39c12">$${event.overtimeRate.toFixed(2)}</strong>
 					</div>
 				</div>
 				<br/>
@@ -175,11 +176,11 @@ class Admin extends Component {
 						<div class="row">
 							<div class="col-6">
 								<label class="col-form-label font-weight-bold">Normal Rate</label>
-								<input id="editEventNormalRate"  value="${event.normalRate}" class = "form-control" />
+								<input id="editEventNormalRate"  value="${event.normalRate.toFixed(2)}" class = "form-control" />
 							</div>
 							<div class="col-6">
 								<label class="col-form-label font-weight-bold">OT Rate</label>
-								<input id="editEventOTRate"  value="${event.overtimeRate}" class = "form-control" />
+								<input id="editEventOTRate"  value="${event.overtimeRate.toFixed(2)}" class = "form-control" />
 							</div>
 						</div>
 						<div class="row">
@@ -321,6 +322,7 @@ class Admin extends Component {
 
 		let addReleaseUI = "";
 		if (this.props.message === "CLICK_TIME_SLOT" || this.props.message === "ADD_TIMESLOT_ERROR") {
+			let systemdate = new Date()
 			addReleaseUI = 
 				<form id="addTimeslotForm" className="needs-validation" onSubmit= { handleSubmit(this.onTimeslotSubmit) }>
 					<div className="row">
@@ -333,28 +335,28 @@ class Admin extends Component {
 					</div>
 					<div className="row">
 						<div className="col-6 row">
-							<Field alt="req" name="Start_DateTime" type="text" id="startDateTime_add" label="Start D/T" placeholder="Click to select date and time" component={ DatePicker } />
+							<Field alt="req" name="Start_DateTime" type="text" id="startDateTime_add" label="Start D/T" minDate= {systemdate } placeholder="Click to select date and time" component={ DatePicker } />
 						</div>
 						<div className="col-6 row">
-							<Field alt="req" name="End_DateTime" type="text" id="endDateTime_add" label="End D/T" placeholder="Click to select date and time" component={ DatePicker } />
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-6 row">
-							<Field alt="req" name="Normal_Rate" type="number" id="normalRate_add" label="Normal rate" placeholder="Normal rate per hour for this job" component={ AddTimeslotInput } />
-						</div>
-						<div className="col-6 row">
-							<Field alt="req" name="OT_Rate" type="number" id="overtimeRate_add" label="OT rate" placeholder="Overtime rate per hour for this job" component={ AddTimeslotInput } />
+							<Field alt="req" name="End_DateTime" type="text" id="endDateTime_add" label="End D/T" minDate= {systemdate } placeholder="Click to select date and time" component={ DatePicker } />
 						</div>
 					</div>
 					<div className="row">
 						<div className="col-6 row">
-							<Field alt="req" name="need" type="number" id="need" label="P/T needed" placeholder="How many part timers do you need" component={ AddTimeslotInput } />
+							<Field alt="req" name="Normal_Rate" type="number" id="normalRate_add" label="Normal rate" min="0" step="0.01" placeholder="Normal rate per hour for this job" component={ AddTimeslotInput } />
+						</div>
+						<div className="col-6 row">
+							<Field alt="req" name="OT_Rate" type="number" id="overtimeRate_add" label="OT rate" min="0" step="0.01" placeholder="Overtime rate per hour for this job" component={ AddTimeslotInput } />
+						</div>
+					</div>
+					<div className="row">
+						<div className="col-6 row">
+							<Field alt="req" name="need" type="number" id="need" label="P/T needed" min="1" placeholder="How many part timers do you need" component={ AddTimeslotInput } />
 						</div>
 					</div>
 					<div className="row"><div className="col-3"></div><div className="col-6">{alert}</div><div className="col-3"></div></div>
 					<div className = "row">
-							<button type = "submit" className="searchBtn">Add Timeslot</button>
+							<button type = "submit" className="searchBtn">Submit Timeslot</button>
 							<button type = "button" className="searchBtn" onClick={this.props.cancelButton}>Cancel</button>
 					</div>
 				</form>
@@ -409,7 +411,7 @@ class Admin extends Component {
 										{ addReleaseUI }
 									</div>
 									<div className="d-flex flex-column col-2 justify-content-center">
-										<button type="button" onClick={this.props.clickAddTimeslot} className="btn btn-primary btn-lg my-2">Add Timeslot</button>
+										<button type="button" onClick={this.props.clickAddTimeslot} className="btn btn-primary btn-lg my-2">Create Timeslot form </button>
 									</div>
 								</div>
 							</div>
