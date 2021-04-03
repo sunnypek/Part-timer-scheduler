@@ -39,15 +39,30 @@ class RegisterSlots extends Component {
             registeredUsers += "No one have registered yet!";
         }
         let formatStartTime, formatEndTime;
+        let startAddZero = false, endAddZero = false;
 		if (parseInt(event.start.slice(11,13)) > 12) {
 			const newStartHour = event.start.slice(11,13) - 12;
-			formatStartTime = event.start.slice(0,11) + newStartHour.toString() + event.start.slice(13, 16) + " PM";
+			if (newStartHour < 10) {
+				startAddZero = true;
+			};
+			if (startAddZero) {
+				formatStartTime = event.start.slice(0,11) + "0" + newStartHour.toString() + event.start.slice(13, 16) + " PM";
+			} else {
+				formatStartTime = event.start.slice(0,11) + newStartHour.toString() + event.start.slice(13, 16) + " PM";
+			};
 		} else {
 			formatStartTime = event.start.slice(0,16) + " AM";
 		}
 		if (parseInt(event.end.slice(11,13)) > 12) {
 			const newEndHour = event.end.slice(11,13) - 12;
-			formatEndTime = event.end.slice(0, 11) + newEndHour.toString() + event.end.slice(13, 16) + " PM";
+			if (newEndHour < 10) {
+				endAddZero = true;
+			};
+			if (endAddZero) {
+				formatEndTime = event.end.slice(0, 11) + "0" + newEndHour.toString() + event.end.slice(13, 16) + " PM";
+			} else {
+				formatEndTime = event.end.slice(0, 11) + newEndHour.toString() + event.end.slice(13, 16) + " PM";
+			};
 		} else {
 			formatEndTime = event.end.slice(0, 16) + " AM";
 		}
