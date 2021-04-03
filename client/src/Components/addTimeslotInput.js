@@ -13,6 +13,8 @@ export default class AddTimeslotInput extends Component {
 			type = { this.props.type }
 			value = { value }
 			onChange = { onChange }
+			min={this.props.min}
+			step={this.props.step}
 			required />
 		} else {
 			field = <input 

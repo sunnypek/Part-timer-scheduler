@@ -7,8 +7,16 @@ export const addTimeslot = (data) => {
 		try {
 			const startTime = data.Start_DateTime.toISOString().slice(0, 19).replace("T", " ");
 			const endTime = data.End_DateTime.toISOString().slice(0, 19).replace("T", " ");
-			const startHour = parseInt(startTime.slice(11,13)) + 8;
-			const endHour = parseInt(endTime.slice(11,13)) + 8;
+			
+			var  startHour = parseInt(startTime.slice(11,13)) + 8;
+			var  endHour = parseInt(endTime.slice(11,13)) + 8;
+
+			if(startHour >=24) {
+				startHour = startHour -24 ;
+			}
+
+			if(endHour >=24)
+				endHour = endHour-24;
 			const convertedStartTime = startTime.slice(0,11) + startHour.toString() + startTime.slice(13);
 			const convertedEndTime = endTime.slice(0,11) + endHour.toString() + endTime.slice(13);
 			data.Start_DateTime = convertedStartTime;

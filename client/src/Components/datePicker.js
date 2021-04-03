@@ -18,6 +18,7 @@ export default class DatePicker extends Component {
                             type = { this.props.type }
                             value = { value }
                             onChange = { onChange }
+                            minDate = {this.props.minDate}
                             className="form-control"
                             placeholderText= {this.props.placeholder}
                             showTimeSelect
