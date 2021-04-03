@@ -166,11 +166,11 @@ class Admin extends Component {
 						<div class="row">
 							<div class="col-6">
 								<label class="col-form-label font-weight-bold">Start D/T</label>
-								<input id="editEventStart"  value="${event.start}" class = "form-control" />
+								<input id="editEventStart"  value=" ${formatStartTime}" class = "form-control" />
 							</div>
 							<div class="col-6">
 								<label class="col-form-label font-weight-bold">End D/T</label>
-								<input id="editEventEnd"  value="${event.end}" class = "form-control" />
+								<input id="editEventEnd"  value="${formatEndTime}" class = "form-control" />
 							</div>
 						</div>
 						<div class="row">
