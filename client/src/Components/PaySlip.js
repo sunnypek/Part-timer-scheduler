@@ -255,7 +255,7 @@ function PaySlip(){
                 <div style={column}>
                     <table>
                         <tr>
-                            <th style={th}>CPF Constributions</th>
+                            <th style={th}>CPF Contribution</th>
                             <th style={th2}>SGD$</th>
                         </tr>
                         <tr>
