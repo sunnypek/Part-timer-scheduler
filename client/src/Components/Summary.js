@@ -142,7 +142,7 @@ function Summary() {
         // Extract data fro graph
         earnings = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         for(var g = 0; g < data.monthEarnings.length; g++) {
-            earnings[g] = data.monthEarnings[g].earnings;
+            earnings[data.monthEarnings[g].mth] = data.monthEarnings[g].earnings;
         }
 
         // Convert 60mins to 1hr
