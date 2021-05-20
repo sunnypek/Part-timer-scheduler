@@ -1,5 +1,10 @@
 # Part timer scheduler
 
+### About
+Easily set up events and wait for part timers to self register! Finding part timers have never been easier! Fret not, once part timers are registered, they cannot de-register to avoid last minute cancellations. Check out the features section for more information!
+
+---
+
 ### Technology used
 React, Express.js, MongoDB, MySQL, Node.js
 
